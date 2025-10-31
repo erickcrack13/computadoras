@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Inventario - Ventas de Computadoras</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Estilos Generales --- */
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            background: linear-gradient(135deg, #e0e7ff 0%, #f8fafc 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* Fondo con imagen para un toque visual */
+            background: url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* --- Encabezado --- */
+        header {
+            background: linear-gradient(90deg, #6366f1 0%, #0ea5e9 100%);
+            color: #fff;
+            padding: 48px 0 32px 0;
+            width: 100%;
+            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.08);
+            text-align: center;
+            border-bottom-left-radius: 32px;
+            border-bottom-right-radius: 32px;
+            position: relative; /* Necesario para posicionar el botón "Volver" */
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2em;
+            margin: 0;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            text-shadow: 0 2px 12px rgba(0,0,0,0.08), 0 1px 0 #0ea5e9;
+            line-height: 1.1;
+        }
+
+        /* --- Botón "Volver al Inventario" --- */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #f97316; /* Naranja vibrante */
+            color: #fff;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1em;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            background: #ea580c; /* Naranja más oscuro al pasar el ratón */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+        }
+
+        /* --- Contenedor Principal de Contenido --- */
+        main {
+            background: #fff;
+            padding: 40px 32px 32px 32px;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.10);
+            width: 480px;
+            max-width: 96vw; /* Asegura responsividad en ancho */
+            margin-top: -40px; /* Superpone un poco sobre el header */
+            margin-bottom: 40px; /* Espacio inferior para un mejor scroll */
+            box-sizing: border-box; /* Incluye padding en el ancho total */
+        }
+
+        h2 {
+            text-align: center;
+            color: #3730a3;
+            margin-bottom: 28px;
+            font-weight: 600;
+            font-size: 1.6em;
+        }
+
+        /* --- Secciones de Lista de Productos (Accesorios, Computadoras) --- */
+        .lista-productos {
+            background: #f3f4f6; /* Fondo ligero para la sección de lista */
+            border-radius: 18px;
+            box-shadow: 0 4px 18px rgba(99, 102, 241, 0.10);
+            padding: 22px 28px 14px 28px;
+            margin-bottom: 28px;
+            width: 100%;
+            box-sizing: border-box;
+            min-width: 260px;
+        }
+
+        .lista-productos h3 {
+            color: #0ea5e9; /* Azul para los títulos de categoría */
+            margin-top: 8px;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #e0e7ff;
+            padding-bottom: 8px;
+            font-size: 1.15em;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .lista-productos ul {
+            list-style: none; /* Remueve los puntos de lista */
+            padding: 0;
+            margin: 0;
+        }
+
+        .lista-productos li {
+            padding: 14px 0;
+            border-bottom: 1px solid #f1f5f9; /* Separador sutil */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap; /* Permite que los elementos se envuelvan en líneas nuevas */
+            font-size: 1.05em;
+            transition: background 0.2s;
+        }
+
+        .lista-productos li:last-child {
+            border-bottom: none; /* No hay separador en el último elemento */
+        }
+
+        /* --- Insignias de Stock --- */
+        .stock-badge {
+            padding: 6px 14px;
+            border-radius: 16px;
+            font-size: 0.93em;
+            font-weight: 600;
+            margin-left: 12px;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.07);
+            flex-shrink: 0; /* Evita que el badge se encoja en pantallas pequeñas */
+            margin-top: 5px; /* Pequeño ajuste para móviles si se envuelve */
+        }
+
+        .stock-available {
+            background: linear-gradient(90deg, #bbf7d0 0%, #a7f3d0 100%); /* Verde claro */
+            color: #047857;
+        }
+
+        .stock-low {
+            background: linear-gradient(90deg, #fef9c3 0%, #fde68a 100%); /* Amarillo */
+            color: #b45309;
+        }
+
+        .stock-out {
+            background: linear-gradient(90deg, #fecaca 0%, #fca5a5 100%); /* Rojo */
+            color: #b91c1c;
+        }
+
+        /* --- Sección de Gestión de Producto (Formulario) --- */
+        .gestion-inventario {
+            background: #e0e7ff; /* Fondo azul claro para el formulario */
+            border-radius: 18px;
+            padding: 22px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 4px 18px rgba(99, 102, 241, 0.08);
+            box-sizing: border-box;
+        }
+
+        .gestion-inventario h3 {
+            color: #3730a3;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            text-align: center;
+            border-bottom: 2px solid #cbd5e1;
+            padding-bottom: 10px;
+        }
+
+        .gestion-inventario label {
+            display: block;
+            margin-bottom: 8px;
+            color: #3730a3;
+            font-weight: 600;
+        }
+
+        .gestion-inventario input[type="text"],
+        .gestion-inventario input[type="number"],
+        .gestion-inventario select {
+            width: calc(100% - 22px); /* Ancho total menos padding */
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+
+        .gestion-inventario button {
+            background: linear-gradient(90deg, #10b981 0%, #059669 100%); /* Verde para añadir/actualizar */
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s ease, transform 0.2s ease;
+            margin-right: 10px;
+        }
+
+        .gestion-inventario button:hover {
+            background: linear-gradient(90deg, #059669 0%, #10b981 100%);
+            transform: translateY(-1px);
+        }
+
+        /* --- Botones de Acción de Productos (Editar/Eliminar) --- */
+        .product-actions {
+            display: flex;
+            gap: 8px; /* Espacio entre los botones */
+            margin-top: 5px; /* Ajuste si el nombre del producto es largo y se envuelve */
+            flex-shrink: 0;
+        }
+
+        .product-actions button {
+            background: #f59e0b; /* Amarillo para editar */
+            color: #fff;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: background 0.2s;
+            margin-right: 0; /* Anula el margin-right del estilo general de botón */
+        }
+
+        .product-actions button:hover {
+            background: #d97706; /* Amarillo más oscuro al pasar el ratón */
+        }
+
+        .product-actions .delete-btn {
+            background: #ef4444; /* Rojo para eliminar */
+        }
+
+        .product-actions .delete-btn:hover {
+            background: #dc2626; /* Rojo más oscuro al pasar el ratón */
+        }
+
+        /* --- Media Queries para Responsividad --- */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5em;
+            }
+            .back-button { /* Ajuste para el botón de volver en pantallas pequeñas */
+                position: static; /* Deja de ser flotante */
+                margin-top: 15px;
+                display: block; /* Ocupa su propia línea */
+                width: fit-content;
+                margin-left: auto;
+                margin-right: auto; /* Centra el botón */
+            }
+            main {
+                padding: 30px 20px;
+            }
+            .lista-productos {
+                padding: 18px 20px 10px 20px;
+            }
+            .lista-productos li {
+                flex-direction: column; /* Apila elementos verticalmente */
+                align-items: flex-start; /* Alinea los elementos a la izquierda */
+            }
+            .stock-badge, .product-actions {
+                margin-left: 0; /* Elimina margen extra en móviles */
+                width: 100%; /* Ocupa todo el ancho disponible */
+                justify-content: flex-start; /* Alinea los botones de acción a la izquierda */
+            }
+            .product-actions button {
+                width: auto; /* Permite que los botones se ajusten a su contenido */
+                margin-top: 8px; /* Espacio superior para los botones de acción */
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 2em;
+            }
+            .gestion-inventario button {
+                padding: 12px 20px;
+                font-size: 1em;
+                margin: 8px 0; /* Espacio vertical entre botones en móvil */
+                width: 90%; /* Ancho casi completo para los botones del formulario */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Gestión de Inventario</h1>
+        <a href="inventario.html" class="back-button">
+            Volver al Inventario
+        </a>
+    </header>
+
+    <main>
+        <h2>Inventario de Productos</h2>
+
+        <div class="lista-productos">
+            <h3>
+                Accesorios
+                <button type="button" id="toggle-accesorios" style="font-size:0.9em; padding:4px 10px; border-radius:6px; border:none; background:#6366f1; color:#fff; cursor:pointer;">Ocultar</button>
+            </h3>
+            <ul id="lista-accesorios">
+                </ul>
+        </div>
+
+        <div class="lista-productos">
+            <h3>
+                Computadoras
+                <button type="button" id="toggle-computadoras" style="font-size:0.9em; padding:4px 10px; border-radius:6px; border:none; background:#6366f1; color:#fff; cursor:pointer;">Ocultar</button>
+            </h3>
+            <ul id="lista-computadoras">
+                </ul>
+        </div>
+
+        <div class="gestion-inventario">
+            <h3>Gestionar Producto</h3>
+            <form id="product-form">
+                <input type="hidden" id="product-id"> <label for="product-name">Nombre del Producto:</label>
+                <input type="text" id="product-name" required>
+
+                <label for="product-price">Precio:</label>
+                <input type="number" id="product-price" step="0.01" min="0" required>
+
+                <label for="product-stock">Stock Disponible:</label>
+                <input type="number" id="product-stock" min="0" required>
+
+                <label for="product-category">Categoría:</label>
+                <select id="product-category" required>
+                    <option value="accesorios">Accesorios</option>
+                    <option value="computadoras">Computadoras</option>
+                </select>
+                <br><br>
+                <button type="submit" id="add-update-btn">Agregar Producto</button>
+                <button type="button" id="clear-form-btn" style="background:#6b7280;">Limpiar Formulario</button>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // --- Redirección de Seguridad (Verifica si el admin está logueado) ---
+        // Esto es crucial para proteger la página de gestión.
+        if (sessionStorage.getItem('adminLoggedIn') !== 'true') {
+            window.location.href = 'admin_login.html'; // Redirige si no hay sesión activa
+        }
+
+        // --- Carga y Guardado de Productos en localStorage ---
+        // Intenta cargar productos desde localStorage. Si no hay, usa un conjunto predeterminado.
+        let productos = JSON.parse(localStorage.getItem('productosInventario')) || [
+            // Productos predeterminados para el inventario inicial
+            { id: Date.now() + 1, nombre: 'Mouse Óptico', precio: 15.00, categoria: 'accesorios', DISPONIBLE: 20 },
+            { id: Date.now() + 2, nombre: 'Auriculares Gaming', precio: 25.50, categoria: 'accesorios', DISPONIBLE: 15 },
+            { id: Date.now() + 3, nombre: 'Teclado Mecánico', precio: 30.00, categoria: 'accesorios', DISPONIBLE: 10 },
+            { id: Date.now() + 4, nombre: 'Monitor Curvo 27"', precio: 180.00, categoria: 'accesorios', DISPONIBLE: 5 },
+            { id: Date.now() + 5, nombre: 'Webcam HD', precio: 40.00, categoria: 'accesorios', DISPONIBLE: 25 },
+            { id: Date.now() + 6, nombre: 'Impresora Multifuncional', precio: 120.00, categoria: 'accesorios', DISPONIBLE: 8 },
+            { id: Date.now() + 7, nombre: 'Laptop Gamer (Intel i5)', precio: 800.00, categoria: 'computadoras', DISPONIBLE: 7 },
+            { id: Date.now() + 8, nombre: 'PC Escritorio (Intel i7)', precio: 1000.00, categoria: 'computadoras', DISPONIBLE: 3 },
+            { id: Date.now() + 9, nombre: 'Mini PC (AMD Ryzen 3)', precio: 350.00, categoria: 'computadoras', DISPONIBLE: 12 },
+            { id: Date.now() + 10, nombre: 'Workstation Profesional', precio: 2200.00, categoria: 'computadoras', DISPONIBLE: 2 },
+            { id: Date.now() + 11, nombre: 'Chromebook Ligera', precio: 300.00, categoria: 'computadoras', DISPONIBLE: 9 }
+        ];
+
+        /**
+         * Guarda el array de productos actualizado en el localStorage del navegador.
+         */
+        function saveProducts() {
+            localStorage.setItem('productosInventario', JSON.stringify(productos));
+        }
+
+        // --- Referencias a Elementos del DOM ---
+        const listaAccesoriosUl = document.getElementById('lista-accesorios');
+        const listaComputadorasUl = document.getElementById('lista-computadoras');
+        
+        // Elementos del formulario de gestión de productos
+        const productForm = document.getElementById('product-form');
+        const productIdInput = document.getElementById('product-id');
+        const productNameInput = document.getElementById('product-name');
+        const productPriceInput = document.getElementById('product-price');
+        const productStockInput = document.getElementById('product-stock');
+        const productCategoryInput = document.getElementById('product-category');
+        const addUpdateBtn = document.getElementById('add-update-btn');
+        const clearFormBtn = document.getElementById('clear-form-btn');
+
+        // --- Funciones de Gestión del Inventario ---
+
+        /**
+         * Renderiza (muestra) la lista de productos en el HTML.
+         * Cada producto se clasifica por categoría y se le añaden botones de acción.
+         */
+        function actualizarInventarioVisual() {
+            // Limpia ambas listas antes de volver a renderizar
+            listaAccesoriosUl.innerHTML = ''; 
+            listaComputadorasUl.innerHTML = '';
+
+            productos.forEach(producto => {
+                const listItem = document.createElement('li');
+                
+                // Nombre del producto
+                const productNameText = document.createTextNode(producto.nombre);
+                listItem.appendChild(productNameText);
+
+                // Precio del producto
+                const priceSpan = document.createElement('span');
+                priceSpan.textContent = ` ($${producto.precio.toFixed(2)})`; // Formatea el precio a 2 decimales
+                listItem.appendChild(priceSpan);
+
+                // Insignia de stock (disponible, bajo, agotado)
+                const stockBadge = document.createElement('span');
+                stockBadge.classList.add('stock-badge');
+
+                if (producto.DISPONIBLE > 10) {
+                    stockBadge.classList.add('stock-available');
+                } else if (producto.DISPONIBLE > 0) {
+                    stockBadge.classList.add('stock-low');
+                } else {
+                    stockBadge.classList.add('stock-out');
+                }
+                stockBadge.textContent = `Stock: ${producto.DISPONIBLE}`;
+                listItem.appendChild(stockBadge);
+
+                // Contenedor para los botones de acción
+                const actionButtonsDiv = document.createElement('div');
+                actionButtonsDiv.classList.add('product-actions');
+
+                // Botón "Editar"
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Editar';
+                editButton.addEventListener('click', () => editProduct(producto.id));
+                actionButtonsDiv.appendChild(editButton);
+
+                // Botón "Eliminar"
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Eliminar';
+                deleteButton.classList.add('delete-btn');
+                deleteButton.addEventListener('click', () => deleteProduct(producto.id));
+                actionButtonsDiv.appendChild(deleteButton);
+
+                listItem.appendChild(actionButtonsDiv);
+
+                // Agrega el elemento de la lista al UL de su categoría correspondiente
+                if (producto.categoria === 'accesorios') {
+                    listaAccesoriosUl.appendChild(listItem);
+                } else if (producto.categoria === 'computadoras') {
+                    listaComputadorasUl.appendChild(listItem);
+                }
+            });
+        }
+
+        /**
+         * Limpia todos los campos del formulario de gestión de productos
+         * y lo resetea al estado "Agregar Producto".
+         */
+        function clearForm() {
+            productIdInput.value = ''; // Borra el ID oculto
+            productNameInput.value = '';
+            productPriceInput.value = '';
+            productStockInput.value = '';
+            productCategoryInput.value = 'accesorios'; // Restablece la categoría por defecto
+            addUpdateBtn.textContent = 'Agregar Producto'; // Cambia el texto del botón
+            // Restablece el color del botón a verde (agregar)
+            addUpdateBtn.style.background = 'linear-gradient(90deg, #10b981 0%, #059669 100%)';
+        }
+
+        /**
+         * Agrega un nuevo producto o actualiza uno existente.
+         * Se activa al enviar el formulario.
+         * @param {Event} event - El evento de envío del formulario.
+         */
+        function addOrUpdateProduct(event) {
+            event.preventDefault(); // Evita que la página se recargue al enviar el formulario
+
+            const id = productIdInput.value;
+            const name = productNameInput.value.trim(); // Elimina espacios en blanco
+            const price = parseFloat(productPriceInput.value);
+            const stock = parseInt(productStockInput.value, 10);
+            const category = productCategoryInput.value;
+
+            // Validación básica de los campos
+            if (!name || isNaN(price) || isNaN(stock) || price < 0 || stock < 0) {
+                alert('Por favor, complete todos los campos correctamente. El precio y el stock deben ser números no negativos.');
+                return; // Detiene la función si la validación falla
+            }
+
+            if (id) {
+                // Modo: Actualizar producto existente
+                const index = productos.findIndex(p => p.id === parseInt(id));
+                if (index !== -1) {
+                    // Actualiza solo las propiedades necesarias del producto
+                    productos[index] = { 
+                        ...productos[index], // Mantiene las propiedades existentes si las hubiera
+                        nombre: name, 
+                        precio: price, 
+                        DISPONIBLE: stock, 
+                        categoria: category 
+                    };
+                    alert('Producto actualizado con éxito!');
+                }
+            } else {
+                // Modo: Agregar nuevo producto
+                const newProduct = {
+                    id: Date.now(), // Genera un ID único basado en la marca de tiempo actual
+                    nombre: name,
+                    precio: price,
+                    DISPONIBLE: stock,
+                    categoria: category
+                };
+                productos.push(newProduct);
+                alert('Producto agregado con éxito!');
+            }
+            saveProducts(); // Guarda los cambios en localStorage
+            actualizarInventarioVisual(); // Actualiza la lista en el HTML
+            clearForm(); // Limpia el formulario para la siguiente acción
+        }
+
+        /**
+         * Carga los datos de un producto específico en el formulario para que pueda ser editado.
+         * @param {number} id - El ID del producto a editar.
+         */
+        function editProduct(id) {
+            const productToEdit = productos.find(p => p.id === id);
+            if (productToEdit) {
+                productIdInput.value = productToEdit.id;
+                productNameInput.value = productToEdit.nombre;
+                productPriceInput.value = productToEdit.precio;
+                productStockInput.value = productToEdit.DISPONIBLE;
+                productCategoryInput.value = productToEdit.categoria;
+                addUpdateBtn.textContent = 'Actualizar Producto'; // Cambia el texto del botón a "Actualizar"
+                // Cambia el color del botón a amarillo (editar)
+                addUpdateBtn.style.background = 'linear-gradient(90deg, #f59e0b 0%, #d97706 100%)'; 
+            }
+        }
+
+        /**
+         * Elimina un producto del inventario.
+         * @param {number} id - El ID del producto a eliminar.
+         */
+        function deleteProduct(id) {
+            // Pide confirmación antes de eliminar para evitar errores
+            if (confirm('¿Estás seguro de que quieres eliminar este producto? Esta acción no se puede deshacer.')) {
+                // Filtra el array, creando uno nuevo sin el producto eliminado
+                productos = productos.filter(p => p.id !== id);
+                saveProducts(); // Guarda los cambios
+                actualizarInventarioVisual(); // Actualiza la lista en el HTML
+                clearForm(); // Limpia el formulario por si el producto eliminado estaba siendo editado
+                alert('Producto eliminado con éxito!');
+            }
+        }
+
+        // --- Escuchadores de Eventos (Event Listeners) ---
+
+        // Toggle para mostrar/ocultar la lista de Accesorios
+        document.getElementById('toggle-accesorios').addEventListener('click', function() {
+            const ul = document.getElementById('lista-accesorios');
+            if (ul.style.display === 'none') {
+                ul.style.display = ''; // Muestra el UL (resetea a su display por defecto)
+                this.textContent = 'Ocultar';
+            } else {
+                ul.style.display = 'none'; // Oculta el UL
+                this.textContent = 'Ver';
+            }
+        });
+
+        // Toggle para mostrar/ocultar la lista de Computadoras
+        document.getElementById('toggle-computadoras').addEventListener('click', function() {
+            const ul = document.getElementById('lista-computadoras');
+            if (ul.style.display === 'none') {
+                ul.style.display = '';
+                this.textContent = 'Ocultar';
+            } else {
+                ul.style.display = 'none';
+                this.textContent = 'Ver';
+            }
+        });
+        
+        // Escucha el evento 'submit' del formulario para agregar/actualizar productos
+        productForm.addEventListener('submit', addOrUpdateProduct);
+        // Escucha el evento 'click' del botón para limpiar el formulario
+        clearFormBtn.addEventListener('click', clearForm);
+
+        // --- Carga Inicial ---
+        // Llama a esta función una vez al cargar la página para mostrar el inventario.
+        actualizarInventarioVisual();
+    </script>
+</body>
+</html>

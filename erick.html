@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Método de Pago — KING DISEÑO</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+<style>
+    :root{ --bg-1:#f6f9ff; --bg-2:#eef6ff; --card:#fff; --muted:#64748b; --brand:#0f172a; --accent:#2563eb; }
+    html,body{height:100%;margin:0;padding:0;font-family:Montserrat,system-ui,sans-serif;background:linear-gradient(180deg,var(--bg-1) 0%, var(--bg-2) 100%);color:var(--brand);-webkit-font-smoothing:antialiased}
+    .page { max-width:1200px; margin:36px auto; padding:20px; }
+    .topbar{ display:flex; align-items:center; gap:12px; margin-bottom:18px; }
+    .brand{ display:flex; align-items:center; gap:12px; background:linear-gradient(180deg,#fff,#f8fbff); padding:10px 14px;border-radius:12px;box-shadow:0 6px 22px rgba(12,20,40,0.06);border:1px solid rgba(15,23,42,0.04); }
+    .brand .logo { width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#06b6d4);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700; box-shadow:0 6px 18px rgba(37,99,235,0.12); }
+    .brand h1{font-size:1rem;margin:0;font-weight:700}
+    .nav-actions{margin-left:auto;display:flex;gap:8px;align-items:center}
+    .wrap{display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:start}
+    .panel{ background:var(--card); border-radius:14px; padding:18px; box-shadow:0 10px 40px rgba(2,6,23,0.06); border:1px solid rgba(15,23,42,0.03); }
+    .form-group{margin-bottom:12px;}
+    .form-group label{display:block;font-size:0.9rem;font-weight:600;color:var(--muted);margin-bottom:6px;}
+    .form-group input, .form-group select{width:100%;box-sizing:border-box;padding:10px 12px;border-radius:10px;border:1px solid #e6eef8;background:#fbfdff;font-size:0.95rem;}
+    .controls{display:flex;gap:10px;align-items:center}
+    .controls input[type="search"], .controls select{ padding:10px 12px;border-radius:10px;border:1px solid #e6eef8;background:#fbfdff;font-size:0.95rem;min-width:180px; }
+    .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+    .product{ display:flex;flex-direction:column;gap:10px;padding:14px;border-radius:12px;background:linear-gradient(180deg,#fff,#fbfdff); border:1px solid rgba(14,42,75,0.04);transition:transform .18s ease, box-shadow .18s ease; }
+    .product:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(12,20,40,0.08)}
+    .product img{width:100%;height:140px;object-fit:contain;border-radius:8px;background:#f8fafc}
+    .meta{display:flex;justify-content:space-between;align-items:center;gap:8px}
+    .name{font-weight:600;font-size:0.98rem}
+    .price-usd{color:var(--muted);font-weight:700}
+    .price-bs{font-weight:800;color:#0ea5e9}
+    .prod-qty{width:72px;padding:8px;border-radius:8px;border:1px solid #eef6ff;text-align:center;background:#fff}
+    .btn{ padding:10px 12px;border-radius:10px;border:0;cursor:pointer;font-weight:700; }
+    .btn-add{background:linear-gradient(90deg,var(--accent),#06b6d4);color:white;box-shadow:0 8px 24px rgba(37,99,235,0.12)}
+    .btn-ghost{background:transparent;border:1px solid rgba(37,99,235,0.12);color:var(--accent)}
+    .cart{position:relative;padding:18px}
+    .cart-list{list-style:none;padding:0;margin:0;max-height:320px;overflow:auto}
+    .cart-item{display:flex;gap:10px;padding:10px;border-bottom:1px solid #eef6fb;align-items:center}
+    .cart-item .info{flex:1}
+    .small-btn{padding:8px 10px;border-radius:8px;border:0;cursor:pointer;background:#f1f5f9;color:var(--brand)}
+    .totals{margin-top:12px;padding-top:12px;border-top:1px dashed #eef6fb}
+    .totals div{display:flex;justify-content:space-between;padding:6px 0;font-weight:700}
+    .panel .note{font-size:0.9rem;color:var(--muted);margin-top:12px}
+    .payment-footer{display:flex;align-items:center;gap:12px;margin-top:14px}
+    .cachea-ad{width:100px;height:auto;object-fit:contain;border-radius:8px;}
+    @media (max-width:1000px){ .wrap{grid-template-columns:1fr; padding-bottom:20px} .nav-actions{display:none} }
+</style>
+</head>
+<body>
+<div class="page">
+    <div class="topbar">
+        <div class="brand"><div class="logo">KD</div><div><h1>Método de Pago</h1><div style="font-size:12px;color:var(--muted)">Ventas · Inventario</div></div></div>
+        <div class="nav-actions"><a href="index.html" class="small-btn" style="text-decoration:none;color:inherit">Inicio</a><a href="perfil.html" class="small-btn" style="text-decoration:none;color:inherit">Perfil</a></div>
+    </div>
+    <div class="wrap">
+        <main class="panel">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+                <div><h2 style="margin:0;font-size:1.05rem">Productos</h2></div>
+                <div class="controls">
+                    <input id="search" type="search" placeholder="Buscar producto..." />
+                    <select id="filter-cat"><option value="">Categorías</option></select>
+                    <input id="rate" type="text" readonly disabled style="width:110px;padding:8px;border-radius:8px;border:1px solid #e6eef8;background:#fbfdff;font-weight:600;text-align:center;" title="Tasa administrada" />
+                </div>
+            </div>
+            <div id="products" class="products-grid"></div>
+        </main>
+        <aside class="panel cart">
+            <h3 style="margin-top:0">Carrito de Compras</h3>
+            <ul id="cart-list" class="cart-list"><li style="color:#6b7280;padding:10px">Carrito vacío</li></ul>
+            <div class="form-group"><label for="payment-phone">Teléfono de Pago</label><input type="tel" id="payment-phone" placeholder="Ej: 0412-1234567" /></div>
+            <div class="form-group"><label for="payment-bank">Banco de Origen</label><select id="payment-bank"><option value="">Seleccione un banco</option><option value="Banco de Venezuela">Banco de Venezuela</option><option value="BNC">BNC</option><option value="Paypal">Paypal</option></select></div>
+            <div class="totals">
+                <div><span>Subtotal (USD)</span><span id="subtotal-usd">$0.00</span></div>
+                <div><span>Subtotal (Bs)</span><span id="subtotal-bs">Bs 0</span></div>
+                <div><span>IVA 5%</span><span id="iva-bs">Bs 0</span></div>
+                <div style="font-size:1.05rem"><span>Total (Bs)</span><span id="total-bs">Bs 0</span></div>
+            </div>
+            <div class="payment-footer">
+                <div style="flex:1; display:flex; gap:10px;">
+                    <button id="checkout" class="btn btn-add" style="flex:1">Pagar</button>
+                    <button id="export" class="btn btn-ghost">Exportar PDF</button>
+                </div>
+                <img src="https://i.pinimg.com/originals/8a/89/c5/8a89c5b244c82ef9e3e3e43be44b5b7b.png" alt="Aceptamos Cachea" class="cachea-ad" />
+            </div>
+            <div id="msg" class="note"></div>
+        </aside>
+    </div>
+</div>
+
+<script>
+(function(){
+    const API_URL = ''; // En el mismo servidor
+    const KEYS = { PRODUCTS: 'productosInventario', RATE: 'exchangeRateBsPerUsd', CART: 'carritoPagos', USER: 'userData' };
+    const IVA = 0.05;
+
+    const $ = (selector) => document.querySelector(selector);
+    const $all = (selector) => document.querySelectorAll(selector);
+
+    const els = { products: $('#products'), filterCat: $('#filter-cat'), search: $('#search'), rate: $('#rate'), cartList: $('#cart-list'), subtotalUsd: $('#subtotal-usd'), subtotalBs: $('#subtotal-bs'), ivaBs: $('#iva-bs'), totalBs: $('#total-bs'), msg: $('#msg'), checkout: $('#checkout'), export: $('#export'), phone: $('#payment-phone'), bank: $('#payment-bank') };
+
+    let products = [], cart = {};
+
+    const util = {
+        fmt: (num, opts={}) => (opts.bs ? 'Bs ' : '$ ') + Number(num).toLocaleString(opts.bs ? 'es-VE' : 'en-US', { maximumFractionDigits: 2, minimumFractionDigits: opts.bs ? 0 : 2 }),
+        showMsg: (t, ok=true) => { els.msg.textContent = t; els.msg.style.color = ok ? '#065f46' : '#b91c1c'; setTimeout(() => els.msg.textContent = '', 4000); },
+        currentRate: () => parseFloat(localStorage.getItem(KEYS.RATE)) || 36.5,
+        getStoredUser: () => {
+            try {
+                const user = JSON.parse(localStorage.getItem(KEYS.USER));
+                if (user && user.phone) els.phone.value = user.phone;
+                return user;
+            } catch { return null; }
+        }
+    };
+
+    const render = {
+        products: () => {
+            const q = els.search.value.toLowerCase(), cat = els.filterCat.value, rate = util.currentRate();
+            const filtered = products.filter(p => (!cat || p.categoria === cat) && p.nombre.toLowerCase().includes(q));
+            els.products.innerHTML = filtered.length ? filtered.map(p => `
+                <div class="product">
+                    <img alt="${p.nombre}" src="${p.urlImagen||'https://via.placeholder.com/300x200?text=Producto'}" />
+                    <div class="meta"><div class="name">${p.nombre}</div><div class="price-usd">${util.fmt(p.precio)}</div></div>
+                    <div class="row"><div class="price-bs">${util.fmt(p.precio * rate, {bs:true})}</div>
+                    <div style="display:flex;align-items:center;gap:8px"><input type="number" min="1" value="1" class="prod-qty" /><button class="btn btn-add add" data-id="${p.id}">Agregar</button></div></div>
+                </div>`).join('') : '<p class="note">No se encontraron productos.</p>';
+        },
+        cart: () => {
+            const hasItems = Object.keys(cart).length > 0;
+            els.cartList.innerHTML = hasItems ? Object.values(cart).map(it => `
+                <li class="cart-item">
+                    <div class="info"><div style="font-weight:700">${it.nombre}</div><div style="color:#64748b;font-size:0.92rem">${it.cantidad} x ${util.fmt(it.precio)}</div></div>
+                    <button class="small-btn remove" data-id="${it.id}">X</button>
+                </li>`).join('') : '<li style="color:#6b7280;padding:10px">Carrito vacío</li>';
+            render.totals();
+            [els.checkout, els.export].forEach(b => b.disabled = !hasItems);
+        },
+        totals: () => {
+            const subtotalUsd = Object.values(cart).reduce((s, i) => s + i.precio * i.cantidad, 0);
+            const rate = util.currentRate(), subtotalBs = subtotalUsd * rate, iva = subtotalBs * IVA, total = subtotalBs + iva;
+            els.subtotalUsd.textContent = util.fmt(subtotalUsd);
+            els.subtotalBs.textContent = util.fmt(subtotalBs, {bs:true});
+            els.ivaBs.textContent = util.fmt(iva, {bs:true});
+            els.totalBs.textContent = util.fmt(total, {bs:true});
+        }
+    };
+
+    const cartActions = {
+        add: (id, qty) => { const p = products.find(x => x.id == id); if(!p)return; cart[id] = { id, nombre:p.nombre, precio:p.precio, cantidad:(cart[id]?.cantidad || 0) + qty }; render.cart(); cartActions.save(); util.showMsg(`${p.nombre} agregado.`); },
+        remove: (id) => { delete cart[id]; render.cart(); cartActions.save(); },
+        clear: () => { cart={}; render.cart(); cartActions.save(); util.showMsg('Carrito vaciado.'); },
+        save: () => localStorage.setItem(KEYS.CART, JSON.stringify(cart)),
+        load: () => { cart = JSON.parse(localStorage.getItem(KEYS.CART) || '{}'); render.cart(); }
+    };
+
+    async function init() {
+        util.getStoredUser();
+        els.rate.value = util.currentRate() + ' Bs/USD';
+        try {
+            const [prods, rt] = await Promise.all([fetch(`${API_URL}/api/products`).then(r=>r.json()), fetch(`${API_URL}/api/rate`).then(r=>r.json())]);
+            products = prods.map(p => ({...p, nombre: p.nombre || 'Producto', precio: p.precio || 0, categoria: p.categoria || 's/c'}));
+            localStorage.setItem(KEYS.PRODUCTS, JSON.stringify(products));
+            if(rt.rate) localStorage.setItem(KEYS.RATE, rt.rate);
+        } catch(e) { products = JSON.parse(localStorage.getItem(KEYS.PRODUCTS) || '[]'); util.showMsg('Error de red, cargando datos locales.', false); }
+        els.filterCat.innerHTML += [...new Set(products.map(p=>p.categoria))].sort().map(c=>`<option value="${c}">${c}</option>`).join('');
+        render.products();
+        cartActions.load();
+    }
+
+    async function checkout() {
+        if (!Object.keys(cart).length) return util.showMsg('El carrito está vacío', false);
+        const user = util.getStoredUser();
+        if (!user) return util.showMsg('Inicia sesión para poder pagar.', false);
+        const telefono = els.phone.value.trim(), banco = els.bank.value;
+        if (!telefono || !banco) return util.showMsg('Ingresa el teléfono y banco de origen.', false);
+
+        const subtotalUsd = Object.values(cart).reduce((s,i)=>s+i.precio*i.cantidad,0), rate=util.currentRate(), subtotalBs=subtotalUsd*rate, iva=subtotalBs*IVA, totalBs=subtotalBs+iva;
+        const compra = { comprador: { nombre:user.name, cedula:user.cedula, telefono }, banco, items:Object.values(cart), subtotalUsd, subtotalBs, iva, totalBs };
+
+        els.checkout.disabled = true; els.checkout.textContent = 'Procesando...';
+        try {
+            const res = await fetch(`${API_URL}/api/checkout`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(compra) });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || 'Error en el servidor.');
+            util.showMsg(`¡Pago procesado! ID: ${data.id}`);
+            cartActions.clear();
+            els.phone.value = ''; els.bank.value = '';
+        } catch(e) { util.showMsg(e.message, false); }
+        finally { els.checkout.disabled = false; els.checkout.textContent = 'Pagar'; }
+    }
+
+    function exportPDF() {
+        if (!Object.keys(cart).length) return util.showMsg('Carrito vacío', false);
+        const { jsPDF } = window.jspdf, doc = new jsPDF();
+        const user = util.getStoredUser(), clientName = user?.name || 'Cliente General', telefono = els.phone.value.trim(), banco = els.bank.value;
+
+        doc.setFont('helvetica','bold'); doc.setFontSize(18); doc.text('Presupuesto de Pedido', 14, 22);
+        doc.setFont('helvetica','normal'); doc.setFontSize(11);
+        doc.text(`Empresa: KING DISEÑO`, 14, 30);
+        doc.text(`Cliente: ${clientName}`, 14, 36);
+        doc.text(`Fecha: ${new Date().toLocaleDateString('es-VE')}`, 14, 42);
+        if (telefono) doc.text(`Teléfono: ${telefono}`, 14, 48);
+        if (banco) doc.text(`Banco Origen: ${banco}`, 14, 54);
+
+        const head = [['Producto', 'Cant.', 'Precio (USD)', 'Subtotal (USD)']];
+        const body = Object.values(cart).map(item => [item.nombre, item.cantidad, util.fmt(item.precio), util.fmt(item.precio * item.cantidad)]);
+        doc.autoTable({ startY: 60, head, body, theme: 'striped', headStyles: { fillColor: [37, 99, 235] } });
+
+        const finalY = doc.lastAutoTable.finalY + 10;
+        const subtotalUsd=Object.values(cart).reduce((s,i)=>s+i.precio*i.cantidad,0), rate=util.currentRate(), subtotalBs=subtotalUsd*rate, iva=subtotalBs*IVA, totalBs=subtotalBs+iva;
+        doc.autoTable({ startY: finalY, theme:'plain', styles:{cellPadding:1.5}, body: [ ['Subtotal (USD):', util.fmt(subtotalUsd)], ['Subtotal (Bs):', util.fmt(subtotalBs,{bs:true})], ['IVA (5%):', util.fmt(iva,{bs:true})], ['Total (Bs):', util.fmt(totalBs,{bs:true})] ] });
+
+        doc.save(`presupuesto_king-diseno_${clientName.replace(/\s+/g, '_')}.pdf`);
+        util.showMsg('PDF generado exitosamente.');
+    }
+
+    els.products.addEventListener('click', e => { if (e.target.matches('.add')) { const p = e.target.closest('.product'); cartActions.add(e.target.dataset.id, parseInt(p.querySelector('.prod-qty').value)); } });
+    els.cartList.addEventListener('click', e => { if (e.target.matches('.remove')) cartActions.remove(e.target.dataset.id); });
+    els.search.addEventListener('input', render.products);
+    els.filterCat.addEventListener('change', render.products);
+    els.checkout.addEventListener('click', checkout);
+    els.export.addEventListener('click', exportPDF);
+
+    document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
+</body>
+</html>

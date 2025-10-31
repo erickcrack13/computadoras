@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Cliente - KING DISEÑO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos (sin cambios) */
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            background: url('IMAGENES/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #ecf0f1;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(36, 47, 64, 0.85);
+            z-index: -1;
+        }
+        header {
+            background: #3498db;
+            color: #ffffff;
+            padding: 40px 20px;
+            width: 100%;
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+            border-bottom-left-radius: 32px;
+            border-bottom-right-radius: 32px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            box-sizing: border-box;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2em;
+            margin: 0;
+            padding-bottom: 30px;
+            text-align: center;
+        }
+        .auth-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 18px;
+            box-shadow: 0 8px 0 rgba(0, 0, 0, 0.1);
+            width: 380px;
+            max-width: 90vw;
+            text-align: center;
+            box-sizing: border-box;
+            z-index: 1;
+            position: relative;
+            margin-top: 150px;
+            color: #333;
+        }
+        .auth-container h2 {
+            font-family: 'Playfair Display', serif;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+        .auth-container label {
+            display: block;
+            text-align: left;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        .auth-container input {
+            width: calc(100% - 22px);
+            padding: 12px;
+            margin-bottom: 25px;
+            border: 1px solid #bdc3c7;
+            border-radius: 8px;
+            font-size: 1.1em;
+        }
+        .auth-container button[type="submit"] {
+            background: #3498db;
+            color: #fff;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.08em;
+        }
+        .error-message {
+            color: #e74c3c;
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: none; /* Oculto por defecto */
+        }
+        .success-message {
+            color: #22c55e; /* Verde */
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: none; /* Oculto por defecto */
+        }
+        .toggle-form-button {
+            background: none;
+            border: none;
+            color: #3498db;
+            font-size: 0.95em;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-top: 10px;
+        }
+        .back-home-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="back-home-button">Volver al Inicio</a>
+        <h1>Acceso Cliente</h1>
+    </header>
+
+    <div class="auth-container">
+        <h2 id="form-title">Acceso Cliente</h2>
+
+        <form id="register-form" style="display: none;">
+            <p id="reg-error-message" class="error-message"></p>
+            <p id="reg-success-message" class="success-message"></p>
+            <label for="reg-name">Nombre:</label>
+            <input type="text" id="reg-name" required>
+
+            <label for="reg-cedula">Cédula:</label>
+            <input type="text" id="reg-cedula" pattern="[0-9]{6,10}" title="La cédula debe contener solo números (6 a 10 dígitos)" required>
+
+            <label for="reg-email">Correo:</label>
+            <input type="email" id="reg-email" placeholder="usuario@ejemplo.com" required>
+
+            <label for="reg-phone">Teléfono:</label>
+            <input type="tel" id="reg-phone" pattern="[0-9]{7,15}" title="El teléfono debe contener solo números (7 a 15 dígitos)" required>
+
+            <label for="reg-password">Contraseña:</label>
+            <input type="password" id="reg-password" required>
+
+            <button type="submit">Registrarme</button>
+            <button type="button" class="toggle-form-button" onclick="showLoginForm()">Ya tengo una cuenta</button>
+        </form>
+
+        <form id="login-form">
+            <p id="login-error-message" class="error-message"></p>
+            <label for="login-identifier">Cédula o Correo:</label>
+            <input type="text" id="login-identifier" required>
+
+            <label for="login-password">Contraseña:</label>
+            <input type="password" id="login-password" required>
+
+            <button type="submit">Iniciar Sesión</button>
+            <button type="button" class="toggle-form-button" onclick="showRegisterForm()">Crear nueva cuenta</button>
+        </form>
+    </div>
+
+    <script>
+        const API_URL = ''; // Dejar vacío si el frontend y el backend están en el mismo servidor
+
+        // --- Referencias a Elementos del DOM ---
+        const formTitle = document.getElementById('form-title');
+        const registerForm = document.getElementById('register-form');
+        const loginForm = document.getElementById('login-form');
+        
+        const regErrorMessage = document.getElementById('reg-error-message');
+        const regSuccessMessage = document.getElementById('reg-success-message');
+        const loginErrorMessage = document.getElementById('login-error-message');
+
+        // --- Funciones para alternar formularios ---
+        function showRegisterForm() {
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+            formTitle.textContent = 'Registro de Cliente';
+            loginErrorMessage.style.display = 'none'; 
+        }
+
+        function showLoginForm() {
+            registerForm.style.display = 'none';
+            loginForm.style.display = 'block';
+            formTitle.textContent = 'Acceso Cliente';
+            regErrorMessage.style.display = 'none';
+            regSuccessMessage.style.display = 'none';
+        }
+
+        // --- Lógica de Registro ---
+        registerForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            regErrorMessage.style.display = 'none';
+            regSuccessMessage.style.display = 'none';
+
+            if (!registerForm.reportValidity()) return;
+
+            const formData = {
+                name: document.getElementById('reg-name').value.trim(),
+                cedula: document.getElementById('reg-cedula').value.trim(),
+                email: document.getElementById('reg-email').value.trim(),
+                phone: document.getElementById('reg-phone').value.trim(),
+                password: document.getElementById('reg-password').value.trim()
+            };
+
+            try {
+                const response = await fetch(`${API_URL}/api/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.message || 'Error en el registro.');
+                }
+
+                regSuccessMessage.textContent = result.message;
+                regSuccessMessage.style.display = 'block';
+                registerForm.reset();
+                
+                setTimeout(() => {
+                    showLoginForm();
+                }, 2000);
+
+            } catch (error) {
+                regErrorMessage.textContent = error.message;
+                regErrorMessage.style.display = 'block';
+            }
+        });
+
+        // --- Lógica de Inicio de Sesión ---
+        loginForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            loginErrorMessage.style.display = 'none';
+
+            const formData = {
+                identifier: document.getElementById('login-identifier').value.trim(),
+                password: document.getElementById('login-password').value.trim()
+            };
+
+            try {
+                const response = await fetch(`${API_URL}/api/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.message || 'Error al iniciar sesión.');
+                }
+
+                // Guardar el token y los datos del usuario
+                localStorage.setItem('authToken', result.token);
+                localStorage.setItem('userData', JSON.stringify(result.user));
+
+                // Redirigir a la página de perfil
+                window.location.href = 'perfil.html';
+
+            } catch (error) {
+                loginErrorMessage.textContent = error.message;
+                loginErrorMessage.style.display = 'block';
+            }
+        });
+
+    </script>
+</body>
+</html>

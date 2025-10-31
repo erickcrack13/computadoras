@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Inventario - Ventas de Computadoras</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ==================================== */
+        /* SECCIÓN 1: ESTILOS GENERALES Y VIDEO/IMAGEN DE FONDO */
+        /* ==================================== */
+
+        /* Estilos para el fondo (puede ser imagen o video, adaptado para la página de gestión) */
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            /* Usando una imagen de fondo para esta página, como la que mencionaste */
+            background: url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed;
+            background-size: cover;
+            /* filter: brightness(85%); Removido para usar una capa ::before más controlable */
+        }
+        
+        /* Contenedor para oscurecer el fondo si la imagen no es suficiente */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* Capa oscura para mayor contraste */
+            z-index: -1;
+        }
+
+        /* ==================================== */
+        /* FIN SECCIÓN 1 */
+        /* ==================================== */
+
+
+        /* ==================================== */
+        /* SECCIÓN 2: ESTILOS DEL ENCABEZADO (HEADER) - ¡MODIFICADA! */
+        /* ==================================== */
+        header {
+            background: linear-gradient(90deg, rgba(99, 102, 241, 0.8) 0%, rgba(14, 165, 233, 0.8) 100%);
+            color: #ffffff;
+            padding: 48px 20px 32px 20px;
+            width: 100%;
+            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.08);
+            border-bottom-left-radius: 32px;
+            border-bottom-right-radius: 32px;
+            position: relative;
+            z-index: 10;
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2em;
+            margin: 0 auto;
+            text-align: center;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            text-shadow: 0 2px 12px rgba(0,0,0,0.08), 0 1px 0 #0ea5e9;
+            line-height: 1.1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-buttons {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            align-items: flex-start;
+            padding-top: 48px;
+            padding-left: 20px;
+            box-sizing: border-box;
+            z-index: 20;
+        }
+
+        .support-button,
+        .header-button {
+            background: #f97316;
+            color: #fff;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 90%; /* Para que los botones se ajusten bien en el menú */
+            max-width: 300px;
+            margin: 5px auto; /* Centra los botones dentro del menú */
+            box-sizing: border-box;
+        }
+
+        .support-button:hover,
+        .header-button:hover {
+            background: #ea580c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+        }
+
+        .header-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            opacity: 0.7;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* --- Botón "Volver al Inventario" - Mantenido y ajustado --- */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            right: 20px; /* Cambiado a la derecha para no chocar con el menú */
+            background: #f97316; /* Naranja vibrante */
+            color: #fff;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1em;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 100; /* Asegura que esté por encima de otros elementos */
+        }
+
+        .back-button:hover {
+            background: #ea580c; /* Naranja más oscuro al pasar el ratón */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+        }
+        /* ==================================== */
+        /* FIN SECCIÓN 2 */
+        /* ==================================== */
+
+
+        /* ==================================== */
+        /* SECCIÓN 3: ESTILOS DEL BOTÓN DE MENÚ "HOT DOG" (HAMBURGUESA) */
+        /* ==================================== */
+        .hotdog-menu-button {
+            display: block;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            position: relative;
+            z-index: 100; /* Asegura que esté por encima de todo */
+            color: #ffffff;
+            font-size: 1.5em;
+        }
+
+        .hotdog-menu-icon {
+            display: block;
+            width: 30px;
+            height: 3px;
+            background-color: #ffffff;
+            border-radius: 2px;
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+
+        .hotdog-menu-icon::before,
+        .hotdog-menu-icon::after {
+            content: '';
+            display: block;
+            width: 30px;
+            height: 3px;
+            background-color: #ffffff;
+            border-radius: 2px;
+            position: absolute;
+            transition: transform 0.3s ease;
+        }
+
+        .hotdog-menu-icon::before {
+            top: -10px;
+        }
+
+        .hotdog-menu-icon::after {
+            top: 10px;
+        }
+
+        /* Animation for closing the menu (X icon) */
+        .hotdog-menu-button.open .hotdog-menu-icon {
+            background-color: transparent;
+        }
+
+        .hotdog-menu-button.open .hotdog-menu-icon::before {
+            transform: translateY(10px) rotate(45deg);
+        }
+
+        .hotdog-menu-button.open .hotdog-menu-icon::after {
+            transform: translateY(-10px) rotate(-45deg);
+        }
+        /* ==================================== */
+        /* FIN SECCIÓN 3 */
+        /* ==================================== */
+
+
+        /* ==================================== */
+        /* SECCIÓN 4: ESTILOS DEL CONTENIDO DEL MENÚ PRINCIPAL (TODAS LAS PANTALLAS) */
+        /* ==================================== */
+        .dropdown-menu-content {
+            display: none; /* Por defecto oculto */
+            flex-direction: column;
+            align-items: center; /* Centra los botones horizontalmente */
+            background: rgba(99, 102, 241, 0.95); /* Fondo azul con transparencia */
+            padding: 20px 0;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            position: absolute;
+            /* Posicionamiento relativo al header, ajustado para no chocar con el título */
+            top: calc(48px + 30px + 10px); /* Ajustado para que baje un poco más */
+            left: 20px;
+            right: auto;
+            width: 220px; /* Ancho fijo para el menú */
+            max-width: 90%; /* Asegura que no se desborde en pantallas muy pequeñas */
+            z-index: 90; /* Por encima del contenido principal, pero debajo del botón de hamburguesa */
+            transform-origin: top left;
+            opacity: 0;
+            transform: scaleY(0);
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        }
+
+        /* Clase para mostrar el menú */
+        .dropdown-menu-content.active {
+            display: flex;
+            opacity: 1;
+            transform: scaleY(1);
+        }
+        /* ==================================== */
+        /* FIN SECCIÓN 4 */
+        /* ==================================== */
+
+
+        /* --- Contenedor Principal de Contenido (MAIN) --- */
+        main {
+            background: #fff;
+            padding: 40px 32px 32px 32px;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.10);
+            width: 90%; /* Ajuste para que los bloques puedan caber horizontalmente */
+            max-width: 1200px; /* Ancho máximo para el contenido principal */
+            margin-top: -40px; /* Superpone un poco sobre el header */
+            margin-bottom: 40px; /* Espacio inferior para un mejor scroll */
+            box-sizing: border-box; /* Incluye padding en el ancho total */
+            position: relative; /* Para z-index */
+            z-index: 5; /* Asegura que esté por encima del fondo */
+        }
+
+        h2 {
+            text-align: center;
+            color: #3730a3;
+            margin-bottom: 28px;
+            font-weight: 600;
+            font-size: 1.6em;
+        }
+
+        /* Nuevo contenedor para las secciones de productos (Accesorios y Computadoras) */
+        .product-sections-container {
+            display: flex; /* Habilita Flexbox */
+            flex-wrap: wrap; /* Permite que los elementos se envuelvan si no hay suficiente espacio */
+            gap: 20px; /* Espacio entre las secciones */
+            justify-content: center; /* Centra las secciones horizontalmente */
+            margin-bottom: 28px; /* Espacio antes del formulario de gestión */
+        }
+
+        /* --- Secciones de Lista de Productos (Accesorios, Computadoras, Componentes) --- */
+        .lista-productos {
+            background: #f3f4f6; /* Fondo ligero para la sección de lista */
+            border-radius: 18px;
+            box-shadow: 0 4px 18px rgba(99, 102, 241, 0.10);
+            padding: 22px 28px 14px 28px;
+            flex: 1; /* Permite que cada sección ocupe el mismo espacio disponible */
+            min-width: 300px; /* Ancho mínimo para cada sección de producto */
+            box-sizing: border-box;
+            /* margin-bottom: 28px; Removido, ahora el gap del contenedor maneja el espacio */
+        }
+
+        .lista-productos h3 {
+            color: #0ea5e9; /* Azul para los títulos de categoría */
+            margin-top: 8px;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #e0e7ff;
+            padding-bottom: 8px;
+            font-size: 1.15em;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .lista-productos ul {
+            list-style: none; /* Remueve los puntos de lista */
+            padding: 0;
+            margin: 0;
+        }
+
+        .lista-productos li {
+            padding: 14px 0;
+            border-bottom: 1px solid #f1f5f9; /* Separador sutil */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap; /* Permite que los elementos se envuelvan en líneas nuevas */
+            font-size: 1.05em;
+            transition: background 0.2s;
+        }
+        
+        /* Estilos para la imagen del producto en la lista */
+        .lista-productos li .product-image {
+            width: 50px; /* Tamaño de la imagen */
+            height: 50px;
+            object-fit: cover; /* Asegura que la imagen cubra el área sin distorsión */
+            border-radius: 8px; /* Bordes ligeramente redondeados */
+            margin-right: 15px; /* Espacio a la derecha de la imagen */
+            flex-shrink: 0; /* Evita que la imagen se encoja */
+        }
+
+        .lista-productos li:last-child {
+            border-bottom: none; /* No hay separador en el último elemento */
+        }
+
+        /* --- Insignias de Stock --- */
+        .stock-badge {
+            padding: 6px 14px;
+            border-radius: 16px;
+            font-size: 0.93em;
+            font-weight: 600;
+            margin-left: 12px;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.07);
+            flex-shrink: 0; /* Evita que el badge se encoja en pantallas pequeñas */
+            margin-top: 5px; /* Pequeño ajuste para móviles si se envuelve */
+        }
+
+        .stock-available {
+            background: linear-gradient(90deg, #bbf7d0 0%, #a7f3d0 100%); /* Verde claro */
+            color: #047857;
+        }
+
+        .stock-low {
+            background: linear-gradient(90deg, #fef9c3 0%, #fde68a 100%); /* Amarillo */
+            color: #b45309;
+        }
+
+        .stock-out {
+            background: linear-gradient(90deg, #fecaca 0%, #fca5a5 100%); /* Rojo */
+            color: #b91c1c;
+        }
+
+        /* --- Sección de Gestión de Producto (Formulario) --- */
+        .gestion-inventario {
+            background: #e0e7ff; /* Fondo azul claro para el formulario */
+            border-radius: 18px;
+            padding: 22px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 4px 18px rgba(99, 102, 241, 0.08);
+            box-sizing: border-box;
+            width: 100%; /* Asegura que ocupe todo el ancho disponible dentro de main */
+        }
+
+        .gestion-inventario h3 {
+            color: #3730a3;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            text-align: center;
+            border-bottom: 2px solid #cbd5e1;
+            padding-bottom: 10px;
+        }
+
+        .gestion-inventario label {
+            display: block;
+            margin-bottom: 8px;
+            color: #3730a3;
+            font-weight: 600;
+        }
+
+        .gestion-inventario input[type="text"],
+        .gestion-inventario input[type="number"],
+        .gestion-inventario select {
+            width: calc(100% - 22px); /* Ancho total menos padding */
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+
+        .gestion-inventario button {
+            background: linear-gradient(90deg, #10b981 0%, #059669 100%); /* Verde para añadir/actualizar */
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s ease, transform 0.2s ease;
+            margin-right: 10px;
+        }
+
+        .gestion-inventario button:hover {
+            background: linear-gradient(90deg, #059669 0%, #10b981 100%);
+            transform: translateY(-1px);
+        }
+
+        /* --- Botones de Acción de Productos (Editar/Eliminar) --- */
+        .product-actions {
+            display: flex;
+            gap: 8px; /* Espacio entre los botones */
+            margin-top: 5px; /* Ajuste si el nombre del producto es largo y se envuelve */
+            flex-shrink: 0;
+        }
+
+        .product-actions button {
+            background: #f59e0b; /* Amarillo para editar */
+            color: #fff;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: background 0.2s;
+            margin-right: 0; /* Anula el margin-right del estilo general de botón */
+        }
+
+        .product-actions button:hover {
+            background: #d97706; /* Amarillo más oscuro al pasar el ratón */
+        }
+
+        .product-actions .delete-btn {
+            background: #ef4444; /* Rojo para eliminar */
+        }
+
+        .product-actions .delete-btn:hover {
+            background: #dc2626; /* Rojo más oscuro al pasar el ratón */
+        }
+
+        /* --- Media Queries para Responsividad --- */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5em;
+            }
+            header {
+                padding: 48px 15px 32px 15px;
+            }
+            .header-buttons {
+                padding-left: 15px;
+            }
+            .dropdown-menu-content {
+                left: 15px;
+            }
+            /* Ajuste para el botón de volver en pantallas pequeñas */
+            .back-button { 
+                position: static; /* Deja de ser flotante */
+                margin-top: 15px;
+                display: block; /* Ocupa su propia línea */
+                width: fit-content;
+                margin-left: auto;
+                margin-right: auto; /* Centra el botón */
+            }
+            main {
+                padding: 30px 20px;
+            }
+            /* En pantallas pequeñas, las secciones de productos se apilan de nuevo */
+            .product-sections-container {
+                flex-direction: column;
+                gap: 28px; /* Restaura el espacio vertical */
+            }
+            .lista-productos {
+                padding: 18px 20px 10px 20px;
+                min-width: unset; /* Elimina el ancho mínimo para que se ajuste al 100% */
+                width: 100%;
+            }
+            .lista-productos li {
+                flex-direction: column; /* Apila elementos verticalmente */
+                align-items: flex-start; /* Alinea los elementos a la izquierda */
+            }
+            .stock-badge, .product-actions {
+                margin-left: 0; /* Elimina margen extra en móviles */
+                width: 100%; /* Ocupa todo el ancho disponible */
+                justify-content: flex-start; /* Alinea los botones de acción a la izquierda */
+            }
+            .product-actions button {
+                width: auto; /* Permite que los botones se ajusten a su contenido */
+                margin-top: 8px; /* Espacio superior para los botones de acción */
+            }
+            .lista-productos li .product-image {
+                margin-right: 0;
+                margin-bottom: 10px; /* Espacio debajo de la imagen en modo apilado */
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 2em;
+            }
+            .support-button,
+            .header-button,
+            .dropdown-menu-content button {
+                padding: 10px 18px;
+                font-size: 0.95em;
+                width: 90%;
+            }
+            .dropdown-menu-content {
+                width: 200px;
+                left: 15px;
+            }
+            .gestion-inventario button {
+                padding: 12px 20px;
+                font-size: 1em;
+                margin: 8px 0; /* Espacio vertical entre botones en móvil */
+                width: 90%; /* Ancho casi completo para los botones del formulario */
+            }
+        }
+
+        /* Estilos adicionales para la sección de administración */
+        #admin-exchange-section {
+            max-width: 900px;
+            margin: 24px auto;
+            padding: 18px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+        }
+
+        #admin-exchange-section h2 {
+            margin: 0 0 12px 0;
+            font-family: inherit;
+            color: #222;
+        }
+
+        #admin-exchange-section label {
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        #admin-exchange-rate {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            width: 180px;
+        }
+
+        #admin-save-rate,
+        #admin-load-products {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+
+        #admin-save-rate {
+            background: #2563eb;
+            color: #fff;
+        }
+
+        #admin-load-products {
+            background: #10b981;
+            color: #fff;
+        }
+
+        #admin-msg {
+            margin-left: 8px;
+            color: #374151;
+            font-weight: 600;
+        }
+
+        #admin-product-list {
+            margin-top: 14px;
+        }
+
+        #admin-product-list table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+
+        #admin-product-list th,
+        #admin-product-list td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        #admin-product-list th {
+            background: #f3f4f6;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Gestión de Inventario</h1>
+        <div class="header-buttons">
+            <button class="hotdog-menu-button" id="hotdog-menu-toggle">
+                <span class="hotdog-menu-icon"></span>
+            </button>
+            <div class="dropdown-menu-content" id="main-menu-content">
+                <a href="soporte tecnico.html" class="support-button">Soporte Técnico</a>
+                <button id="mostrar-precios" class="header-button">Ver Detalles y Precios</button>
+                <button id="mostrar-pago" class="header-button">Ir a Pago</button>
+                <button id="ir-gestion-btn" class="header-button">Gestionar Inventario</button>
+                <button id="cliente-registro-btn" class="header-button">Cliente Registro</button>
+            </div>
+        </div>
+        <a href="index.html" class="back-button">Volver al Inventario</a>
+    </header>
+    <main>
+        <h2>Inventario de Productos</h2>
+        <div class="product-sections-container">
+            <div class="lista-productos">
+                <h3>Accesorios 
+                    <button type="button" id="toggle-accesorios" style="background: #6366f1; color: #fff; border: none; border-radius: 6px; padding: 6px 14px; font-weight: 600; cursor: pointer; margin-left: 10px; transition: background 0.2s;">
+                        Ocultar
+                    </button>
+                </h3>
+                <ul id="lista-accesorios"></ul>
+            </div>
+            <div class="lista-productos">
+                <h3>Computadoras 
+                    <button type="button" id="toggle-computadoras" style="background: #6366f1; color: #fff; border: none; border-radius: 6px; padding: 6px 14px; font-weight: 600; cursor: pointer; margin-left: 10px; transition: background 0.2s;">
+                        Ocultar
+                    </button>
+                </h3>
+                <ul id="lista-computadoras"></ul>
+            </div>
+            <div class="lista-productos">
+                <h3>Componentes de la Computadora 
+                    <button type="button" id="toggle-componentes" style="background: #6366f1; color: #fff; border: none; border-radius: 6px; padding: 6px 14px; font-weight: 600; cursor: pointer; margin-left: 10px; transition: background 0.2s;">
+                        Ocultar
+                    </button>
+                </h3>
+                <ul id="lista-componentes"></ul>
+            </div>
+        </div>
+        <div class="gestion-inventario">
+            <h3>Gestionar Producto</h3>
+            <form id="product-form">
+                <input type="hidden" id="product-id">
+                <label for="product-name">Nombre del Producto:</label>
+                <input type="text" id="product-name" required>
+                <label for="product-price">Precio:</label>
+                <input type="number" id="product-price" step="0.01" min="0" required>
+                <label for="product-stock">Stock Disponible:</label>
+                <input type="number" id="product-stock" min="0" required>
+                <label for="product-image-url">URL de la Imagen:</label>
+                <input type="text" id="product-image-url" placeholder="Ej: https://ejemplo.com/imagen.jpg">
+                <input type="file" id="product-image-file" accept="image/*" style="margin-bottom: 15px;">
+                <label for="product-category">Categoría:</label>
+                <select id="product-category" required>
+                    <option value="accesorios">Accesorios</option>
+                    <option value="computadoras">Computadoras</option>
+                    <option value="componentes">Componentes de la Computadora</option>
+                </select>
+                <br><br>
+                <button type="submit" id="add-update-btn">Agregar Producto</button>
+                <button type="button" id="clear-form-btn">Limpiar Formulario</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Sección ADMIN: editar tasa y sincronizar productos -->
+    <section id="admin-exchange-section" style="max-width:900px;margin:24px auto;padding:18px;background:#fff;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.06);">
+        <h2 style="margin:0 0 12px 0;font-family:inherit;color:#222">Administrar Tasa y Productos</h2>
+
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <label for="admin-exchange-rate" style="font-weight:600;">Tasa (Bs / USD):</label>
+            <input id="admin-exchange-rate" type="number" min="0.01" step="0.01" style="padding:8px;border:1px solid #ddd;border-radius:6px;width:180px;" />
+            <button id="admin-save-rate" style="padding:8px 12px;background:#2563eb;color:#fff;border:none;border-radius:6px;cursor:pointer;">Guardar tasa</button>
+
+            <button id="admin-load-products" style="padding:8px 12px;background:#10b981;color:#fff;border:none;border-radius:6px;cursor:pointer;">Cargar productos desde inventario</button>
+
+            <!-- Nuevo: Normalizar y Guardar inventario -->
+            <button id="admin-normalize-save" style="padding:8px 12px;background:#f59e0b;color:#fff;border:none;border-radius:6px;cursor:pointer;">Normalizar y Guardar</button>
+
+            <span id="admin-msg" style="margin-left:8px;color:#374151;font-weight:600;"></span>
+        </div>
+
+        <div id="admin-product-list" style="margin-top:14px;"></div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Referencias a Elementos del DOM ---
+            const dom = {
+                listas: {
+                    accesorios: document.getElementById('lista-accesorios'),
+                    computadoras: document.getElementById('lista-computadoras'),
+                    componentes: document.getElementById('lista-componentes')
+                },
+                botones: {
+                    toggleAccesorios: document.getElementById('toggle-accesorios'),
+                    toggleComputadoras: document.getElementById('toggle-computadoras'),
+                    toggleComponentes: document.getElementById('toggle-componentes'),
+                    addUpdate: document.getElementById('add-update-btn'),
+                    clearForm: document.getElementById('clear-form-btn'),
+                    menuToggle: document.getElementById('hotdog-menu-toggle'),
+                    irGestion: document.getElementById('ir-gestion-btn')
+                },
+                menus: {
+                    main: document.getElementById('main-menu-content')
+                },
+                form: {
+                    container: document.getElementById('product-form'),
+                    id: document.getElementById('product-id'),
+                    name: document.getElementById('product-name'),
+                    price: document.getElementById('product-price'),
+                    stock: document.getElementById('product-stock'),
+                    imageURL: document.getElementById('product-image-url'),
+                    imageFile: document.getElementById('product-image-file'),
+                    category: document.getElementById('product-category')
+                }
+            };
+
+            // --- Variables de Estado del Inventario ---
+            const INVENTORY_KEY = 'productosInventario';
+            let productos = [];
+            let lastId = 0;
+
+            // --- Normalización (uso útil desde admin y gestión) ---
+            function normalizeProduct(p){
+                return {
+                    id: String(p.id ?? p.cod ?? p.sku ?? Date.now()),
+                    nombre: p.nombre ?? p.nombreProducto ?? p.title ?? 'Producto',
+                    precio: Number(p.precio ?? p.price ?? 0) || 0,
+                    categoria: p.categoria ?? p.cat ?? p.category ?? 'sin-categoria',
+                    urlImagen: p.urlImagen ?? p.url ?? p.image ?? '',
+                    DISPONIBLE: Number(p.DISPONIBLE ?? p.stock ?? p.cantidad ?? p.available ?? 0) || 0,
+                    ...p
+                };
+            }
+
+            function saveProductsToInventory(productsArray){
+                const normalized = (productsArray || []).map(normalizeProduct);
+                localStorage.setItem(INVENTORY_KEY, JSON.stringify(normalized));
+            }
+
+            function loadProductsFromInventory(){
+                const raw = localStorage.getItem(INVENTORY_KEY);
+                if (!raw) return [];
+                try{
+                    const parsed = JSON.parse(raw);
+                    if (Array.isArray(parsed)) return parsed.map(normalizeProduct);
+                    if (parsed && typeof parsed === 'object') return Object.values(parsed).map(normalizeProduct);
+                }catch(e){
+                    console.error('gestion: error parseando productos desde localStorage', e);
+                }
+                return [];
+            }
+
+            // --- Funciones del Inventario (usando normalización) ---
+            function saveProducts() {
+                // Guarda productos actuales normalizando antes
+                saveProductsToInventory(productos);
+            }
+
+            function loadProducts() {
+                // Carga normalizada desde localStorage; si está vacío, pone ejemplos
+                const loaded = loadProductsFromInventory();
+                if (loaded && loaded.length) {
+                    productos = loaded;
+                } else {
+                    productos = [
+                        { id: 1, nombre: 'Mouse Óptico', precio: 15.00, categoria: 'accesorios', DISPONIBLE: 20, urlImagen: 'https://images.unsplash.com/photo-1547944111-ad775089e5a1?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3' },
+                        { id: 2, nombre: 'Auriculares Gaming', precio: 25.50, categoria: 'accesorios', DISPONIBLE: 15, urlImagen: 'https://images.unsplash.com/photo-1546435770-a3e426bf4722?q=80&w=1465&auto=format&fit=crop&ixlib=rb-4.0.3' },
+                        { id: 3, nombre: 'Teclado Mecánico', precio: 30.00, categoria: 'accesorios', DISPONIBLE: 10, urlImagen: 'https://images.unsplash.com/photo-1587823555239-01f2f81643c5?q=80&w=1470&auto=format&ixlib=rb-4.0.3' },
+                        { id: 4, nombre: 'CPU Intel Core i7', precio: 350.00, categoria: 'componentes', DISPONIBLE: 8, urlImagen: 'https://images.unsplash.com/photo-1616886918070-e4d6d3d4b6c3?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3' },
+                        { id: 5, nombre: 'GPU NVIDIA RTX 3060', precio: 400.00, categoria: 'componentes', DISPONIBLE: 5, urlImagen: 'https://images.unsplash.com/photo-1601264426574-d4d1e2e3f4e2?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3' },
+                    ];
+                    // guardar ejemplos normalizados
+                    saveProducts();
+                }
+                // Asegura formato coherente y lastId numérico
+                productos = productos.map(normalizeProduct);
+                lastId = productos.reduce((max, p) => Math.max(max, Number(p.id) || 0), 0);
+            }
+
+            function renderInventory() {
+                // Limpia todas las listas antes de volver a renderizar
+                Object.values(dom.listas).forEach(ul => ul.innerHTML = '');
+
+                productos.forEach(producto => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'product-item';
+                    
+                    const html = `
+                        <img src="${producto.urlImagen || 'https://via.placeholder.com/100x100?text=No+Image'}" 
+                             alt="${producto.nombre}" 
+                             title="${producto.nombre}" 
+                             class="product-image">
+                        <div style="flex-grow: 1; margin-right: 10px;">
+                            <span>${producto.nombre}</span>
+                            <span style="color: #666;"> ($${Number(producto.precio).toFixed(2)})</span>
+                        </div>
+                        <span class="stock-badge ${getStockBadgeClass(producto.DISPONIBLE)}">
+                            Stock: ${producto.DISPONIBLE}
+                        </span>
+                        <div class="product-actions">
+                            <button class="edit-btn" data-id="${producto.id}">Editar</button>
+                            <button class="delete-btn" data-id="${producto.id}">Eliminar</button>
+                        </div>
+                    `;
+                    listItem.innerHTML = html;
+
+                    const ul = dom.listas[producto.categoria];
+                    if (ul) {
+                        ul.appendChild(listItem);
+                    }
+                });
+            }
+
+            function getStockBadgeClass(stock) {
+                if (stock > 10) return 'stock-available';
+                if (stock > 0) return 'stock-low';
+                return 'stock-out';
+            }
+
+            function clearForm() {
+                dom.form.id.value = '';
+                dom.form.name.value = '';
+                dom.form.price.value = '';
+                dom.form.stock.value = '';
+                dom.form.imageURL.value = '';
+                dom.form.imageFile.value = '';
+                dom.form.category.value = 'accesorios';
+                dom.botones.addUpdate.textContent = 'Agregar Producto';
+            }
+
+            function populateFormForEdit(id) {
+                const producto = productos.find(p => String(p.id) === String(id));
+                if (producto) {
+                    dom.form.id.value = producto.id;
+                    dom.form.name.value = producto.nombre;
+                    dom.form.price.value = producto.precio;
+                    dom.form.stock.value = producto.DISPONIBLE;
+                    dom.form.imageURL.value = producto.urlImagen || '';
+                    dom.form.category.value = producto.categoria;
+                    dom.botones.addUpdate.textContent = 'Actualizar Producto';
+                    dom.form.container.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+
+            function deleteProduct(id) {
+                if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {
+                    productos = productos.filter(p => String(p.id) !== String(id));
+                    saveProducts();
+                    renderInventory();
+                }
+            }
+
+            // --- Manejo de Eventos ---
+            function setupEventListeners() {
+                dom.form.container.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    const idRaw = dom.form.id.value;
+                    const id = idRaw ? idRaw : null;
+                    
+                    // Manejo de imagen
+                    let imageUrlToSave = dom.form.imageURL.value;
+                    const file = dom.form.imageFile.files[0];
+                    if (file) {
+                        try {
+                            imageUrlToSave = await fileToBase64(file);
+                        } catch (error) {
+                            console.error("Error al convertir el archivo a Base64:", error);
+                            alert("No se pudo procesar la imagen seleccionada.");
+                            return; 
+                        }
+                    } else if (id) {
+                        const existingProduct = productos.find(p => String(p.id) === String(id));
+                        if (existingProduct) imageUrlToSave = existingProduct.urlImagen;
+                    }
+
+                    const newProduct = {
+                        id: id || String(++lastId),
+                        nombre: dom.form.name.value,
+                        precio: parseFloat(dom.form.price.value) || 0,
+                        DISPONIBLE: parseInt(dom.form.stock.value) || 0,
+                        categoria: dom.form.category.value,
+                        urlImagen: imageUrlToSave
+                    };
+
+                    if (id) {
+                        const index = productos.findIndex(p => String(p.id) === String(id));
+                        if (index !== -1) productos[index] = newProduct;
+                    } else {
+                        productos.push(newProduct);
+                    }
+
+                    saveProducts();
+                    renderInventory();
+                    clearForm();
+                });
+
+                // Delegación de eventos en contenedor principal
+                document.querySelector('.product-sections-container').addEventListener('click', (e) => {
+                    const target = e.target;
+                    const id = target.dataset?.id;
+                    if (!id) return;
+                    if (target.classList.contains('edit-btn')) {
+                        populateFormForEdit(id);
+                    } else if (target.classList.contains('delete-btn')) {
+                        deleteProduct(id);
+                    }
+                });
+
+                dom.botones.clearForm.addEventListener('click', clearForm);
+
+                dom.botones.menuToggle.addEventListener('click', () => {
+                    dom.menus.main.classList.toggle('active');
+                    dom.botones.menuToggle.classList.toggle('open');
+                });
+                
+                dom.botones.toggleAccesorios.addEventListener('click', () => toggleList('lista-accesorios', dom.botones.toggleAccesorios));
+                dom.botones.toggleComputadoras.addEventListener('click', () => toggleList('lista-computadoras', dom.botones.toggleComputadoras));
+                dom.botones.toggleComponentes.addEventListener('click', () => toggleList('lista-componentes', dom.botones.toggleComponentes));
+            }
+
+            // File -> base64
+            function fileToBase64(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = error => reject(error);
+                });
+            }
+
+            function toggleList(listId, buttonElement) {
+                const list = document.getElementById(listId);
+                if (list.style.display === 'none') {
+                    list.style.display = '';
+                    buttonElement.textContent = 'Ocultar';
+                } else {
+                    list.style.display = 'none';
+                    buttonElement.textContent = 'Mostrar';
+                }
+            }
+
+            // Inicialización
+            function initializeApp() {
+                if (sessionStorage.getItem('adminLoggedIn') !== 'true') {
+                    window.location.href = 'admin_login.html';
+                    return;
+                }
+                loadProducts();
+                renderInventory();
+                setupEventListeners();
+            }
+
+            initializeApp();
+        });
+
+        // ADMIN: gestión de tasa y sincronización de productos (mantengo original y añado normalizar)
+        (function(){
+            const RATE_KEY = 'exchangeRateBsPerUsd';
+            const rateInput = document.getElementById('admin-exchange-rate');
+            const saveBtn = document.getElementById('admin-save-rate');
+            const loadProductsBtn = document.getElementById('admin-load-products');
+            const normalizeBtn = document.getElementById('admin-normalize-save');
+            const productListEl = document.getElementById('admin-product-list');
+            const adminMsg = document.getElementById('admin-msg');
+
+            function formatNumber(n){ return Number(n).toLocaleString('es-VE', { maximumFractionDigits:2 }); }
+
+            const saved = localStorage.getItem(RATE_KEY);
+            rateInput.value = saved ? saved : '280';
+
+            saveBtn.addEventListener('click', () => {
+                const v = parseFloat(rateInput.value);
+                if (isNaN(v) || v <= 0) {
+                    adminMsg.textContent = 'Introduce una tasa válida.';
+                    adminMsg.style.color = '#ef4444';
+                    return;
+                }
+                localStorage.setItem(RATE_KEY, String(v));
+                adminMsg.textContent = `Tasa guardada: ${formatNumber(v)} Bs/USD`;
+                adminMsg.style.color = '#16a34a';
+                setTimeout(()=> adminMsg.textContent = '', 3000);
+            });
+
+            function renderAdminProducts() {
+                const stored = localStorage.getItem('productosInventario');
+                let html = '';
+                if (!stored) {
+                    html = '<p style="color:#666">No hay productos en inventario.</p>';
+                } else {
+                    const prods = JSON.parse(stored);
+                    html = '<table style="width:100%;border-collapse:collapse;margin-top:12px"><thead><tr style="background:#f3f4f6"><th style="padding:8px;text-align:left">ID</th><th style="padding:8px;text-align:left">Nombre</th><th style="padding:8px;text-align:right">USD</th><th style="padding:8px;text-align:right">Bs (tasa actual)</th></tr></thead><tbody>';
+                    const rate = parseFloat(localStorage.getItem(RATE_KEY) || rateInput.value || 280);
+                    prods.forEach(p => {
+                        const bs = (p.precio || 0) * rate;
+                        html += `<tr><td style="padding:8px">${p.id}</td><td style="padding:8px">${p.nombre}</td><td style="padding:8px;text-align:right">$${(p.precio||0).toFixed(2)}</td><td style="padding:8px;text-align:right">Bs ${formatNumber(bs)}</td></tr>`;
+                    });
+                    html += '</tbody></table>';
+                }
+                productListEl.innerHTML = html;
+            }
+
+            loadProductsBtn.addEventListener('click', () => {
+                renderAdminProducts();
+                adminMsg.textContent = 'Productos cargados.';
+                adminMsg.style.color = '#16a34a';
+                setTimeout(()=> adminMsg.textContent = '', 2000);
+            });
+
+            // Normalizar y guardar inventario actual (lee posibles claves alternativas)
+            function normalizeAndSaveInventory() {
+                const ALTS = ['productosInventario','productos','inventario'];
+                let raw = null;
+                for (const k of ALTS) {
+                    const s = localStorage.getItem(k);
+                    if (s) { raw = s; break; }
+                }
+                if (!raw) {
+                    adminMsg.textContent = 'No hay inventario en localStorage para normalizar.';
+                    adminMsg.style.color = '#ef4444';
+                    return;
+                }
+                try {
+                    const parsed = JSON.parse(raw);
+                    let arr = [];
+                    if (Array.isArray(parsed)) arr = parsed;
+                    else if (parsed && typeof parsed === 'object') arr = Object.values(parsed);
+                    const normalized = arr.map(normalizeProduct);
+                    localStorage.setItem('productosInventario', JSON.stringify(normalized));
+                    renderAdminProducts();
+                    adminMsg.textContent = 'Inventario normalizado y guardado en productosInventario.';
+                    adminMsg.style.color = '#16a34a';
+                    setTimeout(()=> adminMsg.textContent = '', 3000);
+                } catch (e) {
+                    console.error('Error normalizando inventario:', e);
+                    adminMsg.textContent = 'Error normalizando inventario (ver consola).';
+                    adminMsg.style.color = '#ef4444';
+                }
+            }
+
+            normalizeBtn.addEventListener('click', normalizeAndSaveInventory);
+
+            // cargar inicialmente la lista
+            renderAdminProducts();
+        })();
+
+        /* ---------------------------
+           Reutilizables de normalización
+           --------------------------- */
+        function normalizeProduct(p){
+            return {
+                id: String(p.id ?? p.cod ?? p.sku ?? Date.now()),
+                nombre: p.nombre ?? p.nombreProducto ?? p.title ?? 'Producto',
+                precio: Number(p.precio ?? p.price ?? 0) || 0,
+                categoria: p.categoria ?? p.cat ?? p.category ?? 'sin-categoria',
+                urlImagen: p.urlImagen ?? p.url ?? p.image ?? '',
+                DISPONIBLE: Number(p.DISPONIBLE ?? p.stock ?? p.cantidad ?? p.available ?? 0) || 0,
+                ...p
+            };
+        }
+
+        function saveProductsToInventory(productsArray){
+            const normalized = (productsArray || []).map(normalizeProduct);
+            localStorage.setItem('productosInventario', JSON.stringify(normalized));
+        }
+
+        function loadProductsFromInventory(){
+            const raw = localStorage.getItem('productosInventario');
+            if (!raw) return [];
+            try{
+                const parsed = JSON.parse(raw);
+                if (Array.isArray(parsed)) return parsed.map(normalizeProduct);
+                if (parsed && typeof parsed === 'object') return Object.values(parsed).map(normalizeProduct);
+            }catch(e){
+                console.error('gestion: error parseando productos desde localStorage', e);
+            }
+            return [];
+        }
+    </script>
+</body>
+</html>

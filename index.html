@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KING DISEÑO - Inventario</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ==================================== */
+        /* SECCIÓN 1: VARIABLES CSS Y ESTILOS GENERALES */
+        /* ==================================== */
+        :root {
+            --primary-blue: #3B82F6; /* Un azul primario para elementos principales */
+            --dark-blue: #1E3A8A; /* Azul oscuro para texto o fondos sutiles */
+            --light-blue: #BFDBFE; /* Azul claro para acentos */
+            --accent-orange: #F97316; /* Naranja para botones de acción o énfasis */
+            --white: #ffffff;
+            --black: #000000;
+            --gray-light: #E5E7EB; /* Gris muy claro para bordes o separadores */
+            --gray-medium: #6B7280; /* Gris medio para texto secundario */
+            --red-error: #EF4444; /* Rojo para mensajes de error */
+            --header-gradient-start: #6366f1; /* Gradiente de inicio para el header */
+            --header-gradient-end: #0ea5e9; /* Gradiente de fin para el header */
+        }
+
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column; /* Apila el header y el main-content-wrapper */
+            align-items: center;
+            justify-content: flex-start; /* Alinea el contenido al inicio de la página */
+            position: relative;
+            z-index: 1;
+            background-color: #333; /* Un color de fondo sólido por defecto si no hay video */
+            color: var(--dark-blue); /* Color de texto por defecto */
+            overflow-x: hidden; /* Evita el scroll horizontal */
+        }
+        
+        /* Contenedor para la capa de fondo (puede ser para un video o una capa oscura) */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Capa oscura más pronunciada para mayor contraste con el texto si hay un video oscuro */
+            z-index: -1;
+        }
+
+        /* Si quieres un VIDEO de fondo, deberías añadir una etiqueta <video> justo después del <body>, así:
+        <video autoplay muted loop id="myVideo" style="position: fixed; right: 0; bottom: 0; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -2; background-size: cover;">
+          <source src="tu_video_de_fondo.mp4" type="video/mp4">
+          Tu navegador no sopporta el tag de video.
+        </video>
+        Y entonces el `body::before` actuaría como una capa de opacidad sobre el video.
+        */
+
+        /* ==================================== */
+        /* SECCIÓN 2: ESTILOS DEL ENCABEZADO (HEADER) */
+        /* ==================================== */
+        header {
+            background: linear-gradient(90deg, var(--header-gradient-start) 0%, var(--header-gradient-end) 100%);
+            color: var(--white);
+            padding: 48px 20px 32px 20px;
+            width: 100%;
+            box-shadow: 0 4px 16px rgba(var(--header-gradient-start), 0.08);
+            border-bottom-left-radius: 32px;
+            border-bottom-right-radius: 32px;
+            position: relative;
+            box-sizing: border-box;
+            z-index: 10;
+            margin-bottom: 50px;
+            display: flex; /* Añadido para Flexbox en el header */
+            flex-direction: column; /* Apila el título y la navegación */
+            align-items: center; /* Centra horizontalmente */
+            justify-content: center;
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2em;
+            margin: 0 auto 20px auto; /* Margen inferior para separar del nav */
+            text-align: center;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            text-shadow: 0 2px 12px rgba(0,0,0,0.08), 0 1px 0 var(--header-gradient-end);
+            line-height: 1.1;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Eliminado: .header-buttons para el menú de hamburguesa */
+        /* Eliminado: .support-button, .header-button para los estilos de botones del dropdown */
+
+        /* Nuevos estilos para la navegación en línea */
+        .header-nav-inline {
+            display: flex;
+            justify-content: center; /* Centra los botones horizontalmente */
+            align-items: center;
+            flex-wrap: wrap; /* Permite que los botones se envuelvan en pantallas pequeñas */
+            gap: 15px; /* Espacio entre los botones */
+            width: 100%; /* Ocupa todo el ancho disponible */
+            padding: 0 20px; /* Padding horizontal */
+            box-sizing: border-box;
+        }
+
+        .header-nav-button {
+            background: var(--accent-orange);
+            color: var(--white);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.95em;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            display: inline-flex; /* Para que el padding se aplique correctamente si es un 'a' o 'button' */
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0; /* Evita que los botones se achiquen demasiado */
+            min-width: 120px; /* Ancho mínimo para mantener la estética */
+        }
+
+        .header-nav-button:hover {
+            background: #ea580c; /* Un tono más oscuro de naranja */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+        }
+
+        /* ==================================== */
+        /* Eliminado: SECCIÓN 3: ESTILOS DEL BOTÓN DE MENÚ HAMBURGUESA */
+/* ==================================== */
+/* 1. KEYFRAMES DE APARICIÓN MODERNA */
+/* ==================================== */
+
+/* Animación base: Se desliza 20px desde abajo y se vuelve visible */
+@keyframes fadeInSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+        /* ==================================== */
+/* SECCIÓN 3: ANIMACIONES CSS */
+/* ==================================== */
+
+/* Define los fotogramas clave de la animación */
+@keyframes slideInBounce {
+    0% {
+        transform: translateY(-50px) scale(0.8); /* Inicia 50px arriba y más pequeño */
+        opacity: 0; /* Totalmente invisible al inicio */
+    }
+    60% {
+        transform: translateY(10px) scale(1.05); /* Desliza, sobrepasa el destino y se agranda (efecto rebote 1) */
+        opacity: 1; /* Completamente visible */
+    }
+    80% {
+        transform: translateY(-5px) scale(0.98); /* Rebote 2 (hacia arriba) */
+    }
+    100% {
+        transform: translateY(0) scale(1); /* Posición y tamaño final */
+        opacity: 1;
+    }
+}
+
+/* Aplica la animación al h1 de tu header */
+header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.2em;
+    margin: 0 auto 20px auto; 
+    text-align: center;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    line-height: 1.1;
+    position: relative;
+    z-index: 1;
+    
+    /* Asegura que el título sea blanco para el contraste en el fondo azul/degradado */
+    color: var(--white); 
+    
+    /* Mantiene la sombra de texto original */
+    text-shadow: 0 2px 12px rgba(0,0,0,0.08), 0 1px 0 var(--header-gradient-end);
+
+    /* === PROPIEDADES DE ANIMACIÓN === */
+    /* Aplica la animación: Nombre | Duración | Función de tiempo | Estado final */
+    animation: slideInBounce 1.2s ease-out forwards; 
+    /* ======================================= */
+}
+        /* Eliminado: SECCIÓN 4: ESTILOS DEL CONTENIDO DEL MENÚ PRINCIPAL */
+        /* ==================================== */
+
+        /* ==================================== */
+        /* SECCIÓN 5: ESTILOS DEL CONTENIDO PRINCIPAL HORIZONTAL (FONDO BLANCO) */
+        /* ==================================== */
+
+        .main-content-wrapper {
+            display: flex;
+            flex-direction: row;
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto 40px auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            box-sizing: border-box;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        .welcome-section {
+            flex: 1;
+            text-align: center;
+            padding-right: 15px;
+        }
+
+        .welcome-section h2 {
+            font-family: 'Playfair Display', serif;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .welcome-section p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .welcome-section .cta-button {
+            display: inline-block;
+            background-color: var(--accent-orange);
+            color: var(--white);
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px; /* Espacio debajo del botón */
+        }
+
+        .welcome-section .cta-button:hover {
+            background-color: #ea580c;
+        }
+
+        .inventory-section {
+            flex: 1;
+            padding-left: 15px;
+        }
+
+        .inventory-section h2 {
+            font-family: 'Playfair Display', serif;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .inventory-section .category-card {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .inventory-section .category-card h3 {
+            margin: 0;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .inventory-section .view-button {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .inventory-section .view-button:hover {
+            background-color: #2563eb;
+        }
+
+        .product-list-container {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .product-list-container h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #333;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2em;
+        }
+
+        .product-list-container ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .product-list-container ul li {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95em;
+            color: #444;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        
+        /* Nuevo estilo para la imagen del producto en la lista */
+        .product-list-container ul li img {
+            width: 40px; /* Tamaño de la imagen */
+            height: 40px;
+            object-fit: cover; /* Asegura que la imagen cubra el área sin distorsión */
+            border-radius: 5px; /* Bordes ligeramente redondeados */
+            margin-right: 10px; /* Espacio a la derecha de la imagen */
+            flex-shrink: 0; /* Evita que la imagen se encoja */
+        }
+
+
+        .product-list-container ul li span.price {
+            font-weight: 600;
+            color: #28a745;
+        }
+
+        .back-home-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(var(--white), 0.2); 
+            color: var(--white);
+            border: 1px solid rgba(var(--white), 0.4);
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: background 0.3s ease, transform 0.2s ease, border-color 0.3s ease;
+            backdrop-filter: blur(5px);
+            z-index: 200;
+        }
+
+        .back-home-button:hover {
+            background: rgba(var(--white), 0.3);
+            transform: translateY(-3px);
+            border-color: rgba(var(--white), 0.6);
+        }
+
+        /* ==================================== */
+        /* SECCIÓN 6: MEDIA QUERIES PARA RESPONSIVIDAD */
+        /* ==================================== */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5em;
+            }
+            header {
+                padding: 48px 15px 32px 15px;
+                margin-bottom: 30px;
+            }
+            /* Eliminado: .header-buttons para el menú de hamburguesa */
+            /* Eliminado: .dropdown-menu-content */
+            .back-home-button {
+                padding: 8px 15px;
+                font-size: 0.85em;
+            }
+
+            .main-content-wrapper {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+
+            .welcome-section,
+            .inventory-section {
+                flex: none;
+                width: 100%;
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            .welcome-section {
+                text-align: center;
+            }
+
+            .inventory-section h2 {
+                text-align: center;
+            }
+
+            .header-nav-inline {
+                flex-direction: column; /* Apila los botones en columnas en móviles */
+                gap: 10px; /* Reduce el espacio entre botones */
+                padding: 0;
+            }
+
+            .header-nav-button {
+                width: 90%; /* Los botones ocupan casi todo el ancho */
+                max-width: 300px; /* Máximo ancho para no ser demasiado grandes en tablets */
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 2em;
+            }
+            .back-home-button {
+                top: 10px;
+                right: 10px;
+                padding: 8px 15px;
+                font-size: 0.8em;
+            }
+        }
+    </style>
+    <script src="/js/api-client.js"></script>
+</head>
+<body>
+    <header>
+        <h1>BIENVENIDO A MI INVENTARIO</h1>
+        <nav class="header-nav-inline"> 
+            <a href="soporte tecnico.html" class="header-nav-button">Soporte Técnico</a>
+            <button id="mostrar-precios" class="header-nav-button">Ver Detalles y Precios</button>
+            <button id="mostrar-pago" class="header-nav-button">Ir a Pago</button>
+            <button id="ir-gestion-btn" class="header-nav-button">Gestionar Inventario</button>
+            <button id="cliente-registro-btn" class="header-nav-button">Cliente Registro</button>
+        </nav>
+        <a href="index.html" class="back-home-button">Volver al Inicio</a>
+    </header>
+
+    <div class="main-content-wrapper">
+        <div class="welcome-section">
+            <h2>Bienvenido a KING DISEÑO</h2>
+            <a href="pagina_cliente.html" class="cta-button">¡Accede a tu Perfil!</a> 
+            <p>En "<b>KING DISEÑO</b>", combinamos creatividad y tecnología para ofrecerte los mejores productos y soluciones informáticas.</p>
+            <p>¡Explora nuestro inventario y encuentra lo que necesitas para tu día a día o tu próximo proyecto!</p>
+        </div>
+
+        <section class="inventory-section">
+            <h2>Inventario de Productos</h2>
+            
+            <div class="category-card">
+                <h3>Accesorios</h3>
+                <button class="view-button" data-category="accesorios">Ver</button>
+            </div>
+            <div id="productos-accesorios" class="product-list-container" style="display: none;">
+                <h4>Lista de Accesorios:</h4>
+                <ul>
+                    </ul>
+            </div>
+
+            <div class="category-card">
+                <h3>Computadoras</h3>
+                <button class="view-button" data-category="computadoras">Ver</button>
+            </div>
+            <div id="productos-computadoras" class="product-list-container" style="display: none;">
+                <h4>Lista de Computadoras:</h4>
+                <ul>
+                    </ul>
+            </div>
+
+            <div class="category-card">
+                <h3>Componentes</h3>
+                <button class="view-button" data-category="componentes">Ver</button>
+            </div>
+            <div id="productos-componentes" class="product-list-container" style="display: none;">
+                <h4>Lista de Componentes:</h4>
+                <ul>
+                    </ul>
+            </div>
+
+            <div class="category-card">
+                <h3>Periféricos</h3>
+                <button class="view-button" data-category="perifericos">Ver</button>
+            </div>
+            <div id="productos-perifericos" class="product-list-container" style="display: none;">
+                <h4>Lista de Periféricos:</h4>
+                <ul>
+                    </ul>
+            </div>
+            
+            </section>
+    </div>
+
+    <script>
+        // =======================================================
+// 💻 ANIMACIÓN DEL TÍTULO EN LA PESTAÑA DEL NAVEGADOR
+// =======================================================
+const tituloFijo = "KING DISEÑO - Inventario"; // Tu título normal
+const tituloActivo = "🟢 Activo: KING DISEÑO"; // El título que se mostrará alternando
+let isOriginal = true;
+let intervalTituloId;
+
+function animarTitulo() {
+    // Alterna entre el título original y el título animado
+    if (isOriginal) {
+        document.title = tituloActivo;
+    } else {
+        document.title = tituloFijo;
+    }
+    isOriginal = !isOriginal; // Cambia el estado para la próxima alternancia
+}
+
+// Inicia la animación una vez que la ventana y todo su contenido se han cargado
+// (cambia cada 1500 milisegundos = 1.5 segundos)
+window.onload = function() {
+    intervalTituloId = setInterval(animarTitulo, 1500); 
+};
+
+// Opcional: Cuando el usuario vuelve a enfocar la pestaña,
+// el título se restablece al original estático.
+window.onfocus = function() {
+    document.title = tituloFijo;
+};
+// =======================================================
+        // Referencias a los botones principales (se mantienen)
+        const mostrarPreciosBtn = document.getElementById('mostrar-precios');
+        const mostrarPagoBtn = document.getElementById('mostrar-pago'); 
+        const irGestionBtn = document.getElementById('ir-gestion-btn');
+        const clienteRegistroBtn = document.getElementById('cliente-registro-btn');
+        
+        // Referencias a los botones 'Ver' de las categorías
+        const viewButtons = document.querySelectorAll('.view-button');
+        // Referencias a todos los contenedores de listas de productos
+        const productListContainers = document.querySelectorAll('.product-list-container');
+
+        // Referencias a los ULs dentro de cada contenedor para insertar los productos
+        const ulAccesorios = document.querySelector('#productos-accesorios ul');
+        const ulComputadoras = document.querySelector('#productos-computadoras ul');
+        const ulComponentes = document.querySelector('#productos-componentes ul');
+        const ulPerifericos = document.querySelector('#productos-perifericos ul');
+
+
+        // --- Funciones para cargar y renderizar productos ---
+        
+        let productos = []; // Variable para almacenar los productos cargados
+
+        /**
+         * Carga los productos desde localStorage.
+         * Si no hay productos, inicializa con una lista por defecto y los guarda.
+         */
+        function loadProducts() {
+            const storedProducts = localStorage.getItem('productosInventario');
+            if (storedProducts) {
+                productos = JSON.parse(storedProducts);
+            } else {
+                // Si no hay productos guardados, usa una lista predeterminada
+                productos = [
+                    { id: Date.now() + 1, nombre: 'Mouse Óptico', precio: 15.00, categoria: 'accesorios', DISPONIBLE: 20, urlImagen: 'https://images.unsplash.com/photo-1547944111-ad775089e5a1?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+                    { id: Date.now() + 2, nombre: 'Auriculares Gaming', precio: 25.50, categoria: 'accesorios', DISPONIBLE: 15, urlImagen: 'https://images.unsplash.com/photo-1546435770-a3e426bf4722?q=80&w=1465&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+                    { id: Date.now() + 3, nombre: 'Teclado Mecánico', precio: 30.00, categoria: 'accesorios', DISPONIBLE: 10, urlImagen: 'https://images.unsplash.com/photo-1587823555239-01f2f81643c5?q=80&w=1470&auto=format&fit=fit&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+                    { id: Date.now() + 4, nombre: 'Monitor Curvo 27"', precio: 180.00, categoria: 'perifericos', DISPONIBLE: 5, urlImagen: 'https://images.unsplash.com/photo-1579737158379-373981882d27?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+                    { id: Date.now() + 5, nombre: 'Webcam HD', precio: 40.00, categoria: 'perifericos', DISPONIBLE: 25, urlImagen: 'https://images.unsplash.com/photo-1596700055742-12711d99d146?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+                    { id: Date.now() + 6, nombre: 'Impresora Multifuncional', precio: 120.00, categoria: 'perifericos', DISPONIBLE: 8, urlImagen: 'https://images.unsplash.com/photo-1629854284698-f2b7b5c8f1f5?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+                    { id: Date.now() + 7, nombre: 'Laptop Gamer (Intel i5)', precio: 800.00, categoria: 'computadoras', DISPONIBLE: 7, urlImagen: 'https://images.unsplash.com/photo-1593642532454-ee09795e135e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+                    { id: Date.now() + 8, nombre: 'PC Escritorio (Intel i7)', precio: 1000.00, categoria: 'computadoras', DISPONIBLE: 3, urlImagen: 'https://images.unsplash.com/photo-1629910531235-95079a499d1e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+                    { id: Date.now() + 9, nombre: 'Mini PC (AMD Ryzen 3)', precio: 350.00, categoria: 'computadoras', DISPONIBLE: 12, urlImagen: 'https://images.unsplash.com/photo-1630138547378-b57088b9952a?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+                    { id: Date.now() + 10, nombre: 'Procesador Intel i9', precio: 500.00, categoria: 'componentes', DISPONIBLE: 10, urlImagen: 'https://images.unsplash.com/photo-1629910531235-95079a499d1e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+                    { id: Date.now() + 11, nombre: 'Tarjeta Gráfica RTX 4080', precio: 999.00, categoria: 'componentes', DISPONIBLE: 4, urlImagen: 'https://images.unsplash.com/photo-1616400619175-5be398501106?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+                    { id: Date.now() + 12, nombre: 'Memoria RAM DDR5 32GB', precio: 120.00, categoria: 'componentes', DISPONIBLE: 18, urlImagen: 'https://images.unsplash.com/photo-1629910531235-95079a499d1e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+                    { id: Date.now() + 13, nombre: 'SSD NVMe 1TB', precio: 80.00, categoria: 'componentes', DISPONIBLE: 22, urlImagen: 'https://images.unsplash.com/photo-1629910531235-95079a499d1e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }
+                ];
+                // Guarda esta lista por defecto en localStorage para futuras visitas
+                localStorage.setItem('productosInventario', JSON.stringify(productos));
+            }
+        }
+
+        /**
+         * Renderiza los productos cargados en las listas HTML.
+         */
+        function renderProducts() {
+            // Limpiar las listas existentes
+            ulAccesorios.innerHTML = '';
+            ulComputadoras.innerHTML = '';
+            ulComponentes.innerHTML = '';
+            ulPerifericos.innerHTML = '';
+
+            productos.forEach(producto => {
+                const listItem = document.createElement('li');
+
+                // Imagen del producto
+                const img = document.createElement('img');
+                img.src = producto.urlImagen || 'https://via.placeholder.com/50x50?text=No+Image'; // Placeholder si no hay imagen
+                img.alt = producto.nombre;
+                listItem.appendChild(img);
+
+                // Contenedor para el nombre y el precio
+                const textContainer = document.createElement('div');
+                textContainer.style.flexGrow = '1'; // Permite que ocupe el espacio
+                textContainer.innerHTML = `${producto.nombre} <span class="price">$${producto.precio.toFixed(2)}</span>`;
+                listItem.appendChild(textContainer);
+                
+                // Opcional: Mostrar stock si es relevante para el usuario final (como un badge simple)
+                // if (producto.DISPONIBLE > 0) {
+                //     const stockSpan = document.createElement('span');
+                //     stockSpan.textContent = `Stock: ${producto.DISPONIBLE}`;
+                //     stockSpan.style.fontSize = '0.8em';
+                //     stockSpan.style.color = '#666';
+                //     stockSpan.style.marginLeft = '10px';
+                //     listItem.appendChild(stockSpan);
+                // }
+
+                switch (producto.categoria) {
+                    case 'accesorios':
+                        ulAccesorios.appendChild(listItem);
+                        break;
+                    case 'computadoras':
+                        ulComputadoras.appendChild(listItem);
+                        break;
+                    case 'componentes':
+                        ulComponentes.appendChild(listItem);
+                        break;
+                    case 'perifericos':
+                        ulPerifericos.appendChild(listItem);
+                        break;
+                    default:
+                        // Si hay categorías no esperadas, puedes manejarlas aquí o ignorarlas
+                        console.warn(`Producto con categoría desconocida: ${producto.categoria}`);
+                }
+            });
+        }
+
+        // --- Event Listeners (existentes y modificados) ---
+
+        // Manejadores de clic para los botones de navegación
+        mostrarPreciosBtn.addEventListener('click', function() {
+            // Recarga los productos y los renderiza cada vez que se hace clic en "Ver Detalles y Precios"
+            loadProducts(); 
+            renderProducts();
+            alert('Inventario actualizado y listo para explorar!');
+        });
+
+        mostrarPagoBtn.addEventListener('click', function() {
+            window.location.href = './erick.html'; // Asegúrate de que esta es la página de pago correcta
+        });
+
+        irGestionBtn.addEventListener('click', function() {
+            window.location.href = './admin_login.html'; // Redirige a la página de login de administrador
+        });
+
+        clienteRegistroBtn.addEventListener('click', function() {
+            window.location.href = './acceso_cliente.html';
+        });
+
+        // Lógica para mostrar/ocultar productos por categoría
+        viewButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const category = this.dataset.category;
+                const targetProductList = document.getElementById(`productos-${category}`);
+                
+                // Oculta todos los contenedores de listas de productos
+                productListContainers.forEach(container => {
+                    if (container !== targetProductList) {
+                        container.style.display = 'none';
+                    }
+                });
+
+                // Muestra u oculta el contenedor de la categoría clicada
+                if (targetProductList) {
+                    targetProductList.style.display = (targetProductList.style.display === 'block') ? 'none' : 'block';
+                }
+            });
+        });
+
+        // Carga inicial de productos y renderizado al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProducts(); // Carga los productos al iniciar la página
+            renderProducts(); // Muestra los productos cargados
+        });
+
+        // =======================================================
+        // Lógica de inicialización de la API (si es necesaria)
+        // =======================================================
+        (function init(){
+            Promise.all([ Api.getRate(), Api.getProducts() ]).then(([rate, serverProducts])=>{
+                if (rate) { 
+                    const rStr = String(rate);
+                    localStorage.setItem('exchangeRateBsPerUsd', rStr);
+                    const rateEl = document.getElementById('rate'); if (rateEl) rateEl.value = rStr;
+                }
+                if (serverProducts && serverProducts.length) {
+                    const normalized = serverProducts.map(p => ({ id:String(p.id), nombre:p.nombre||p.title, precio:Number(p.precio)||0, categoria:p.categoria||'sin-categoria', urlImagen:p.urlImagen||p.url||'' }));
+                    localStorage.setItem('productosInventario', JSON.stringify(normalized)); // opcional compat
+                } else {
+                    // deja que la página cargue desde localStorage como antes
+                }
+                // si la página tiene lógica propia para renderizar, llama a su función de inicio aquí
+                if (typeof onApiInit === 'function') onApiInit();
+            }).catch(()=>{ 
+                // fallback: deja que la página use localStorage
+                if (typeof onApiInit === 'function') onApiInit();
+            });
+        })();
+        // =======================================================
+    </script>
+</body>
+</html>

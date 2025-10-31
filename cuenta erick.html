@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuenta de Usuario - Enfoque Informático</title>
+    <style>
+        body {
+            font-family: 'Arial Black', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding-top: 20px;
+        }
+
+        .contenedor-cuenta {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 800px;
+            max-width: 95%;
+        }
+
+        .boton-inicio {
+            background-color: #28a745; /* Color verde para "Inicio" */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-bottom: 20px;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .boton-inicio:hover {
+            background-color: #1e7e34;
+        }
+
+        h2 {
+            text-align: left;
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        .seccion-cuenta {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+
+        .seccion-cuenta h3 {
+            margin-top: 0;
+            color: #333;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .lista-hardware-preferido {
+            list-style: none;
+            padding: 0;
+        }
+
+        .item-hardware {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item-hardware:last-child {
+            border-bottom: none;
+        }
+
+        .form-agregar-hardware {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #fff;
+        }
+
+        .form-agregar-hardware label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .form-agregar-hardware input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .historial-pedidos-lista {
+            list-style: none;
+            padding: 0;
+        }
+
+        .pedido-item {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            background-color: #fff;
+        }
+
+        .pedido-item h4 {
+            margin-top: 0;
+            color: #555;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .pedido-detalles {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        .pedido-detalles ul {
+            list-style: disc;
+            margin-left: 20px;
+        }
+
+        .recursos-tecnicos ul {
+            list-style: disc;
+            padding-left: 20px;
+        }
+
+        .recursos-tecnicos li {
+            margin-bottom: 8px;
+        }
+
+        .recursos-tecnicos a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .recursos-tecnicos a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor-cuenta">
+        <a href="index.html" class="boton-inicio">Inicio</a>
+        <h2>Mi Cuenta</h2>
+
+        <div class="seccion-cuenta">
+            <h3>Configuraciones de Hardware Preferidas</h3>
+            <ul class="lista-hardware-preferido" id="hardware-preferido">
+                </ul>
+
+            <div class="form-agregar-hardware">
+                <h4>Agregar Nueva Configuración</h4>
+                <label for="nombre-componente">Componente:</label>
+                <input type="text" id="nombre-componente" placeholder="Ej: CPU, GPU, RAM">
+
+                <label for="valor-componente">Valor:</label>
+                <input type="text" id="valor-componente" placeholder="Ej: Intel Core i9, NVIDIA RTX 4080, 32GB">
+
+                <button onclick="agregarHardwarePreferido()">Agregar</button>
+            </div>
+        </div>
+
+        <div class="seccion-cuenta">
+            <h3>Historial de Pedidos</h3>
+            <ul class="historial-pedidos-lista" id="historial-pedidos">
+                </ul>
+        </div>
+
+        <div class="seccion-cuenta">
+            <h3>Recursos Técnicos y Soporte Especializado</h3>
+            <div class="recursos-tecnicos">
+                <ul>
+                    <li><a href="#">Documentación Técnica de Productos</a></li>
+                    <li><a href="#">Drivers y Software</a></li>
+                    <li><a href="#">Preguntas Frecuentes Técnicas (FAQ)</a></li>
+                    <li><a href="#">Foro de Soporte Técnico</a></li>
+                    <li><a href="#">Contacto con Soporte Especializado</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simulación de datos del usuario (esto vendría del backend)
+        const usuario = {
+            id: 123,
+            nombre: 'Usuario Técnico',
+            hardwarePreferido: [
+                { id: 1, nombre: 'CPU', valor: 'Intel Core i9' },
+                { id: 2, nombre: 'GPU', valor: 'NVIDIA RTX 4080' },
+                { id: 3, nombre: 'RAM', valor: '32GB DDR5' }
+            ],
+            historialPedidos: [
+                {
+                    id: 'PED001',
+                    fecha: '2025-03-20',
+                    total: 1500.00,
+                    detalles: [
+                        { producto: 'Laptop Dell XPS 15', cantidad: 1 },
+                        { producto: 'Monitor 27"', cantidad: 1 }
+                    ]
+                },
+                {
+                    id: 'PED002',
+                    fecha: '2025-02-15',
+                    total: 800.00,
+                    detalles: [
+                        { producto: 'Teclado Mecánico', cantidad: 1 },
+                        { producto: 'Mouse Gaming', cantidad: 1 }
+                    ]
+                }
+            ]
+        };
+
+        let nextHardwareId = 4; // Para simular la adición de nuevos IDs
+
+        const hardwarePreferidoLista = document.getElementById('hardware-preferido');
+        const historialPedidosLista = document.getElementById('historial-pedidos');
+        const nombreComponenteInput = document.getElementById('nombre-componente');
+        const valorComponenteInput = document.getElementById('valor-componente');
+
+        function mostrarHardwarePreferido() {
+            hardwarePreferidoLista.innerHTML = '';
+            usuario.hardwarePreferido.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'item-hardware';
+                li.innerHTML = `
+                    <span>${item.nombre}: ${item.valor}</span>
+                    <button onclick="eliminarHardwarePreferido(${item.id})">Eliminar</button>
+                `;
+                hardwarePreferidoLista.appendChild(li);
+            });
+        }
+
+        function mostrarHistorialPedidos() {
+            historialPedidosLista.innerHTML = '';
+            usuario.historialPedidos.forEach(pedido => {
+                const li = document.createElement('li');
+                li.className = 'pedido-item';
+                li.innerHTML = `
+                    <h4>Pedido #${pedido.id} - ${pedido.fecha} - Total: $${pedido.total.toFixed(2)}</h4>
+                    <div class="pedido-detalles">
+                        <ul>
+                            ${pedido.detalles.map(item => `<li>${item.producto} x ${item.cantidad}</li>`).join('')}
+                        </ul>
+                        <button onclick="simularVerDetallesPedido('${pedido.id}')">Ver Detalles Técnicos</button>
+                    </div>
+                `;
+                historialPedidosLista.appendChild(li);
+            });
+        }
+
+        function agregarHardwarePreferido() {
+            const nombre = nombreComponenteInput.value.trim();
+            const valor = valorComponenteInput.value.trim();
+
+            if (nombre && valor) {
+                const nuevoHardware = { id: nextHardwareId++, nombre: nombre, valor: valor };
+                usuario.hardwarePreferido.push(nuevoHardware);
+                mostrarHardwarePreferido();
+
+                // Simulación de envío al backend
+                console.log('Simulando envío al backend para agregar hardware:', nuevoHardware);
+
+                // Limpiar el formulario
+                nombreComponenteInput.value = '';
+                valorComponenteInput.value = '';
+            } else {
+                alert('Por favor, ingrese el nombre del componente y su valor.');
+            }
+        }
+
+        function eliminarHardwarePreferido(hardwareId) {
+            usuario.hardwarePreferido = usuario.hardwarePreferido.filter(item => item.id !== hardwareId);
+            mostrarHardwarePreferido();
+
+            // Simulación de envío al backend
+            console.log('Simulando envío al backend para eliminar hardware con ID:', hardwareId);
+        }
+
+        function simularVerDetallesPedido(pedidoId) {
+            alert(`Simulando la visualización de detalles técnicos del pedido ${pedidoId}.`);
+            // Aquí iría la lógica para obtener y mostrar los detalles técnicos del pedido desde el backend
+        }
+
+        // Cargar la información al cargar la página
+        mostrarHardwarePreferido();
+        mostrarHistorialPedidos();
+    </script>
+</body>
+</html>

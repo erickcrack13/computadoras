@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Administrativo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ==================================== */
+        /* SECCIÓN 1: VARIABLES CSS Y ESTILOS GENERALES */
+        /* ==================================== */
+        :root {
+            --primary-blue: #3B82F6; /* Un azul primario para elementos principales */
+            --dark-blue: #1E3A8A; /* Azul oscuro para texto o fondos sutiles */
+            --light-blue: #BFDBFE; /* Azul claro para acentos */
+            --accent-orange: #F97316; /* Naranja para botones de acción o énfasis */
+            --white: #ffffff;
+            --black: #000000;
+            --gray-light: #E5E7EB; /* Gris muy claro para bordes o separadores */
+            --gray-medium: #6B7280; /* Gris medio para texto secundario */
+            --red-error: #EF4444; /* Rojo para mensajes de error */
+            --header-gradient-start: #6366f1; /* Gradiente de inicio para el header */
+            --header-gradient-end: #0ea5e9; /* Gradiente de fin para el header */
+        }
+
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            background: url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--dark-blue); /* Color de texto por defecto */
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: -1;
+        }
+
+        /* ==================================== */
+        /* SECCIÓN 2: ESTILOS DEL ENCABEZADO (HEADER) */
+        /* ==================================== */
+        header {
+            background: linear-gradient(90deg, var(--header-gradient-start) 0%, var(--header-gradient-end) 100%);
+            color: var(--white);
+            padding: 48px 20px 32px 20px;
+            width: 100%;
+            box-shadow: 0 4px 16px rgba(var(--header-gradient-start), 0.08);
+            border-bottom-left-radius: 32px;
+            border-bottom-right-radius: 32px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            box-sizing: border-box;
+            z-index: 10;
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2em;
+            margin: 0 auto;
+            text-align: center;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            text-shadow: 0 2px 12px rgba(0,0,0,0.08), 0 1px 0 var(--header-gradient-end);
+            line-height: 1.1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-buttons {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            align-items: flex-start;
+            padding-top: 48px;
+            padding-left: 20px;
+            box-sizing: border-box;
+            z-index: 20;
+        }
+
+        .support-button,
+        .header-button {
+            background: var(--accent-orange);
+            color: var(--white);
+            padding: 8px 15px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 90%;
+            max-width: 300px;
+            margin: 5px auto;
+            box-sizing: border-box;
+            cursor: pointer; /* Añadido para indicar que es clickeable */
+        }
+
+        .support-button:hover,
+        .header-button:hover {
+            background: #ea580c; /* Un tono más oscuro de naranja */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+        }
+
+        /* ==================================== */
+        /* SECCIÓN 3: ESTILOS DEL BOTÓN DE MENÚ HAMBURGUESA */
+        /* ==================================== */
+        .hotdog-menu-button {
+            display: block;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            position: relative;
+            z-index: 100;
+            color: var(--white);
+            font-size: 1.5em;
+        }
+
+        .hotdog-menu-icon {
+            display: block;
+            width: 30px;
+            height: 3px;
+            background-color: var(--white);
+            border-radius: 2px;
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+
+        .hotdog-menu-icon::before,
+        .hotdog-menu-icon::after {
+            content: '';
+            display: block;
+            width: 30px;
+            height: 3px;
+            background-color: var(--white);
+            border-radius: 2px;
+            position: absolute;
+            transition: transform 0.3s ease;
+        }
+
+        .hotdog-menu-icon::before {
+            top: -10px;
+        }
+
+        .hotdog-menu-icon::after {
+            top: 10px;
+        }
+
+        /* Animation for closing the menu (X icon) */
+        .hotdog-menu-button.open .hotdog-menu-icon {
+            background-color: transparent;
+        }
+
+        .hotdog-menu-button.open .hotdog-menu-icon::before {
+            transform: translateY(10px) rotate(45deg);
+        }
+
+        .hotdog-menu-button.open .hotdog-menu-icon::after {
+            transform: translateY(-10px) rotate(-45deg);
+        }
+
+        /* ==================================== */
+        /* SECCIÓN 4: ESTILOS DEL CONTENIDO DEL MENÚ PRINCIPAL */
+        /* ==================================== */
+        .dropdown-menu-content {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(var(--header-gradient-start), 0.95);
+            padding: 20px 0;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            position: absolute;
+            top: calc(48px + 30px + 10px);
+            left: 20px;
+            right: auto;
+            width: 220px;
+            max-width: 90%;
+            z-index: 90;
+            transform-origin: top left;
+            opacity: 0;
+            transform: scaleY(0);
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        }
+
+        .dropdown-menu-content.active {
+            display: flex;
+            opacity: 1;
+            transform: scaleY(1);
+        }
+
+        /* ==================================== */
+        /* SECCIÓN 5: ESTILOS DEL FORMULARIO DE LOGIN */
+        /* ==================================== */
+        .login-container {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(var(--header-gradient-start), 0.10);
+            width: 380px;
+            max-width: 90vw; 
+            text-align: center;
+            box-sizing: border-box;
+            z-index: 1; 
+            position: relative;
+            margin-top: 150px;
+        }
+
+        .login-container h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--dark-blue);
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .login-container label {
+            display: block;
+            text-align: left;
+            margin-bottom: 10px;
+            color: var(--dark-blue);
+            font-weight: 600;
+        }
+
+        .login-container input[type="password"] {
+            width: calc(100% - 22px); 
+            padding: 12px;
+            margin-bottom: 25px;
+            border: 1px solid var(--gray-light);
+            border-radius: 8px;
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-size: 1.1em;
+            box-sizing: border-box;
+        }
+
+        .login-container button[type="submit"] { /* Específico para el botón de submit del login */
+            background: linear-gradient(90deg, var(--header-gradient-start) 0%, var(--header-gradient-end) 100%);
+            color: var(--white);
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.08em;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(var(--header-gradient-start), 0.10);
+            transition: background 0.2s, transform 0.2s;
+            margin-bottom: 15px;
+        }
+
+        .login-container button[type="submit"]:hover {
+            background: linear-gradient(90deg, var(--header-gradient-end) 0%, var(--header-gradient-start) 100%);
+            transform: translateY(-2px);
+        }
+
+        .error-message {
+            color: var(--red-error); 
+            margin-top: 15px;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+            font-weight: 600;
+        }
+
+        /* Estilos para el botón de regreso a la página principal */
+        .back-home-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(var(--white), 0.2); 
+            color: var(--white);
+            border: 1px solid rgba(var(--white), 0.4);
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: background 0.3s ease, transform 0.2s ease, border-color 0.3s ease;
+            backdrop-filter: blur(5px);
+            z-index: 200;
+        }
+
+        .back-home-button:hover {
+            background: rgba(var(--white), 0.3);
+            transform: translateY(-3px);
+            border-color: rgba(var(--white), 0.6);
+        }
+
+        /* ==================================== */
+        /* SECCIÓN 6: MEDIA QUERIES PARA RESPONSIVIDAD */
+        /* ==================================== */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5em;
+            }
+            header {
+                padding: 48px 15px 32px 15px;
+            }
+            .header-buttons {
+                padding-left: 15px;
+            }
+            .dropdown-menu-content {
+                left: 15px;
+                top: calc(48px + 20px);
+            }
+            .back-home-button {
+                padding: 8px 15px;
+                font-size: 0.85em;
+            }
+            .login-container {
+                margin-top: 120px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 2em;
+            }
+            .support-button,
+            .header-button,
+            .dropdown-menu-content button {
+                padding: 10px 18px;
+                font-size: 0.95em;
+                width: 90%;
+            }
+            .dropdown-menu-content {
+                width: 200px;
+                left: 15px;
+            }
+            .login-container {
+                padding: 30px;
+                width: 90vw;
+            }
+            .login-container h2 {
+                font-size: 1.8em;
+            }
+            .login-container input[type="password"] {
+                font-size: 1em;
+            }
+            .login-container button[type="submit"] {
+                padding: 12px 24px;
+                font-size: 1em;
+            }
+            .back-home-button {
+                top: 10px;
+                right: 10px;
+                padding: 8px 15px;
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Acceso Administrativo</h1>
+        <div class="header-buttons">
+            <button class="hotdog-menu-button" id="hotdog-menu-toggle" aria-label="Toggle navigation menu">
+                <span class="hotdog-menu-icon"></span>
+            </button>
+
+            <nav class="dropdown-menu-content" id="main-menu-content">
+                <a href="soporte tecnico.html" class="support-button">
+                    Soporte Técnico
+                </a>
+                <button id="mostrar-precios" type="button" class="header-button">Ver Detalles y Precios</button>
+                <button id="mostrar-pago" type="button" class="header-button">Ir a Pago</button>
+                <button id="ir-gestion-btn" type="button" class="header-button">Gestionar Inventario</button>
+                <button id="cliente-registro-btn" type="button" class="header-button">Registro de Cliente</button>
+            </nav>
+        </div>
+        <a href="index.htlm" class="back-home-button">Volver al Inicio</a>
+    </header>
+
+    <div class="login-container">
+        <h2>Ingreso Admin</h2>
+        <form id="admin-login-form">
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" required>
+            <p id="error-message" class="error-message" style="display: none;">Contraseña incorrecta. Inténtalo de nuevo.</p>
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+    </div>
+
+    <script>
+        // --- Configuración de la Contraseña ---
+        const correctPassword = "admin"; // Esta es la contraseña de administrador
+
+        // --- Referencias a Elementos del DOM del formulario de login ---
+        const adminLoginForm = document.getElementById('admin-login-form');
+        const passwordInput = document.getElementById('password');
+        const errorMessage = document.getElementById('error-message');
+
+        // --- Referencias a Elementos del DOM para el menú de hamburguesa ---
+        const hotdogMenuToggle = document.getElementById('hotdog-menu-toggle');
+        const mainMenuContent = document.getElementById('main-menu-content');
+        const mostrarPreciosBtn = document.getElementById('mostrar-precios');
+        const mostrarPagoBtn = document.getElementById('mostrar-pago');
+        const irGestionBtn = document.getElementById('ir-gestion-btn');
+        const clienteRegistroBtn = document.getElementById('cliente-registro-btn');
+
+        // --- Función para cerrar el menú ---
+        function closeMenu() {
+            mainMenuContent.classList.remove('active');
+            hotdogMenuToggle.classList.remove('open');
+        }
+
+        // --- Manejador del Evento de Envío del Formulario de Login ---
+        adminLoginForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Previene el comportamiento predeterminado del formulario
+
+            if (passwordInput.value === correctPassword) {
+                errorMessage.style.display = 'none';
+                sessionStorage.setItem('adminLoggedIn', 'true'); // Establece la bandera de sesión
+                window.location.href = './gestion.html'; // Redirige a la página de gestión
+            } else {
+                errorMessage.style.display = 'block';
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        });
+
+        // --- Lógica para el menú de hamburguesa ---
+        hotdogMenuToggle.addEventListener('click', function(event) {
+            event.stopPropagation(); // Evita que el clic se propague al documento
+            mainMenuContent.classList.toggle('active');
+            hotdogMenuToggle.classList.toggle('open');
+        });
+
+        // Cierra el menú si se hace clic fuera de él
+        document.addEventListener('click', function(event) {
+            if (!mainMenuContent.contains(event.target) && !hotdogMenuToggle.contains(event.target)) {
+                closeMenu();
+            }
+        });
+
+        // Manejadores de clic para los botones dentro del menú desplegable
+        mostrarPreciosBtn.addEventListener('click', function() {
+            alert('Aquí se mostrarían los detalles y precios de los productos.');
+            closeMenu();
+            window.location.href = './erick 2.html'; // Redirige a la página principal de inventario
+        });
+
+        mostrarPagoBtn.addEventListener('click', function() {
+            closeMenu();
+            window.location.href = './erick.html'; // Asegúrate de que esta es la página de pago correcta
+        });
+
+        irGestionBtn.addEventListener('click', function() {
+            alert('Necesitas iniciar sesión para acceder a la gestión de inventario.');
+            closeMenu();
+        });
+
+        clienteRegistroBtn.addEventListener('click', function() {
+            closeMenu();
+            window.location.href = './acceso_cliente.html';
+        });
+
+        // Cierra el menú si se redimensiona la ventana (útil para pasar de móvil a desktop)
+        window.addEventListener('resize', closeMenu);
+    </script>
+</body>
+</html>

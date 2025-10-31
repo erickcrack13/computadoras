@@ -1,0 +1,189 @@
+warning: Git tree '/usr/local/monospace/templates/private/_local_import' is dirty
+these 6 derivations will be built:
+  /nix/store/p5qv8pg138gkajizfdnz89wm7hkwk8yw-idx-template.drv
+  /nix/store/r1g97pfblqkssrarpkj6dcwmj6sv8ig5-sandbox-files.drv
+  /nix/store/v5ii659s2cc5c5dfxp1ys60svzxkv6hi-builder.pl.drv
+  /nix/store/0jj974h156q6r8h6cq87gh89dybg8axs-sandbox.drv
+  /nix/store/062d5fbg4q1733cvn5xsxn94ad0l769w-usr-env.drv
+  /nix/store/2yh39mcp5n448qndi8jmvjwbkq5kb19j-idx-template.drv
+these 13 paths will be fetched (12.74 MiB download, 118.94 MiB unpacked):
+  /nix/store/1jnl0g7a6fcc7ma4f4kg77arpz84ifzf-ShellCheck-0.9.0
+  /nix/store/wam6939g2ch4aj6g30nfcsfm9lchmmjy-bash-5.2-p15-man
+  /nix/store/h5wbzr3h7hazy446j81nshp1i3fdnsxw-curl-8.4.0-man
+  /nix/store/gnx2p695iqmlr0w88ccklbgwim6axcmb-ed-1.19
+  /nix/store/v8p4q804sx0jjpds4xpk7sf64sy3jb1r-file-5.45
+  /nix/store/rwrw7zjjw884w3myrjnhf78dq3zrmgsf-gnu-config-2023-09-19
+  /nix/store/w9v3jmfwl6dc96l2p6k6c0lc6affyxi1-gnumake-4.4.1
+  /nix/store/88gf3i3nis12h1z1mkrqjsycchgcqjzr-patch-2.7.6
+  /nix/store/yf4fcxik258lrm0r4vxjv05wy1svd6i2-patchelf-0.15.0
+  /nix/store/72ww6m5915nw48q1nlij1i0pkr363zcb-stdenv-linux
+  /nix/store/x78if997ckjnsbs524iyvajvz607hqkv-ts-node-10.9.1
+  /nix/store/26vvnzfjg860ny4s7s1af38nskpfyps1-typescript-5.2.2
+  /nix/store/a4la4kzmq9kwqc71kf9lksx15pcq8wbg-update-autotools-gnu-config-scripts-hook
+copying path '/nix/store/1jnl0g7a6fcc7ma4f4kg77arpz84ifzf-ShellCheck-0.9.0' from 'https://cache.nixos.org' to 'local-overlay://'...
+copying path '/nix/store/rwrw7zjjw884w3myrjnhf78dq3zrmgsf-gnu-config-2023-09-19' from 'https://cache.nixos.org' to 'local-overlay://'...
+copying path '/nix/store/gnx2p695iqmlr0w88ccklbgwim6axcmb-ed-1.19' from 'https://cache.nixos.org' to 'local-overlay://'...
+copying path '/nix/store/v8p4q804sx0jjpds4xpk7sf64sy3jb1r-file-5.45' from 'https://cache.nixos.org' to 'local-overlay://'...
+copying path '/nix/store/w9v3jmfwl6dc96l2p6k6c0lc6affyxi1-gnumake-4.4.1' from 'https://cache.nixos.org' to 'local-overlay://'...
+copying path '/nix/store/yf4fcxik258lrm0r4vxjv05wy1svd6i2-patchelf-0.15.0' from 'https://cache.nixos.org' to 'local-overlay://'...
+copying path '/nix/store/wam6939g2ch4aj6g30nfcsfm9lchmmjy-bash-5.2-p15-man' from 'https://cache.nixos.org' to 'local-overlay://'...
+copying path '/nix/store/26vvnzfjg860ny4s7s1af38nskpfyps1-typescript-5.2.2' from 'https://cache.nixos.org' to 'local-overlay://'...
+copying path '/nix/store/h5wbzr3h7hazy446j81nshp1i3fdnsxw-curl-8.4.0-man' from 'https://cache.nixos.org' to 'local-overlay://'...
+copying path '/nix/store/88gf3i3nis12h1z1mkrqjsycchgcqjzr-patch-2.7.6' from 'https://cache.nixos.org' to 'local-overlay://'...
+copying path '/nix/store/a4la4kzmq9kwqc71kf9lksx15pcq8wbg-update-autotools-gnu-config-scripts-hook' from 'https://cache.nixos.org' to 'local-overlay://'...
+copying path '/nix/store/72ww6m5915nw48q1nlij1i0pkr363zcb-stdenv-linux' from 'https://cache.nixos.org' to 'local-overlay://'...
+building '/nix/store/v5ii659s2cc5c5dfxp1ys60svzxkv6hi-builder.pl.drv'...
+copying path '/nix/store/x78if997ckjnsbs524iyvajvz607hqkv-ts-node-10.9.1' from 'https://cache.nixos.org' to 'local-overlay://'...
+building '/nix/store/r1g97pfblqkssrarpkj6dcwmj6sv8ig5-sandbox-files.drv'...
+building '/nix/store/p5qv8pg138gkajizfdnz89wm7hkwk8yw-idx-template.drv'...
+building '/nix/store/0jj974h156q6r8h6cq87gh89dybg8axs-sandbox.drv'...
+created 430 symlinks in user environment
+building '/nix/store/062d5fbg4q1733cvn5xsxn94ad0l769w-usr-env.drv'...
+/nix/store/gggaldp7bamb184jfsapjwi9rqli9qbd-usr-env /build
+/nix/store/gggaldp7bamb184jfsapjwi9rqli9qbd-usr-env/usr /nix/store/gggaldp7bamb184jfsapjwi9rqli9qbd-usr-env /build
+/nix/store/gggaldp7bamb184jfsapjwi9rqli9qbd-usr-env /build
+building '/nix/store/2yh39mcp5n448qndi8jmvjwbkq5kb19j-idx-template.drv'...
+Fetching users imported file...
+/nix/store/yykl8xj87grp4h9gfyvxiwyzzih7sdpk-qj85la07lhhzrcisqynps3pqy5id5fa1-source [ 'README.md', 'idx-template.json', 'idx-template.nix', 'unzipper.ts' ]
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 10.7M  100 10.7M    0     0  25.1M      0 --:--:-- --:--:-- --:--:-- 25.2M
+Extracting imported file to /out/nuevo...
+Archive:  /out/nuevo/downloaded_file
+  inflating: /out/nuevo/admin_login.txt  
+  inflating: /out/nuevo/base erick.html  
+  inflating: /out/nuevo/cuenta erick.html  
+  inflating: /out/nuevo/erick bcv.js  
+  inflating: /out/nuevo/erick pago.js  
+  inflating: /out/nuevo/erick.html   
+  inflating: /out/nuevo/erickpp.css  
+  inflating: /out/nuevo/firebase-config.js  
+  inflating: /out/nuevo/firebase-debug.log  
+  inflating: /out/nuevo/gestion.css  
+  inflating: /out/nuevo/gestion.html  
+  inflating: /out/nuevo/index.html   
+  inflating: /out/nuevo/package.json  
+  inflating: /out/nuevo/pagina_cliente.html  
+  inflating: /out/nuevo/perfil.html  
+  inflating: /out/nuevo/registro.html  
+  inflating: /out/nuevo/server.js    
+  inflating: /out/nuevo/soporte tecnico.html  
+   creating: /out/nuevo/IMAGENES/
+  inflating: /out/nuevo/IMAGENES/0bf2035b2cef992b3ca8c9040fe68e1c.jpg  
+  inflating: /out/nuevo/IMAGENES/0e617ebe6771d2f7a521d6e268d24738.jpg  
+  inflating: /out/nuevo/IMAGENES/13f447b12d02019d1c5feeeb6165fe80.jpg  
+  inflating: /out/nuevo/IMAGENES/1a85e3048d316e4514077a2df0240096.jpg  
+  inflating: /out/nuevo/IMAGENES/201b8c2063a81d10cbd7a6c40e82ac30.jpg  
+  inflating: /out/nuevo/IMAGENES/27002a7bc5273a281f9fdd8fd217353d.jpg  
+  inflating: /out/nuevo/IMAGENES/4d339a7c13694d8fcaf6c8ab3946c052.jpg  
+  inflating: /out/nuevo/IMAGENES/5acc22b8296098555feb0c29d8d3b6a3.jpg  
+  inflating: /out/nuevo/IMAGENES/5b030716955b836f6d47836a286ef98a.jpg  
+  inflating: /out/nuevo/IMAGENES/73821e0ebae7e368409e64d505fc18e8.jpg  
+  inflating: /out/nuevo/IMAGENES/81d4131d2e57273ee65c9286436b14dc.jpg  
+  inflating: /out/nuevo/IMAGENES/aef4924bea91e89a7e7ac73890f64874.jpg  
+  inflating: /out/nuevo/IMAGENES/b012f5a8c77d06c37aabd96d81d2c97e.jpg  
+  inflating: /out/nuevo/IMAGENES/b6641ff81a4709fc0fa4fe7b08adf81e.jpg  
+  inflating: /out/nuevo/IMAGENES/b965d9c964832d74cc8d20afe723d144.jpg  
+  inflating: /out/nuevo/IMAGENES/d0155e1ad361723857b4b73a3c8fea64.jpg  
+  inflating: /out/nuevo/IMAGENES/df69928597fc78c06f364d49ea5f4c16.jpg  
+  inflating: /out/nuevo/IMAGENES/D_Q_NP_2X_976045-MLV86179291533_062025-N.webp  
+  inflating: /out/nuevo/IMAGENES/e939db5fe756461d49047ba7ed4d9aaa.jpg  
+  inflating: /out/nuevo/IMAGENES/f9f7ba42dca0df4872d43833cee75d22.jpg  
+  inflating: /out/nuevo/IMAGENES/fc86203fb430139b16c01b4e8dbe16f1.jpg  
+  inflating: /out/nuevo/IMAGENES/photo_2025-10-07_10-49-05.jpg  
+  inflating: /out/nuevo/IMAGENES/photo_2025-10-07_10-49-08.jpg  
+  inflating: /out/nuevo/IMAGENES/photo_2025-10-07_10-49-11.jpg  
+  inflating: /out/nuevo/IMAGENES/photo_2025-10-07_10-49-15.jpg  
+   creating: /out/nuevo/VIDEO/
+  inflating: /out/nuevo/VIDEO/2a754fdecbc0e71c30ce9a75d1ab9121_540w.mp4  
+  inflating: /out/nuevo/VIDEO/2e547c1d8770dc78f82a57f281d63d84.mp4  
+  inflating: /out/nuevo/VIDEO/630c1307e049ab2bae8d6e98dab5d81e.mp4  
+  inflating: /out/nuevo/VIDEO/7140d258b9986e0626116285cdfb5a20.mp4  
+  inflating: /out/nuevo/VIDEO/9ebd719a9ee327474379bfdda6579588_720w.mp4  
+  inflating: /out/nuevo/VIDEO/a0acaca559c0bbf4a8648574f1fd857a.mp4  
+  inflating: /out/nuevo/VIDEO/cfb75017c30b43cf7c7e1b8a4f9790a2.mp4  
+  inflating: /out/nuevo/VIDEO/edc9b62700afc0805a36784147d190a5.mp4  
+  inflating: /out/nuevo/acceso_cliente.html  
+  inflating: /out/nuevo/admin_login.html  
+Unzipped successfully!
+Initialized empty Git repository in /out/nuevo/.git/
+[main (root-commit) 992f667] Initialized workspace with Firebase Studio
+ 53 files changed, 8187 insertions(+)
+ create mode 100644 IMAGENES/0bf2035b2cef992b3ca8c9040fe68e1c.jpg
+ create mode 100644 IMAGENES/0e617ebe6771d2f7a521d6e268d24738.jpg
+ create mode 100644 IMAGENES/13f447b12d02019d1c5feeeb6165fe80.jpg
+ create mode 100644 IMAGENES/1a85e3048d316e4514077a2df0240096.jpg
+ create mode 100644 IMAGENES/201b8c2063a81d10cbd7a6c40e82ac30.jpg
+ create mode 100644 IMAGENES/27002a7bc5273a281f9fdd8fd217353d.jpg
+ create mode 100644 IMAGENES/4d339a7c13694d8fcaf6c8ab3946c052.jpg
+ create mode 100644 IMAGENES/5acc22b8296098555feb0c29d8d3b6a3.jpg
+ create mode 100644 IMAGENES/5b030716955b836f6d47836a286ef98a.jpg
+ create mode 100644 IMAGENES/73821e0ebae7e368409e64d505fc18e8.jpg
+ create mode 100644 IMAGENES/81d4131d2e57273ee65c9286436b14dc.jpg
+ create mode 100644 IMAGENES/D_Q_NP_2X_976045-MLV86179291533_062025-N.webp
+ create mode 100644 IMAGENES/aef4924bea91e89a7e7ac73890f64874.jpg
+ create mode 100644 IMAGENES/b012f5a8c77d06c37aabd96d81d2c97e.jpg
+ create mode 100644 IMAGENES/b6641ff81a4709fc0fa4fe7b08adf81e.jpg
+ create mode 100644 IMAGENES/b965d9c964832d74cc8d20afe723d144.jpg
+ create mode 100644 IMAGENES/d0155e1ad361723857b4b73a3c8fea64.jpg
+ create mode 100644 IMAGENES/df69928597fc78c06f364d49ea5f4c16.jpg
+ create mode 100644 IMAGENES/e939db5fe756461d49047ba7ed4d9aaa.jpg
+ create mode 100644 IMAGENES/f9f7ba42dca0df4872d43833cee75d22.jpg
+ create mode 100644 IMAGENES/fc86203fb430139b16c01b4e8dbe16f1.jpg
+ create mode 100644 IMAGENES/photo_2025-10-07_10-49-05.jpg
+ create mode 100644 IMAGENES/photo_2025-10-07_10-49-08.jpg
+ create mode 100644 IMAGENES/photo_2025-10-07_10-49-11.jpg
+ create mode 100644 IMAGENES/photo_2025-10-07_10-49-15.jpg
+ create mode 100644 VIDEO/2a754fdecbc0e71c30ce9a75d1ab9121_540w.mp4
+ create mode 100644 VIDEO/2e547c1d8770dc78f82a57f281d63d84.mp4
+ create mode 100644 VIDEO/630c1307e049ab2bae8d6e98dab5d81e.mp4
+ create mode 100644 VIDEO/7140d258b9986e0626116285cdfb5a20.mp4
+ create mode 100644 VIDEO/9ebd719a9ee327474379bfdda6579588_720w.mp4
+ create mode 100644 VIDEO/a0acaca559c0bbf4a8648574f1fd857a.mp4
+ create mode 100644 VIDEO/cfb75017c30b43cf7c7e1b8a4f9790a2.mp4
+ create mode 100644 VIDEO/edc9b62700afc0805a36784147d190a5.mp4
+ create mode 100644 acceso_cliente.html
+ create mode 100644 admin_login.html
+ create mode 100644 admin_login.txt
+ create mode 100644 base erick.html
+ create mode 100644 cuenta erick.html
+ create mode 100644 erick bcv.js
+ create mode 100644 erick pago.js
+ create mode 100644 erick.html
+ create mode 100644 erickpp.css
+ create mode 100644 firebase-config.js
+ create mode 100644 firebase-debug.log
+ create mode 100644 gestion.css
+ create mode 100644 gestion.html
+ create mode 100644 index.html
+ create mode 100644 package.json
+ create mode 100644 pagina_cliente.html
+ create mode 100644 perfil.html
+ create mode 100644 registro.html
+ create mode 100644 server.js
+ create mode 100644 soporte tecnico.html
+/nix/store/jy06yi9z3vkn8w5zz84azhgb8n7gk8sh-coreutils-9.3/bin/mv: cannot remove '/tmp/tmp.yaaVurtAEW/nuevo/IMAGENES/0bf2035b2cef992b3ca8c9040fe68e1c.jpg': Permission denied
+/nix/store/jy06yi9z3vkn8w5zz84azhgb8n7gk8sh-coreutils-9.3/bin/mv: cannot remove '/tmp/tmp.yaaVurtAEW/nuevo/IMAGENES/f9f7ba42dca0df4872d43833cee75d22.jpg': Permission denied
+/nix/store/jy06yi9z3vkn8w5zz84azhgb8n7gk8sh-coreutils-9.3/bin/mv: cannot remove '/tmp/tmp.yaaVurtAEW/nuevo/IMAGENES/b965d9c964832d74cc8d20afe723d144.jpg': Permission denied
+/nix/store/jy06yi9z3vkn8w5zz84azhgb8n7gk8sh-coreutils-9.3/bin/mv: cannot remove '/tmp/tmp.yaaVurtAEW/nuevo/IMAGENES/photo_2025-10-07_10-49-15.jpg': Permission denied
+/nix/store/jy06yi9z3vkn8w5zz84azhgb8n7gk8sh-coreutils-9.3/bin/mv: cannot remove '/tmp/tmp.yaaVurtAEW/nuevo/IMAGENES/photo_2025-10-07_10-49-08.jpg': Permission denied
+/nix/store/jy06yi9z3vkn8w5zz84azhgb8n7gk8sh-coreutils-9.3/bin/mv: cannot remove '/tmp/tmp.yaaVurtAEW/nuevo/IMAGENES/27002a7bc5273a281f9fdd8fd217353d.jpg': Permission denied
+/nix/store/jy06yi9z3vkn8w5zz84azhgb8n7gk8sh-coreutils-9.3/bin/mv: cannot remove '/tmp/tmp.yaaVurtAEW/nuevo/IMAGENES/D_Q_NP_2X_976045-MLV86179291533_062025-N.webp': Permission denied
+/nix/store/jy06yi9z3vkn8w5zz84azhgb8n7gk8sh-coreutils-9.3/bin/mv: cannot remove '/tmp/tmp.yaaVurtAEW/nuevo/IMAGENES/b012f5a8c77d06c37aabd96d81d2c97e.jpg': Permission denied
+/nix/store/jy06yi9z3vkn8w5zz84azhgb8n7gk8sh-coreutils-9.3/bin/mv: cannot remove '/tmp/tmp.yaaVurtAEW/nuevo/IMAGENES/0e617ebe6771d2f7a521d6e268d24738.jpg': Permission denied
+/nix/store/jy06yi9z3vkn8w5zz84azhgb8n7gk8sh-coreutils-9.3/bin/mv: cannot remove '/tmp/tmp.yaaVurtAEW/nuevo/IMAGENES/e939db5fe756461d49047ba7ed4d9aaa.jpg': Permission denied
+/nix/store/jy06yi9z3vkn8w5zz84azhgb8n7gk8sh-coreutils-9.3/bin/mv: cannot remove '/tmp/tmp.yaaVurtAEW/nuevo/IMAGENES/5b030716955b836f6d47836a286ef98a.jpg': Permission denied
+/nix/store/jy06yi9z3vkn8w5zz84azhgb8n7gk8sh-coreutils-9.3/bin/mv: cannot remove '/tmp/tmp.yaaVurtAEW/nuevo/IMAGENES/1a85e3048d316e4514077a2df0240096.jpg': Permission denied
+/nix/store/jy06yi9z3vkn8w5zz84azhgb8n7gk8sh-coreutils-9.3/bin/mv: cannot remove '/tmp/tmp.yaaVurtAEW/nuevo/IMAGENES/4d339a7c13694d8fcaf6c8ab3946c052.jpg': Permission denied
+/nix/store/jy06yi9z3vkn8w5zz84azhgb8n7gk8sh-coreutils-9.3/bin/mv: cannot remove '/tmp/tmp.yaaVurtAEW/nuevo/IMAGENES/5acc22b8296098555feb0c29d8d3b6a3.jpg': Permission denied
+/nix/store/jy06yi9z3vkn8w5zz84azhgb8n7gk8sh-coreutils-9.3/bin/mv: cannot remove '/tmp/tmp.yaaVurtAEW/nuevo/IMAGENES/201b8c2063a81d10cbd7a6c40e82ac30.jpg': Permission denied
+/nix/store/jy06yi9z3vkn8w5zz84azhgb8n7gk8sh-coreutils-9.3/bin/mv: cannot remove '/tmp/tmp.yaaVurtAEW/nuevo/IMAGENES/fc86203fb430139b16c01b4e8dbe16f1.jpg': Permission denied
+/nix/store/jy06yi9z3vkn8w5zz84azhgb8n7gk8sh-coreutils-9.3/bin/mv: cannot remove '/tmp/tmp.yaaVurtAEW/nuevo/IMAGENES/d0155e1ad361723857b4b73a3c8fea64.jpg': Permission denied
+/nix/store/jy06yi9z3vkn8w5zz84azhgb8n7gk8sh-coreutils-9.3/bin/mv: cannot remove '/tmp/tmp.yaaVurtAEW/nuevo/IMAGENES/photo_2025-10-07_10-49-11.jpg': Permission denied
+/nix/store/jy06yi9z3vkn8w5zz84azhgb8n7gk8sh-coreutils-9.3/bin/mv: cannot remove '/tmp/tmp.yaaVurtAEW/nuevo/IMAGENES/aef4924bea91e89a7e7ac73890f64874.jpg': Permission denied
+/nix/store/jy06yi9z3vkn8w5zz84azhgb8n7gk8sh-coreutils-9.3/bin/mv: cannot remove '/tmp/tmp.yaaVurtAEW/nuevo/IMAGENES/df69928597fc78c06f364d49ea5f4c16.jpg': Permission denied
+/nix/store/jy06yi9z3vkn8w5zz84azhgb8n7gk8sh-coreutils-9.3/bin/mv: cannot remove '/tmp/tmp.yaaVurtAEW/nuevo/IMAGENES/73821e0ebae7e368409e64d505fc18e8.jpg': Permission denied
+/nix/store/jy06yi9z3vkn8w5zz84azhgb8n7gk8sh-coreutils-9.3/bin/mv: cannot remove '/tmp/tmp.yaaVurtAEW/nuevo/IMAGENES/b6641ff81a4709fc0fa4fe7b08adf81e.jpg': Permission denied
+/nix/store/jy06yi9z3vkn8w5zz84azhgb8n7gk8sh-coreutils-9.3/bin/mv: cannot remove '/tmp/tmp.yaaVurtAEW/nuevo/IMAGENES/81d4131d2e57273ee65c9286436b14dc.jpg': Permission denied
+/nix/store/jy06yi9z3vkn8w5zz84azhgb8n7gk8sh-coreutils-9.3/bin/mv: cannot remove '/tmp/tmp.yaaVurtAEW/nuevo/IMAGENES/13f447b12d02019d1c5feeeb6165fe80.jpg': Permission denied
+/nix/store/jy06yi9z3vkn8w5zz84azhgb8n7gk8sh-coreutils-9.3/bin/mv: cannot remove '/tmp/tmp.yaaVurtAEW/nuevo/IMAGENES/photo_2025-10-07_10-49-05.jpg': Permission denied

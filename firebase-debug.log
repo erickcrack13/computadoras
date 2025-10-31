@@ -1,0 +1,60 @@
+[debug] [2025-10-14T15:04:42.452Z] ----------------------------------------------------------------------
+[debug] [2025-10-14T15:04:42.458Z] Command:       C:\nvm4w\nodejs\node.exe C:\Users\pc\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2025-10-14T15:04:42.459Z] CLI Version:   14.19.1
+[debug] [2025-10-14T15:04:42.459Z] Platform:      win32
+[debug] [2025-10-14T15:04:42.459Z] Node Version:  v22.14.0
+[debug] [2025-10-14T15:04:42.460Z] Time:          Tue Oct 14 2025 11:04:42 GMT-0400 (hora de Venezuela)
+[debug] [2025-10-14T15:04:42.460Z] ----------------------------------------------------------------------
+[debug] 
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\pc\OneDrive\Desktop\modificacion de inventario
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] 
+[debug] [2025-10-14T15:05:21.104Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-10-14T15:05:21.104Z] > authorizing via signed-in user (erick397145@gmail.com)
+[debug] [2025-10-14T15:05:21.106Z] Checked if tokens are valid: true, expires at: 1760456699557
+[debug] [2025-10-14T15:05:21.106Z] Checked if tokens are valid: true, expires at: 1760456699557
+[debug] [2025-10-14T15:05:21.109Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/inventario-de-computadoras [none]
+[debug] [2025-10-14T15:05:21.594Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/inventario-de-computadoras 200
+[debug] [2025-10-14T15:05:21.594Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/inventario-de-computadoras {"projectId":"inventario-de-computadoras","projectNumber":"722490835309","displayName":"inventario-de-computadoras","name":"projects/inventario-de-computadoras","resources":{"hostingSite":"inventario-de-computadoras"},"state":"ACTIVE","etag":"1_0e0712ed-6d4b-47b2-a695-de279954911d"}
+[info] i  Using project inventario-de-computadoras (inventario-de-computadoras) . 
+[info] 
+=== Dataconnect Setup
+[debug] [2025-10-14T15:05:21.616Z] Checked if tokens are valid: true, expires at: 1760456699557
+[debug] [2025-10-14T15:05:21.616Z] Checked if tokens are valid: true, expires at: 1760456699557
+[debug] [2025-10-14T15:05:21.616Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/inventario-de-computadoras/billingInfo [none]
+[debug] [2025-10-14T15:05:21.979Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/inventario-de-computadoras/billingInfo 200
+[debug] [2025-10-14T15:05:21.980Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/inventario-de-computadoras/billingInfo {"name":"projects/inventario-de-computadoras/billingInfo","projectId":"inventario-de-computadoras","billingAccountName":"","billingEnabled":false}
+[info] i  dataconnect: ensuring required API firebasedataconnect.googleapis.com is enabled... 
+[info] i  dataconnect: ensuring required API sqladmin.googleapis.com is enabled... 
+[debug] [2025-10-14T15:05:21.991Z] Checked if tokens are valid: true, expires at: 1760456699557
+[debug] [2025-10-14T15:05:21.991Z] Checked if tokens are valid: true, expires at: 1760456699557
+[debug] [2025-10-14T15:05:21.992Z] >>> [apiv2][query] GET https://firebasedataconnect.googleapis.com/v1/projects/inventario-de-computadoras/locations/-/services [none]
+[debug] [2025-10-14T15:05:22.741Z] <<< [apiv2][status] GET https://firebasedataconnect.googleapis.com/v1/projects/inventario-de-computadoras/locations/-/services 200
+[debug] [2025-10-14T15:05:22.741Z] <<< [apiv2][body] GET https://firebasedataconnect.googleapis.com/v1/projects/inventario-de-computadoras/locations/-/services {}
+[debug] [2025-10-14T15:06:25.756Z] ExitPromptError: User force closed the prompt with SIGINT
+    at Interface.sigint (C:\Users\pc\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\@inquirer\core\dist\commonjs\lib\create-prompt.js:101:37)
+    at Interface.emit (node:events:518:28)
+    at Interface.emit (node:domain:489:12)
+    at [_ttyWrite] [as _ttyWrite] (node:internal/readline/interface:1124:18)
+    at ReadStream.onkeypress (node:internal/readline/interface:263:20)
+    at ReadStream.emit (node:events:530:35)
+    at ReadStream.emit (node:domain:489:12)
+    at emitKeys (node:internal/readline/utils:370:14)
+    at emitKeys.next (<anonymous>)
+    at ReadStream.onData (node:internal/readline/emitKeypressEvents:64:36)
+[error] 
+[error] Error: An unexpected error has occurred.

@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil del Cliente - Tienda KING DISEÑO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ==================================== */
+        /* SECCIÓN 1: ESTILOS GENERALES Y VIDEO/IMAGEN DE FONDO */
+        /* ==================================== */
+
+        /* Estilos generales para el cuerpo de la página */
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Alinea el contenido al inicio verticalmente */
+            background: url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+            padding-bottom: 40px; /* Espacio para el pie de página o margen inferior */
+            overflow-x: hidden; /* Evita el scroll horizontal en caso de desbordamiento */
+        }
+
+        /* Contenedor para oscurecer el fondo si la imagen no es suficiente */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3); /* Capa oscura para mayor contraste */
+            z-index: -1;
+        }
+
+        /* ==================================== */
+        /* FIN SECCIÓN 1 */
+        /* ==================================== */
+
+
+        /* ==================================== */
+        /* SECCIÓN 2: ESTILOS DEL ENCABEZADO (HEADER) - ANTES .top-bar */
+        /* ==================================== */
+        .header { /* Renombrado de .top-bar a .header */
+            position: fixed; /* Fija la barra en la parte superior */
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(90deg, #6366f1 0%, #0ea5e9 100%);
+            color: #fff;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Espacia el botón de inicio y la info del usuario */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            z-index: 1000; /* Asegura que esté por encima de otros elementos */
+            box-sizing: border-box; /* Incluye padding en el ancho total */
+            gap: 15px; /* Espacio entre los elementos del header */
+        }
+
+        .header .user-profile-info {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Espacio entre el icono y el nombre */
+        }
+
+        .header .user-profile-info .user-icon {
+            /* Estilo para el icono SVG de usuario */
+            width: 28px; /* Tamaño del icono */
+            height: 28px;
+            fill: currentColor; /* El color del icono será el mismo que el texto (blanco) */
+        }
+
+        .header .user-profile-info .user-name {
+            font-weight: 600;
+            font-size: 1.1em;
+            margin: 0; /* Elimina márgenes predeterminados */
+        }
+
+        /* Estilos para el botón "Volver al Inicio" dentro de la barra superior */
+        .header .back-home-button {
+            position: static; /* Elimina el posicionamiento absoluto */
+            background: none; /* Sin fondo */
+            border: none; /* Sin borde */
+            color: #fff;
+            padding: 0; /* Sin padding */
+            border-radius: 0;
+            text-decoration: underline;
+            font-size: 1em;
+            font-weight: 500;
+            transition: none; /* Sin transiciones */
+            backdrop-filter: none;
+            z-index: auto;
+            margin-left: auto; /* Empuja el botón a la derecha */
+            white-space: nowrap; /* Evita que el texto se rompa */
+        }
+        .header .back-home-button:hover {
+            text-decoration: none; /* Quita el subrayado al pasar el ratón */
+            transform: none;
+            border-color: none;
+            background: none;
+        }
+
+        /* ==================================== */
+        /* FIN SECCIÓN 2 */
+        /* ==================================== */
+
+
+        /* ==================================== */
+        /* SECCIÓN 3: ESTILOS DEL BOTÓN DE MENÚ "HOT DOG" (HAMBURGUESA) - ¡NUEVO! */
+        /* ==================================== */
+        .hotdog-menu-button {
+            display: none; /* Oculto por defecto en desktop */
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            position: relative;
+            z-index: 100; /* Asegura que esté por encima de todo */
+            color: #ffffff;
+            font-size: 1.5em;
+            flex-shrink: 0; /* Evita que se encoja */
+        }
+
+        .hotdog-menu-icon {
+            display: block;
+            width: 30px;
+            height: 3px;
+            background-color: #ffffff;
+            border-radius: 2px;
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+
+        .hotdog-menu-icon::before,
+        .hotdog-menu-icon::after {
+            content: '';
+            display: block;
+            width: 30px;
+            height: 3px;
+            background-color: #ffffff;
+            border-radius: 2px;
+            position: absolute;
+            transition: transform 0.3s ease;
+        }
+
+        .hotdog-menu-icon::before {
+            top: -10px;
+        }
+
+        .hotdog-menu-icon::after {
+            top: 10px;
+        }
+
+        /* Animation for closing the menu (X icon) */
+        .hotdog-menu-button.open .hotdog-menu-icon {
+            background-color: transparent;
+        }
+
+        .hotdog-menu-button.open .hotdog-menu-icon::before {
+            transform: translateY(10px) rotate(45deg);
+        }
+
+        .hotdog-menu-button.open .hotdog-menu-icon::after {
+            transform: translateY(-10px) rotate(-45deg);
+        }
+        /* ==================================== */
+        /* FIN SECCIÓN 3 */
+        /* ==================================== */
+
+
+        /* ==================================== */
+        /* SECCIÓN 4: ESTILOS DEL CONTENIDO DEL MENÚ PRINCIPAL (TODAS LAS PANTALLAS) - ¡NUEVO! */
+        /* ==================================== */
+        .dropdown-menu-content {
+            display: none; /* Por defecto oculto */
+            flex-direction: column;
+            align-items: flex-start; /* Alinea los ítems a la izquierda */
+            background: rgba(99, 102, 241, 0.95); /* Fondo azul con transparencia */
+            padding: 20px; /* Aumenta el padding */
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            position: absolute;
+            top: 60px; /* Ajustado a la altura del header */
+            left: 0;
+            width: 250px; /* Ancho fijo para el menú */
+            max-width: calc(100% - 40px); /* Asegura que no se desborde en pantallas muy pequeñas */
+            z-index: 990; /* Por encima del contenido principal, pero debajo del botón de hamburguesa y header */
+            transform-origin: top left;
+            opacity: 0;
+            transform: scaleY(0);
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+            box-sizing: border-box; /* Incluye padding en el ancho */
+        }
+
+        /* Clase para mostrar el menú */
+        .dropdown-menu-content.active {
+            display: flex;
+            opacity: 1;
+            transform: scaleY(1);
+        }
+
+        .dropdown-menu-content a,
+        .dropdown-menu-content button {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.1em;
+            font-weight: 600;
+            padding: 10px 0; /* Padding vertical para cada ítem */
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            text-decoration: none; /* Para enlaces */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Separador entre ítems */
+        }
+
+        .dropdown-menu-content a:last-child,
+        .dropdown-menu-content button:last-child {
+            border-bottom: none; /* Elimina el borde del último ítem */
+        }
+
+        .dropdown-menu-content a:hover,
+        .dropdown-menu-content button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+
+        /* ==================================== */
+        /* FIN SECCIÓN 4 */
+        /* ==================================== */
+
+
+        /* Ajusta el margen superior del contenedor principal para que no quede oculto por la barra fija */
+        .profile-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.10);
+            width: 800px;
+            max-width: 95vw;
+            text-align: center;
+            box-sizing: border-box;
+            z-index: 1;
+            margin-top: 100px; /* Margen para dejar espacio a la barra superior (altura de top-bar + padding) */
+        }
+
+        /* Estilos para el título principal dentro del profile-container */
+        .profile-container h1 {
+            font-family: 'Playfair Display', serif;
+            color: #3730a3;
+            margin-top: 0; /* Elimina el margen superior si ya hay un título en la barra superior */
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+
+        /* Estilos para los subtítulos de sección */
+        .profile-container h2 {
+            font-family: 'Playfair Display', serif;
+            color: #4f46e5;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #e0e7ff;
+            padding-bottom: 10px;
+        }
+
+        /* Estilos para párrafos de texto */
+        p {
+            font-size: 1.1em;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Estilos para las cajas de información */
+        .info-box {
+            background-color: #f8faff;
+            border: 1px solid #e0e7ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .info-box p {
+            margin: 8px 0;
+            font-size: 1em;
+            color: #555;
+        }
+
+        .info-box strong {
+            color: #3730a3;
+        }
+
+        /* Estilos para la sección de acciones de la billetera */
+        .wallet-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .wallet-actions input {
+            padding: 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 5px;
+            width: 100px;
+            font-size: 0.95em;
+            box-sizing: border-box;
+        }
+
+        .wallet-actions button {
+            padding: 8px 15px;
+            font-size: 0.95em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .wallet-actions button.deposit {
+            background: linear-gradient(90deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            border: none;
+        }
+        .wallet-actions button.deposit:hover {
+            background: linear-gradient(90deg, #16a34a 0%, #22c55e 100%);
+            transform: translateY(-1px);
+        }
+        .wallet-actions button.withdraw {
+            background: linear-gradient(90deg, #f97316 0%, #ea580c 100%);
+            color: white;
+            border: none;
+        }
+        .wallet-actions button.withdraw:hover {
+            background: linear-gradient(90deg, #ea580c 0%, #f97316 100%);
+            transform: translateY(-1px);
+        }
+
+        /* Estilos para tablas (Historial de Compras y Productos Seleccionados) */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #e0e7ff;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #6366f1;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f0f4ff;
+        }
+
+        /* Estilos para botones de acción dentro de las tablas (eliminar, comprar) */
+        .table-actions button {
+            padding: 6px 10px;
+            font-size: 0.85em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border: none;
+        }
+        .table-actions .remove-button {
+            background-color: #ef4444;
+            color: white;
+        }
+        .table-actions .remove-button:hover {
+            background-color: #dc2626;
+        }
+        .table-actions .buy-button {
+            background-color: #2563eb;
+            color: white;
+            margin-left: 5px;
+        }
+        .table-actions .buy-button:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* Estilos para el grupo de botones principales (página de pago, cerrar sesión) */
+        .button-group {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .button-group button, .button-group a {
+            background: linear-gradient(90deg, #6366f1 0%, #0ea5e9 100%);
+            color: #fff;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.08em;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.10);
+            transition: background 0.2s, transform 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .button-group button:hover, .button-group a:hover {
+            background: linear-gradient(90deg, #0ea5e9 0%, #6366f1 100%);
+            transform: translateY(-2px);
+        }
+
+        /* Estilo específico para el botón de cerrar sesión */
+        #logout-button {
+            background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        #logout-button:hover {
+            background: linear-gradient(90deg, #dc2626 0%, #ef4444 100%);
+        }
+
+        /* --- NUEVOS ESTILOS PARA LA SECCIÓN DE PRODUCTOS Y CARRITO --- */
+        .product-section {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .product-categories {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .product-categories button {
+            background-color: #6366f1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .product-categories button:hover {
+            background-color: #4f46e5;
+            transform: translateY(-2px);
+        }
+
+        .product-categories button.active {
+            background-color: #0ea5e9;
+            box-shadow: 0 4px 10px rgba(14, 165, 233, 0.3);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 25px;
+            padding: 20px;
+            background: #f8faff;
+            border-radius: 12px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+            max-height: 500px; /* Altura máxima para scroll */
+            overflow-y: auto; /* Scroll vertical */
+        }
+
+        .product-item {
+            background-color: #fff;
+            border: 1px solid #e0e7ff;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-item img {
+            max-width: 100%;
+            height: 120px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .product-item h3 {
+            font-size: 1.2em;
+            color: #3730a3;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .product-item p {
+            font-size: 1.1em;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .product-item .price {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #0ea5e9;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .product-item .stock {
+            font-size: 0.9em;
+            color: #777;
+            margin-bottom: 15px;
+        }
+        .stock-available { color: #16a34a; font-weight: 600; }
+        .stock-low { color: #f59e0b; font-weight: 600; }
+        .stock-out { color: #dc2626; font-weight: 600; }
+
+
+        .product-item button {
+            background: linear-gradient(90deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: background 0.2s ease, transform 0.2s ease;
+            width: 100%;
+        }
+
+        .product-item button:hover {
+            background: linear-gradient(90deg, #16a34a 0%, #22c55e 100%);
+            transform: translateY(-2px);
+        }
+
+        .product-item button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Estilos específicos para la tabla del carrito */
+        #cart-container table {
+            margin-top: 0; /* No necesita margen superior extra */
+        }
+
+        #cart-container .cart-item-img {
+            width: 50px; /* Tamaño más pequeño para la imagen en el carrito */
+            height: 50px;
+            object-fit: contain;
+            border-radius: 4px;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        #cart-container .quantity-input {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        #cart-total-row {
+            font-weight: 700;
+            font-size: 1.2em;
+            background-color: #e0e7ff;
+            color: #3730a3;
+        }
+
+        #cart-total-row td {
+            padding: 15px 12px;
+        }
+
+        .checkout-buttons {
+            display: flex;
+            justify-content: flex-end; /* Alinea los botones a la derecha */
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .checkout-buttons button {
+            background: linear-gradient(90deg, #6366f1 0%, #0ea5e9 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.05em;
+            font-weight: 600;
+            transition: background 0.2s ease, transform 0.2s ease;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.10);
+        }
+
+        .checkout-buttons button:hover {
+            background: linear-gradient(90deg, #0ea5e9 0%, #6366f1 100%);
+            transform: translateY(-2px);
+        }
+
+        .checkout-buttons button#clear-cart-button {
+            background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+        }
+        .checkout-buttons button#clear-cart-button:hover {
+            background: linear-gradient(90deg, #dc2626 0%, #ef4444 100%);
+        }
+        .checkout-buttons button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        /* --- FIN NUEVOS ESTILOS --- */
+
+
+        /* Media Queries para responsividad */
+        @media (max-width: 768px) {
+            .header {
+                padding: 10px 15px;
+                justify-content: flex-start; /* Alinea los ítems a la izquierda */
+            }
+            .header .hotdog-menu-button { /* Muestra el botón de hamburguesa */
+                display: block;
+                order: -1; /* Lo mueve al principio */
+            }
+            .header .user-profile-info {
+                margin-left: 15px; /* Pequeño margen entre el botón y la info de usuario */
+            }
+            .header .user-profile-info .user-icon {
+                width: 24px;
+                height: 24px;
+            }
+            .header .user-profile-info .user-name {
+                font-size: 1em;
+            }
+            .header .back-home-button {
+                font-size: 0.9em;
+                margin-left: auto; /* Mantiene el botón de inicio a la derecha */
+            }
+            .profile-container {
+                padding: 25px;
+                width: 95vw;
+                margin-top: 80px; /* Ajusta el margen superior para la barra más pequeña */
+            }
+            .profile-container h1 {
+                font-size: 2em;
+            }
+            .profile-container h2 {
+                font-size: 1.5em;
+            }
+            .info-box {
+                padding: 15px;
+            }
+            th, td {
+                padding: 10px;
+                font-size: 0.9em;
+            }
+            .wallet-actions {
+                flex-direction: column;
+                align-items: center; /* Centra los elementos cuando son columna */
+            }
+            .wallet-actions input {
+                width: calc(100% - 16px);
+            }
+            .button-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .button-group button, .button-group a {
+                width: 100%;
+                box-sizing: border-box;
+            }
+            .dropdown-menu-content {
+                left: 0;
+                top: 60px; /* Asegura que baje lo suficiente */
+                max-width: 250px; /* Mantiene un ancho razonable */
+                padding: 15px; /* Ajusta el padding para móviles */
+            }
+            /* Productos y carrito responsividad */
+            .product-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 15px;
+                padding: 15px;
+            }
+            .product-item img {
+                height: 100px;
+            }
+            .product-item h3 {
+                font-size: 1.1em;
+            }
+            .product-item .price {
+                font-size: 1.2em;
+            }
+            #cart-container .quantity-input {
+                width: 50px;
+            }
+            .checkout-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            .checkout-buttons button {
+                width: 100%;
+                box-sizing: border-box;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-container {
+                padding: 20px;
+            }
+            .profile-container h1 {
+                font-size: 1.8em;
+            }
+            .profile-container h2 {
+                font-size: 1.3em;
+            }
+            p {
+                font-size: 1em;
+            }
+            .dropdown-menu-content {
+                width: 100%; /* El menú ocupa todo el ancho */
+                max-width: none; /* Elimina la restricción de ancho máximo */
+                left: 0;
+                border-radius: 0;
+                border-bottom-left-radius: 12px; /* Mantiene el radio inferior */
+                border-bottom-right-radius: 12px;
+            }
+            .header .user-profile-info .user-name {
+                font-size: 0.9em; /* Reduce el tamaño del nombre en pantallas pequeñas */
+            }
+            .product-grid {
+                grid-template-columns: 1fr; /* Una columna en pantallas muy pequeñas */
+                gap: 20px;
+            }
+        }
+    </style>
+    <script src="/js/api-client.js"></script>
+</head>
+<body>
+    <div class="header">
+        <button class="hotdog-menu-button" id="hotdog-menu-toggle">
+            <span class="hotdog-menu-icon"></span>
+        </button>
+
+        <div class="user-profile-info">
+            <svg class="user-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"/>
+            </svg>
+            <span id="top-bar-user-name" class="user-name">Cliente</span>
+        </div>
+
+        <a href="index.html" class="back-home-button">Volver al Inicio</a>
+
+        <div class="dropdown-menu-content" id="main-menu-content">
+            <a href="soporte tecnico.html">Soporte Técnico</a>
+            <a href="#" id="go-to-inventory-btn">Ver Inventario Completo</a> <button id="ir-gestion-btn">Gestionar Inventario</button>
+            <button id="admin-login-btn">Acceso Administrativo</button>
+        </div>
+    </div>
+
+    <div class="profile-container">
+        <h1 id="welcome-message">¡Bienvenido, Cliente!</h1>
+
+        <div class="info-box">
+            <h2>Información Personal</h2>
+            <p id="user-info">Cargando información...</p>
+        </div>
+
+        <div class="info-box">
+            <h2>Mi Billetera</h2>
+            <p><strong>Saldo Actual:</strong> <span id="wallet-balance">Cargando...</span></p>
+            <div class="wallet-actions">
+                <input type="number" id="amount-input" placeholder="Monto" min="0.01" step="0.01">
+                <button class="deposit" id="deposit-button">Depositar</button>
+                <button class="withdraw" id="withdraw-button">Retirar</button>
+            </div>
+            <p id="wallet-message" class="error-message" style="display: none;"></p>
+        </div>
+
+        <div class="info-box product-section">
+            <h2>Nuestros Productos</h2>
+            <div class="product-categories">
+                <button class="category-button active" data-category="todos">Todos</button>
+                <button class="category-button" data-category="accesorios">Accesorios</button>
+                <button class="category-button" data-category="computadoras">Computadoras</button>
+                <button class="category-button" data-category="componentes">Componentes</button>
+                <button class="category-button" data-category="perifericos">Periféricos</button>
+            </div>
+            <div id="product-list" class="product-grid">
+                <p>Cargando productos...</p>
+            </div>
+        </div>
+
+        <div class="info-box" id="cart-box">
+            <h2>Mi Carrito de Compras</h2>
+            <div id="cart-container">
+                <p>Tu carrito está vacío.</p>
+            </div>
+            <div class="checkout-buttons">
+                <button id="clear-cart-button" disabled>Vaciar Carrito</button>
+                <button id="checkout-button" disabled>Comprar Ahora</button>
+            </div>
+            <p id="cart-message" class="error-message" style="display: none;"></p>
+        </div>
+
+        <div class="info-box">
+            <h2>Historial de Compras</h2>
+            <div id="purchase-history-container">
+                <p>Cargando historial...</p>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button id="logout-button">Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <script>
+        // --- Constantes y Referencias a Elementos del DOM ---
+        const welcomeMessage = document.getElementById('welcome-message');
+        const userInfo = document.getElementById('user-info');
+        const walletBalanceSpan = document.getElementById('wallet-balance');
+        const amountInput = document.getElementById('amount-input');
+        const depositButton = document.getElementById('deposit-button');
+        const withdrawButton = document.getElementById('withdraw-button');
+        const walletMessage = document.getElementById('wallet-message');
+        const purchaseHistoryContainer = document.getElementById('purchase-history-container');
+        const logoutButton = document.getElementById('logout-button');
+        const topBarUserName = document.getElementById('top-bar-user-name');
+
+        // --- Referencias a Elementos del DOM para el menú de hamburguesa ---
+        const hotdogMenuToggle = document.getElementById('hotdog-menu-toggle');
+        const mainMenuContent = document.getElementById('main-menu-content');
+        const goToInventoryBtn = document.getElementById('go-to-inventory-btn'); // Nuevo botón de inventario
+        const irGestionBtn = document.getElementById('ir-gestion-btn');
+        const adminLoginBtn = document.getElementById('admin-login-btn');
+
+        // --- Nuevas referencias para la tienda y el carrito ---
+        const productListDiv = document.getElementById('product-list');
+        const categoryButtons = document.querySelectorAll('.category-button');
+        const cartContainer = document.getElementById('cart-container');
+        const clearCartButton = document.getElementById('clear-cart-button');
+        const checkoutButton = document.getElementById('checkout-button');
+        const cartMessage = document.getElementById('cart-message');
+
+        let currentClientCedula = ''; // Variable para almacenar la cédula del cliente loggeado
+        let productsData = []; // Almacenará los productos del inventario
+        let cart = []; // Almacenará los productos en el carrito
+
+        // --- Función para cargar los datos del usuario y mostrarlos ---
+        function loadClientData() {
+            if (sessionStorage.getItem('clientLoggedIn') !== 'true') {
+                window.location.href = './acceso_cliente.html';
+                return;
+            }
+
+            currentClientCedula = sessionStorage.getItem('clientCedula');
+            if (currentClientCedula) {
+                const storedUser = localStorage.getItem(currentClientCedula);
+                if (storedUser) {
+                    let userData = JSON.parse(storedUser);
+
+                    // Inicializar datos del cliente si no existen
+                    if (typeof userData.balance === 'undefined') {
+                        userData.balance = 1000.00;
+                    }
+                    if (!userData.purchases) {
+                        userData.purchases = [
+                            { id: '001', date: '2025-07-10', item: 'Laptop Gaming', amount: 1200.00, status: 'Completada' },
+                            { id: '002', date: '2025-07-05', item: 'Mouse Inalámbrico', amount: 35.50, status: 'Completada' }
+                        ];
+                    }
+                    // Cargar carrito del usuario o inicializar vacío
+                    cart = userData.cart || [];
+
+                    // Actualizar la visualización de la información del usuario
+                    welcomeMessage.textContent = `¡Bienvenido, ${userData.name || 'Cliente'}!`;
+                    topBarUserName.textContent = userData.name || 'Cliente'; // Actualiza el nombre en la barra superior
+                    userInfo.innerHTML = `
+                        <p><strong>Cédula:</strong> ${userData.cedula}</p>
+                        <p><strong>Nombre:</strong> ${userData.name || 'N/A'}</p>
+                        <p><strong>Correo:</strong> ${userData.email || 'N/A'}</p>
+                        <p><strong>Teléfono:</strong> ${userData.phone || 'N/A'}</p>
+                    `;
+                    
+                    updateWalletBalance(userData.balance);
+                    renderPurchaseHistory(userData.purchases);
+                    renderCart(); // Renderiza el carrito al cargar la página del perfil
+                    saveClientData(userData); // Guarda datos actualizados (si se inicializaron)
+                } else {
+                    alert('Error: Datos del cliente no encontrados.');
+                    logoutUser();
+                }
+            } else {
+                alert('Error: Cédula del cliente no disponible.');
+                logoutUser();
+            }
+        }
+
+        /**
+         * Guarda los datos actuales del cliente en localStorage.
+         * @param {object} userData - Objeto con los datos actualizados del cliente.
+         */
+        function saveClientData(userData) {
+            localStorage.setItem(currentClientCedula, JSON.stringify(userData));
+        }
+
+        /**
+         * Actualiza el saldo de la billetera y guarda los datos del cliente.
+         * @param {number} newBalance - El nuevo saldo de la billetera.
+         */
+        function updateWalletBalance(newBalance) {
+            walletBalanceSpan.textContent = `$${newBalance.toFixed(2)}`;
+            let userData = JSON.parse(localStorage.getItem(currentClientCedula));
+            userData.balance = newBalance;
+            saveClientData(userData);
+        }
+
+        /**
+         * Muestra un mensaje temporal en la billetera.
+         * @param {string} message - El mensaje a mostrar.
+         * @param {boolean} isError - True si es un mensaje de error, false para éxito.
+         */
+        function showWalletMessage(message, isError = false) {
+            walletMessage.textContent = message;
+            walletMessage.style.display = 'block';
+            walletMessage.style.color = isError ? 'var(--red-error)' : 'var(--primary-blue)';
+            setTimeout(() => {
+                walletMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        // --- Funciones de Billetera ---
+        depositButton.addEventListener('click', () => {
+            let amount = parseFloat(amountInput.value);
+            if (isNaN(amount) || amount <= 0) {
+                showWalletMessage('Por favor, ingrese un monto válido para depositar.', true);
+                return;
+            }
+
+            let userData = JSON.parse(localStorage.getItem(currentClientCedula));
+            userData.balance += amount;
+            updateWalletBalance(userData.balance);
+            showWalletMessage(`Depósito de $${amount.toFixed(2)} realizado con éxito.`, false);
+            amountInput.value = ''; // Limpiar el input
+        });
+
+        withdrawButton.addEventListener('click', () => {
+            let amount = parseFloat(amountInput.value);
+            if (isNaN(amount) || amount <= 0) {
+                showWalletMessage('Por favor, ingrese un monto válido para retirar.', true);
+                return;
+            }
+
+            let userData = JSON.parse(localStorage.getItem(currentClientCedula));
+            if (userData.balance >= amount) {
+                userData.balance -= amount;
+                updateWalletBalance(userData.balance);
+                showWalletMessage(`Retiro de $${amount.toFixed(2)} realizado con éxito.`, false);
+                amountInput.value = ''; // Limpiar el input
+            } else {
+                showWalletMessage('Saldo insuficiente para realizar el retiro.', true);
+            }
+        });
+
+        // --- Funciones de Historial de Compras ---
+        function renderPurchaseHistory(purchases) {
+            if (!purchases || purchases.length === 0) {
+                purchaseHistoryContainer.innerHTML = '<p>No tienes compras registradas aún.</p>';
+                return;
+            }
+
+            let tableHtml = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID de Compra</th>
+                            <th>Fecha</th>
+                            <th>Artículo</th>
+                            <th>Monto</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            purchases.forEach(purchase => {
+                tableHtml += `
+                    <tr>
+                        <td>${purchase.id}</td>
+                        <td>${purchase.date}</td>
+                        <td>${purchase.item}</td>
+                        <td>$${purchase.amount.toFixed(2)}</td>
+                        <td>${purchase.status}</td>
+                    </tr>
+                `;
+            });
+            tableHtml += `
+                    </tbody>
+                </table>
+            `;
+            purchaseHistoryContainer.innerHTML = tableHtml;
+        }
+
+        // --- Funciones de Productos del Inventario (Compartido con la página de inventario) ---
+
+        /**
+         * Carga los productos desde localStorage.
+         * Si no hay productos, inicializa con una lista por defecto y los guarda.
+         */
+        function loadProductsData() {
+            const storedProducts = localStorage.getItem('productosInventario');
+            if (storedProducts) {
+                productsData = JSON.parse(storedProducts);
+            } else {
+                // Si no hay productos guardados, usa una lista predeterminada
+                productsData = [
+                    { id: 1, nombre: 'Mouse Óptico', precio: 15.00, categoria: 'accesorios', DISPONIBLE: 20, urlImagen: 'https://images.unsplash.com/photo-1547944111-ad775089e5a1?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+                    { id: 2, nombre: 'Auriculares Gaming', precio: 25.50, categoria: 'accesorios', DISPONIBLE: 15, urlImagen: 'https://images.unsplash.com/photo-1546435770-a3e426bf4722?q=80&w=1465&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+                    { id: 3, nombre: 'Teclado Mecánico', precio: 30.00, categoria: 'accesorios', DISPONIBLE: 10, urlImagen: 'https://images.unsplash.com/photo-1587823555239-01f2f81643c5?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+                    { id: 4, nombre: 'Monitor Curvo 27"', precio: 180.00, categoria: 'perifericos', DISPONIBLE: 5, urlImagen: 'https://images.unsplash.com/photo-1579737158379-373981882d27?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+                    { id: 5, nombre: 'Webcam HD', precio: 40.00, categoria: 'perifericos', DISPONIBLE: 25, urlImagen: 'https://images.unsplash.com/photo-1596700055742-12711d99d146?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+                    { id: 6, nombre: 'Impresora Multifuncional', precio: 120.00, categoria: 'perifericos', DISPONIBLE: 8, urlImagen: 'https://images.unsplash.com/photo-1629854284698-f2b7b5c8f1f5?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+                    { id: 7, nombre: 'Laptop Gamer (Intel i5)', precio: 800.00, categoria: 'computadoras', DISPONIBLE: 7, urlImagen: 'https://images.unsplash.com/photo-1593642532454-ee09795e135e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+                    { id: 8, nombre: 'PC Escritorio (Intel i7)', precio: 1000.00, categoria: 'computadoras', DISPONIBLE: 3, urlImagen: 'https://images.unsplash.com/photo-1629910531235-95079a499d1e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+                    { id: 9, nombre: 'Mini PC (AMD Ryzen 3)', precio: 350.00, categoria: 'computadoras', DISPONIBLE: 12, urlImagen: 'https://images.unsplash.com/photo-1630138547378-b57088b9952a?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+                    { id: 10, nombre: 'Procesador Intel i9', precio: 500.00, categoria: 'componentes', DISPONIBLE: 10, urlImagen: 'https://images.unsplash.com/photo-1629910531235-95079a499d1e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+                    { id: 11, nombre: 'Tarjeta Gráfica RTX 4080', precio: 999.00, categoria: 'componentes', DISPONIBLE: 4, urlImagen: 'https://images.unsplash.com/photo-1616400619175-5be398501106?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+                    { id: 12, nombre: 'Memoria RAM DDR5 32GB', precio: 120.00, categoria: 'componentes', DISPONIBLE: 18, urlImagen: 'https://images.unsplash.com/photo-1629910531235-95079a499d1e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+                    { id: 13, nombre: 'SSD NVMe 1TB', precio: 80.00, categoria: 'componentes', DISPONIBLE: 22, urlImagen: 'https://images.unsplash.com/photo-1629910531235-95079a499d1e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }
+                ];
+                // Guarda esta lista por defecto en localStorage para futuras visitas
+                localStorage.setItem('productosInventario', JSON.stringify(productsData));
+            }
+        }
+
+        /**
+         * Renderiza los productos en la cuadrícula de productos, filtrando por categoría.
+         * @param {string} category - La categoría a filtrar ('todos' para mostrar todos).
+         */
+        function renderProducts(category = 'todos') {
+            productListDiv.innerHTML = ''; // Limpiar la lista actual
+
+            const filteredProducts = category === 'todos'
+                ? productsData
+                : productsData.filter(p => p.categoria === category);
+
+            if (filteredProducts.length === 0) {
+                productListDiv.innerHTML = '<p>No hay productos disponibles en esta categoría.</p>';
+                return;
+            }
+
+            filteredProducts.forEach(product => {
+                const productItem = document.createElement('div');
+                productItem.classList.add('product-item');
+
+                const stockClass = product.DISPONIBLE > 10 ? 'stock-available' :
+                                   product.DISPONIBLE > 0 ? 'stock-low' : 'stock-out';
+                const stockText = product.DISPONIBLE > 0 ? `Stock: ${product.DISPONIBLE}` : 'Agotado';
+                const buttonDisabled = product.DISPONIBLE <= 0;
+
+                productItem.innerHTML = `
+                    <img src="${product.urlImagen || 'https://via.placeholder.com/150x120?text=No+Image'}" alt="${product.nombre}">
+                    <h3>${product.nombre}</h3>
+                    <p class="price">$${product.precio.toFixed(2)}</p>
+                    <p class="stock ${stockClass}">${stockText}</p>
+                    <button class="add-to-cart-btn" data-product-id="${product.id}" ${buttonDisabled ? 'disabled' : ''}>Añadir al Carrito</button>
+                `;
+                productListDiv.appendChild(productItem);
+            });
+
+            // Añadir event listeners a los botones "Añadir al Carrito"
+            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = parseInt(this.dataset.productId);
+                    addToCart(productId);
+                });
+            });
+        }
+
+        // --- Funciones del Carrito ---
+
+        /**
+         * Añade un producto al carrito o incrementa su cantidad si ya existe.
+         * Actualiza el stock del producto en productsData.
+         * @param {number} productId - El ID del producto a añadir.
+         */
+        function addToCart(productId) {
+            const productToAdd = productsData.find(p => p.id === productId);
+
+            if (!productToAdd) {
+                alert('Error: Producto no encontrado en el inventario.');
+                return;
+            }
+
+            if (productToAdd.DISPONIBLE <= 0) {
+                alert(`¡Lo sentimos! ${productToAdd.nombre} está agotado.`);
+                return;
+            }
+
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                if (existingItem.cantidad < productToAdd.DISPONIBLE) {
+                    existingItem.cantidad++;
+                    alert(`¡Cantidad de ${productToAdd.nombre} actualizada en el carrito! Nueva cantidad: ${existingItem.cantidad}`);
+                } else {
+                    alert(`No hay suficiente stock de ${productToAdd.nombre} para añadir más.`);
+                    return;
+                }
+            } else {
+                cart.push({ ...productToAdd, cantidad: 1 });
+                alert(`¡${productToAdd.nombre} añadido al carrito!`);
+            }
+            // Guarda el carrito en los datos del cliente
+            let userData = JSON.parse(localStorage.getItem(currentClientCedula));
+            userData.cart = cart;
+            saveClientData(userData);
+            renderCart(); // Vuelve a renderizar el carrito
+        }
+
+        /**
+         * Elimina un producto del carrito o disminuye su cantidad.
+         * @param {number} productId - El ID del producto a remover.
+         * @param {boolean} removeAll - Si es true, elimina todas las unidades del producto.
+         */
+        function removeFromCart(productId, removeAll = false) {
+            const existingItemIndex = cart.findIndex(item => item.id === productId);
+
+            if (existingItemIndex > -1) {
+                if (removeAll || cart[existingItemIndex].cantidad <= 1) {
+                    cart.splice(existingItemIndex, 1); // Elimina el item completamente
+                } else {
+                    cart[existingItemIndex].cantidad--; // Disminuye la cantidad
+                }
+                // Guarda el carrito en los datos del cliente
+                let userData = JSON.parse(localStorage.getItem(currentClientCedula));
+                userData.cart = cart;
+                saveClientData(userData);
+                renderCart(); // Vuelve a renderizar el carrito
+            }
+        }
+
+        /**
+         * Actualiza la cantidad de un producto en el carrito.
+         * @param {number} productId - El ID del producto.
+         * @param {number} newQuantity - La nueva cantidad.
+         */
+        function updateCartQuantity(productId, newQuantity) {
+            const productInCart = cart.find(item => item.id === productId);
+            const productInStock = productsData.find(p => p.id === productId);
+
+            if (productInCart && productInStock) {
+                if (newQuantity > 0 && newQuantity <= productInStock.DISPONIBLE) {
+                    productInCart.cantidad = newQuantity;
+                } else if (newQuantity <= 0) {
+                    removeFromCart(productId, true); // Eliminar si la cantidad es 0 o menos
+                } else {
+                    alert(`Solo hay ${productInStock.DISPONIBLE} unidades de ${productInStock.nombre} disponibles.`);
+                    productInCart.cantidad = productInStock.DISPONIBLE; // Establecer a la cantidad máxima disponible
+                }
+                let userData = JSON.parse(localStorage.getItem(currentClientCedula));
+                userData.cart = cart;
+                saveClientData(userData);
+                renderCart();
+            }
+        }
+
+        /**
+         * Renderiza el contenido del carrito en la interfaz.
+         */
+        function renderCart() {
+            if (cart.length === 0) {
+                cartContainer.innerHTML = '<p>Tu carrito está vacío.</p>';
+                clearCartButton.disabled = true;
+                checkoutButton.disabled = true;
+                return;
+            }
+
+            let total = 0;
+            let tableHtml = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio Unit.</th>
+                            <th>Subtotal</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            cart.forEach(item => {
+                const subtotal = item.precio * item.cantidad;
+                total += subtotal;
+                tableHtml += `
+                    <tr>
+                        <td>
+                            <img src="${item.urlImagen || 'https://via.placeholder.com/50x50?text=Prod'}" alt="${item.nombre}" class="cart-item-img">
+                            ${item.nombre}
+                        </td>
+                        <td>
+                            <input type="number" class="quantity-input" data-product-id="${item.id}" value="${item.cantidad}" min="1" max="${productsData.find(p => p.id === item.id)?.DISPONIBLE || item.cantidad}">
+                        </td>
+                        <td>$${item.precio.toFixed(2)}</td>
+                        <td>$${subtotal.toFixed(2)}</td>
+                        <td>
+                            <button class="remove-button" data-product-id="${item.id}">Eliminar</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            tableHtml += `
+                    <tr id="cart-total-row">
+                        <td colspan="3">Total:</td>
+                        <td>$${total.toFixed(2)}</td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            `;
+            cartContainer.innerHTML = tableHtml;
+
+            // Habilitar botones de acción del carrito
+            clearCartButton.disabled = false;
+            checkoutButton.disabled = false;
+
+            // Añadir event listeners para los cambios de cantidad y botones de eliminar
+            document.querySelectorAll('.quantity-input').forEach(input => {
+                input.addEventListener('change', function() {
+                    const productId = parseInt(this.dataset.productId);
+                    const newQuantity = parseInt(this.value);
+                    updateCartQuantity(productId, newQuantity);
+                });
+            });
+
+            document.querySelectorAll('#cart-container .remove-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = parseInt(this.dataset.productId);
+                    removeFromCart(productId, true); // Eliminar todas las unidades del producto
+                });
+            });
+        }
+
+        /**
+         * Procesa la compra de los productos en el carrito.
+         * Actualiza el balance del cliente y el stock de productos.
+         */
+        function processCheckout() {
+            if (cart.length === 0) {
+                showCartMessage('Tu carrito está vacío.', true);
+                return;
+            }
+
+            let userData = JSON.parse(localStorage.getItem(currentClientCedula));
+            let totalAmount = cart.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+
+            if (userData.balance < totalAmount) {
+                showCartMessage('Saldo insuficiente. Por favor, deposite más fondos.', true);
+                return;
+            }
+
+            // Confirmación del usuario
+            if (!confirm(`Estás a punto de comprar productos por un total de $${totalAmount.toFixed(2)}. ¿Confirmar compra?`)) {
+                return;
+            }
+
+            // Actualizar el balance del cliente
+            userData.balance -= totalAmount;
+            updateWalletBalance(userData.balance);
+
+            // Actualizar el stock de los productos y añadir al historial de compras
+            let updatedProductsData = [...productsData];
+            let newPurchases = [];
+
+            cart.forEach(cartItem => {
+                const productIndex = updatedProductsData.findIndex(p => p.id === cartItem.id);
+                if (productIndex > -1) {
+                    updatedProductsData[productIndex].DISPONIBLE -= cartItem.cantidad;
+                    // Asegúrate de que el stock no sea negativo
+                    if (updatedProductsData[productIndex].DISPONIBLE < 0) {
+                        updatedProductsData[productIndex].DISPONIBLE = 0;
+                    }
+
+                    newPurchases.push({
+                        id: `C-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+                        date: new Date().toLocaleDateString('es-VE'),
+                        item: `${cartItem.nombre} (x${cartItem.cantidad})`,
+                        amount: cartItem.precio * cartItem.cantidad,
+                        status: 'Completada'
+                    });
+                }
+            });
+
+            // Actualiza el historial de compras del cliente
+            userData.purchases = (userData.purchases || []).concat(newPurchases);
+            renderPurchaseHistory(userData.purchases); // Volver a renderizar el historial
+
+            // Guarda los productos actualizados en localStorage
+            productsData = updatedProductsData;
+            localStorage.setItem('productosInventario', JSON.stringify(productsData));
+            renderProducts(document.querySelector('.category-button.active')?.dataset.category || 'todos'); // Re-renderizar productos para mostrar stock actualizado
+
+            // Vaciar el carrito del cliente y guardarlo
+            cart = [];
+            userData.cart = cart;
+            saveClientData(userData);
+            renderCart(); // Vuelve a renderizar el carrito vacío
+
+            showCartMessage('¡Compra realizada con éxito! Revisa tu historial de compras.', false);
+        }
+
+        /**
+         * Muestra un mensaje temporal en el área del carrito.
+         * @param {string} message - El mensaje a mostrar.
+         * @param {boolean} isError - True si es un mensaje de error, false para éxito.
+         */
+        function showCartMessage(message, isError = false) {
+            cartMessage.textContent = message;
+            cartMessage.style.display = 'block';
+            cartMessage.style.color = isError ? 'var(--red-error)' : 'var(--primary-blue)';
+            setTimeout(() => {
+                cartMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        // --- Event Listeners Globales ---
+
+        // Menú de Hamburguesa
+        hotdogMenuToggle.addEventListener('click', () => {
+            mainMenuContent.classList.toggle('active');
+            hotdogMenuToggle.classList.toggle('open');
+        });
+
+        // Botones de navegación del menú de hamburguesa (si se usan en el perfil del cliente)
+        goToInventoryBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // Previene la navegación por defecto del enlace
+            window.location.href = './inventario.html'; // Redirige a la página de inventario
+        });
+
+        irGestionBtn.addEventListener('click', () => {
+            window.location.href = './admin_login.html'; // Redirige a la página de login de administrador
+        });
+
+        adminLoginBtn.addEventListener('click', () => {
+            window.location.href = './admin_login.html'; // Mismo que el anterior, si el botón es redundante, se puede eliminar
+        });
+
+        // Event Listener para "Cerrar Sesión"
+        logoutButton.addEventListener('click', logoutUser);
+
+        function logoutUser() {
+            sessionStorage.removeItem('clientLoggedIn');
+            sessionStorage.removeItem('clientCedula');
+            alert('Has cerrado sesión exitosamente.');
+            window.location.href = './acceso_cliente.html';
+        }
+
+        // Event Listeners para filtrar productos por categoría
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remover clase 'active' de todos y añadirla al clicado
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                renderProducts(this.dataset.category);
+            });
+        });
+
+        // Event Listeners para el carrito
+        clearCartButton.addEventListener('click', () => {
+            if (confirm('¿Estás seguro de que quieres vaciar tu carrito?')) {
+                cart = []; // Vaciar el array del carrito
+                let userData = JSON.parse(localStorage.getItem(currentClientCedula));
+                userData.cart = cart; // Actualizar el carrito en los datos del cliente
+                saveClientData(userData); // Guardar los datos del cliente
+                renderCart(); // Volver a renderizar el carrito (aparecerá vacío)
+                showCartMessage('Carrito vaciado.', false);
+            }
+        });
+
+        checkoutButton.addEventListener('click', processCheckout);
+
+        // --- Carga Inicial de Datos al Cargar la Página ---
+        document.addEventListener('DOMContentLoaded', () => {
+            loadClientData(); // Carga la información del cliente, balance, historial y carrito
+            loadProductsData(); // Carga los productos del inventario
+            renderProducts('todos'); // Muestra todos los productos por defecto
+            renderCart(); // Asegura que el carrito se muestre con el contenido cargado
+        });
+
+        // reemplazar/añadir inicialización para mostrar perfil si existe en servidor/local
+        (function initProfile(){
+            // mostrar perfil guardado en localStorage o servidor
+            const stored = (function(){
+                try { return JSON.parse(localStorage.getItem('cliente') || localStorage.getItem('perfilCliente') || 'null'); } catch(e){ return null; }
+            })();
+            if (stored && (stored.nombre || stored.name)) {
+                const el = document.getElementById('profileName');
+                if (el) el.textContent = stored.nombre ?? stored.name;
+            }
+
+            // además, comprobar si hay perfil en servidor (opcional)
+            Api.getRate().then(r => {
+                // sólo ejemplo: mostrar tasa en perfil si existe
+                const rateEl = document.getElementById('rate');
+                if (rateEl) rateEl.value = String(r);
+            }).catch(()=>{ /* ignore */ });
+
+            // hook para otras inicializaciones
+            if (typeof onProfileInit === 'function') onProfileInit();
+        })();
+    </script>
+</body>
+</html>

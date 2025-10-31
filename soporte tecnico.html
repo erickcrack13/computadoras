@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soporte Técnico - Tu Empresa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Variables CSS para colores y fuentes */
+        :root {
+            --primary-color: #6a11cb; /* Púrpura vibrante */
+            --secondary-color: #2575fc; /* Azul eléctrico */
+            --gradient-start: #6a11cb;
+            --gradient-end: #2575fc;
+            --background-light: #f0f2f5; /* Gris muy claro */
+            --card-background: #ffffff; /* Blanco puro para tarjetas */
+            --text-dark: #333333;
+            --text-light: #ffffff;
+            --border-color: #e0e0e0; /* Gris claro para bordes */
+            --shadow-subtle: 0 4px 15px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.15);
+            --chat-user-bg: #e3f2fd; /* Azul claro para burbuja de usuario */
+            --chat-agent-bg: #e8f5e9; /* Verde muy claro para burbuja de agente */
+            --font-heading: 'Montserrat', sans-serif;
+            --font-body: 'Open Sans', sans-serif;
+        }
+
+        /* Estilos generales */
+        body {
+            font-family: var(--font-body);
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            color: var(--text-light);
+            line-height: 1.7;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden; /* Evita scroll horizontal */
+        }
+
+        .container {
+            max-width: 1100px; /* Ancho un poco más amplio */
+            margin: 0 auto;
+            padding: 30px;
+            flex-grow: 1;
+        }
+
+        /* Encabezado */
+        header {
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            color: var(--text-light);
+            padding: 50px 0;
+            text-align: center;
+            box-shadow: var(--shadow-subtle);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Video de Fondo para el Header y Secciones */
+        header .video-background,
+        section .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            filter: brightness(0.8);
+            opacity: 0.8;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 3.8em;
+            font-weight: 700;
+            letter-spacing: 2px;
+            font-family: var(--font-heading);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Botón de Inicio en el encabezado */
+        .home-button {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1em;
+            font-weight: 500;
+            transition: background 0.3s ease, transform 0.2s ease, border-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(5px);
+            z-index: 10; /* Aumentado para asegurar que esté sobre todo */
+            cursor: pointer; /* Añadido explícitamente */
+        }
+
+        .home-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .home-button i {
+            font-size: 1.2em;
+        }
+
+        /* Sección principal y títulos */
+        main {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 50px;
+            color: var(--text-light);
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 15px;
+            font-family: var(--font-heading);
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--text-light);
+            margin: 15px auto 0;
+            border-radius: 3px;
+        }
+
+        /* Estilos para las secciones con videos de fondo */
+        section {
+            position: relative;
+            padding: 80px 0;
+            margin-bottom: 60px;
+            border-radius: 15px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Asegura que el contenido de la sección esté sobre el video de fondo */
+        section .container,
+        section .section-title,
+        section .comments-grid,
+        section .contact-info,
+        section .chat-section-content {
+            position: relative;
+            z-index: 1;
+            color: var(--text-light);
+        }
+
+        /* Comentarios de Clientes y Tarjetas */
+        .comments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 0;
+        }
+
+        .comment-card, .contact-info, .chat-box {
+            background: var(--card-background);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-subtle);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border-color);
+            color: var(--text-dark);
+        }
+
+        .comment-card:hover, .contact-info:hover, .chat-box:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .comment-card p {
+            font-style: italic;
+            color: #555555;
+            margin-bottom: 20px;
+            font-size: 1em;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-top: auto;
+            font-size: 1.05em;
+        }
+
+        /* Estrellas de calificación */
+        .star-rating-widget {
+            unicode-bidi: bidi-override;
+            direction: rtl;
+            text-align: left;
+            font-size: 1.8em;
+            color: #bdbdbd; /* Estrellas vacías */
+            margin-bottom: 15px;
+            width: fit-content;
+            cursor: pointer;
+        }
+
+        .star-rating-widget > i {
+            display: inline-block;
+            position: relative;
+            width: 1.1em;
+            transition: color 0.2s ease-in-out, transform 0.1s ease-in-out;
+        }
+
+        .star-rating-widget > i:hover {
+            transform: scale(1.1);
+        }
+
+        .star-rating-widget > i.hovered,
+        .star-rating-widget > i.selected {
+            color: #FFC107; /* Amarillo más brillante para estrellas */
+        }
+        .star-rating-widget:not(.rated) > i:hover ~ i {
+            color: #FFC107;
+        }
+        .star-rating-widget:not(.rated) > i:hover {
+            color: #FFC107;
+        }
+
+        /* Sección de Contacto */
+        .contact-info p {
+            font-size: 1.1em;
+            color: #555555;
+            margin-bottom: 30px;
+        }
+
+        .contact-info ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .contact-info li {
+            font-size: 1.05em;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+        }
+
+        .contact-info li i {
+            color: var(--primary-color);
+            font-size: 1.5em;
+        }
+
+        .contact-info a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+
+        /* Sección de Chat */
+        .chat-box p {
+            font-size: 1.05em;
+            color: #555555;
+            margin-bottom: 25px;
+        }
+
+        #chat-window {
+            height: 480px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            margin-bottom: 25px;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: #fcfcfc;
+            box-shadow: inset 0 1px 6px rgba(0,0,0,0.03);
+        }
+
+        /* Contenedor del mensaje para el avatar */
+        .message-wrapper {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            max-width: 90%;
+        }
+
+        .message.user .message-wrapper {
+            justify-content: flex-end;
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message.agent .message-wrapper {
+            justify-content: flex-start;
+            align-self: flex-start;
+        }
+
+        .message {
+            padding: 12px 18px;
+            border-radius: 18px;
+            word-wrap: break-word;
+            font-size: 0.98em;
+            line-height: 1.5;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .message.user {
+            background: var(--chat-user-bg);
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.agent {
+            background: var(--chat-agent-bg);
+            border-bottom-left-radius: 4px;
+        }
+
+        /* Estilos del avatar */
+        .avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .message.agent .avatar {
+            border-color: var(--primary-color);
+        }
+
+        .message.user .avatar {
+            border-color: var(--secondary-color);
+        }
+
+        .chat-input-area {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        #chat-input {
+            flex-grow: 1;
+            padding: 14px 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            font-size: 1.05em;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            min-width: 180px;
+            font-family: var(--font-body);
+        }
+
+        #chat-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(106, 17, 203, 0.2);
+            outline: none;
+        }
+
+        #send-chat-btn, #restart-chat-btn {
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            color: var(--text-light);
+            border: none;
+            padding: 14px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.05em;
+            font-weight: 500;
+            transition: transform 0.2s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        #restart-chat-btn {
+            background: #e74c3c;
+        }
+
+        #send-chat-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+            opacity: 0.9;
+        }
+        #restart-chat-btn:hover {
+            background: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+            opacity: 0.9;
+        }
+
+        /* Pie de página */
+        footer {
+            background: #333333;
+            color: #cccccc;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 60px;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+            font-size: 0.95em;
+        }
+
+        /* Media Queries para Responsividad */
+        @media (max-width: 992px) {
+            .container {
+                padding: 20px;
+            }
+            header h1 {
+                font-size: 3em;
+            }
+            .home-button {
+                top: 20px;
+                left: 20px;
+                padding: 8px 18px;
+                font-size: 0.9em;
+            }
+            .section-title {
+                font-size: 2.5em;
+            }
+            section {
+                padding: 60px 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5em;
+            }
+            .home-button {
+                position: static; /* Button becomes static on smaller screens */
+                margin-top: 15px;
+                margin-left: 0;
+                display: block;
+                width: fit-content;
+                margin: 15px auto 0;
+                z-index: 1; /* Reset z-index when not absolute */
+            }
+            .section-title {
+                font-size: 2em;
+                margin-bottom: 30px;
+            }
+            .comments-grid {
+                grid-template-columns: 1fr; /* Una columna en móviles */
+            }
+            .comment-card, .contact-info, .chat-box {
+                padding: 25px;
+            }
+            #chat-window {
+                height: 350px;
+                padding: 10px;
+            }
+            .message-wrapper {
+                max-width: 100%;
+            }
+            .avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 1.4em;
+            }
+            .message {
+                font-size: 0.9em;
+                padding: 10px 15px;
+            }
+            .chat-input-area {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            #chat-input, #send-chat-btn, #restart-chat-btn {
+                width: 100%;
+                padding: 12px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 2em;
+            }
+            .section-title {
+                font-size: 1.8em;
+            }
+            .comment-card, .contact-info, .chat-box {
+                padding: 18px;
+            }
+            .star-rating-widget {
+                font-size: 1.6em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="home-button">
+            <i class="fas fa-home"></i> Inicio
+        </a>
+        <h1>Soporte Técnico</h1>
+        <video autoplay muted loop class="video-background">
+            <source src="tu-video-header.mp4" type="video/mp4">
+            <source src="tu-video-header.webm" type="video/webm">
+            Tu navegador no soporta el video de fondo.
+        </video>
+    </header>
+
+    <main>
+        <section class="comments-section">
+            <video autoplay muted loop class="video-background">
+                <source src="VIDEO/a0acaca559c0bbf4a8648574f1fd857a.mp4" type="video/mp4">
+                <source src="tu-video-comentarios.webm" type="video/webm">
+                Tu navegador no soporta el video de fondo.
+            </video>
+            <div class="container">
+                <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+                <div class="comments-grid" id="customer-comments">
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-section">
+            <video autoplay muted loop class="video-background">
+                <source src="VIDEO/9ebd719a9ee327474379bfdda6579588_720w.mp4" type="video/mp4">
+                <source src="tu-video-contacto.webm" type="video/webm">
+                Tu navegador no soporta el video de fondo.
+            </video>
+            <div class="container">
+                <h2 class="section-title">Contáctanos</h2>
+                <div class="contact-info">
+                    <p>Nuestro equipo de soporte está listo para ayudarte. Ponte en contacto por el medio que prefieras:</p>
+                    <ul>
+                        <li><i class="fas fa-phone-alt"></i> Teléfono: <a href="tel:+04161611551">+58 416-1611551</a></li>
+                        <li><i class="fas fa-envelope"></i> Correo: <a href="mailto:erick397145@gmail.com">erick397145@gmail.com</a></li>
+                        <li><i class="fab fa-whatsapp"></i> WhatsApp: <a href="https://wa.me/584161611551" target="_blank">+58 416-1611551</a></li>
+                        <li><i class="fas fa-map-marker-alt"></i> Dirección: Av. Principal, Edif. Centro, Piso 5, Oficina 501, Maracaibo, Venezuela.</li>
+                        <li><i class="fas fa-clock"></i> Horario: Lunes a Viernes, 9:00 AM - 5:00 PM (Hora VET)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="chat-section">
+            <video autoplay muted loop class="video-background">
+                <source src="VIDEO/edc9b62700afc0805a36784147d190a5.mp4" type="video/mp4">
+                <source src="tu-video-chat.webm" type="video/webm">
+                Tu navegador no soporta el video de fondo.
+            </video>
+            <div class="container">
+                <h2 class="section-title">Chat en Vivo</h2>
+                <div class="chat-box">
+                    <p>¿Necesitas ayuda inmediata? ¡Chatea con uno de nuestros operadores o consulta precios!</p>
+                    <div id="chat-window">
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" id="chat-input" placeholder="Escribe tu mensaje o consulta...">
+                        <button id="send-chat-btn"><i class="fas fa-paper-plane"></i> Enviar</button>
+                        <button id="restart-chat-btn"><i class="fas fa-redo-alt"></i> Reiniciar Conversación</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Tu Empresa. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // --- Lógica del Chat ---
+        const chatInput = document.getElementById('chat-input');
+        const sendChatBtn = document.getElementById('send-chat-btn');
+        const restartChatBtn = document.getElementById('restart-chat-btn');
+        const chatWindow = document.getElementById('chat-window');
+
+        // --- URLs de los avatares ---
+        const botAvatarUrl = 'https://img.freepik.com/vector-premium/bot-soporte-asistente-ai-icono-plano-bot-soporte-azul-sobre-fondo-blanco_194782-1419.jpg?w=360';
+        const userAvatarUrl = 'https://img.freepik.com/vector-premium/icono-opinion_1134231-4377.jpg';
+
+        // --- SIMULACIÓN DE BASE DE DATOS (Persistencia de usuarios) ---
+        let simulatedUsersDB = JSON.parse(localStorage.getItem('simulatedUsersDB')) || [];
+
+        function saveUserToDB(user) {
+            const existingUserIndex = simulatedUsersDB.findIndex(u => u.nombre.toLowerCase() === user.nombre.toLowerCase());
+            if (existingUserIndex !== -1) {
+                simulatedUsersDB[existingUserIndex] = {
+                    ...simulatedUsersDB[existingUserIndex],
+                    ...user,
+                    compras: Array.from(new Set([...(simulatedUsersDB[existingUserIndex].compras || []), ...(user.compras || [])]))
+                };
+            } else {
+                simulatedUsersDB.push({ ...user, compras: user.compras || [] });
+            }
+            localStorage.setItem('simulatedUsersDB', JSON.stringify(simulatedUsersDB));
+            console.log('Usuario guardado/actualizado en DB simulada:', simulatedUsersDB);
+        }
+
+        function findUserInDB(name) {
+            return simulatedUsersDB.find(u => u.nombre.toLowerCase() === name.toLowerCase());
+        }
+
+        // Almacenamiento temporal para los datos del cliente de la sesión actual
+        let clientData = {
+            nombre: '',
+            telefono: '',
+            compras: []
+        };
+        let awaitingPhoneNumber = false;
+        let awaitingName = false;
+
+        const initialBotMessageContent = "Hola, soy tu asistente de soporte. ¿En qué puedo ayudarte hoy? Puedes preguntar por precios (ej. \"precio de mouse\"), pedir la lista de productos (ej. \"computadoras\", \"accesorios\") o nuestra dirección. También puedo mostrarte una **foto** de un producto si la tenemos. Puedes decir **'Comprar [nombre del producto]'** para registrar tu interés, pero el pago se hace en nuestra página principal.";
+
+        // Datos de productos (simulando una tabla de productos)
+        const simulatedProductsDB = [
+            { nombre: 'Mouse', precio: 15.00, categoria: 'accesorios', imagen: 'https://i.pinimg.com/73x/87/b6/51/87b65160d027f6b2cd596b2d2d89c8a1.jpg' },
+            { nombre: 'Audífonos', precio: 25.00, categoria: 'accesorios', imagen: 'https://i.pinimg.com/73x/78/8a/fd/788afd0be2a14af064613c09ef877325.jpg' },
+            { nombre: 'Teclado', precio: 30.00, categoria: 'accesorios', imagen: 'https://i.pinimg.com/73x/ab/f0/f8/abf0f89c7253c0ead4435699c79d1f8f.jpg' },
+            { nombre: 'Monitor', precio: 150.00, categoria: 'accesorios', imagen: 'https://i.pinimg.com/73x/58/9a/9a/589a9a8f1a5955710f7674e8c37c2ad9.jpg' },
+            { nombre: 'Webcam', precio: 40.00, categoria: 'accesorios', imagen: 'https://i.pinimg.com/73x/2f/f5/13/2ff5138dfcc3c975b98f25c1bd09e6bb.jpg' },
+            { nombre: 'Impresora', precio: 200.00, categoria: 'accesorios', imagen: 'https://i.pinimg.com/73x/a3/a8/53/a3a853c7a8cbde17eea29876b28070af.jpg' },
+            { nombre: 'Computadora 4ta Gen', precio: 80.00, categoria: 'computadoras', imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQW9M7Z_U_W_N_Q_F_J_G_A_Q_E_L_K&s' },
+            { nombre: 'Computadora 5ta Gen', precio: 100.00, categoria: 'computadoras', imagen: 'https://i.pinimg.com/564x/45/f0/a6/45f0a67137f884a22c070c79c882895a.jpg' },
+            { nombre: 'Computadora 6ta Gen', precio: 200.00, categoria: 'computadoras', imagen: 'https://i.pinimg.com/564x/d1/8a/78/d18a7833a6b8207127e246946ed71d60.jpg' },
+            { nombre: 'Computadora 7ma Gen', precio: 400.00, categoria: 'computadoras', imagen: 'https://i.pinimg.com/73x/fc/d5/78/fcd578d96a17b66d89ace8ea1cdf35c7.jpg' },
+            { nombre: 'Computadora 9na Gen', precio: 500.00, categoria: 'computadoras', imagen: 'https://i.pinimg.com/73x/f0/47/19/f04719994e625f7da97838f8ccaad69e.jpg' }
+        ];
+
+        // --- Tasa BCV y fecha de actualización (simulada) ---
+        const tasaBCV = 36.5; // Tasa de ejemplo: 1 USD = 36.5 VES
+        const now = new Date();
+        const optionsDate = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'America/Caracas' };
+        const ultimaActualizacionBCV = now.toLocaleDateString('es-VE', optionsDate);
+
+        const direccionEmpresa = "Av. Principal, Edif. Centro, Piso 5, Oficina 501, Maracaibo, Venezuela.";
+
+        sendChatBtn.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        restartChatBtn.addEventListener('click', restartConversation);
+
+        function displayMessage(text, sender, isHtml = false) {
+            const messageWrapper = document.createElement('div');
+            messageWrapper.classList.add('message-wrapper', sender + '-wrapper');
+
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', sender);
+            if (isHtml) {
+                messageDiv.innerHTML = text;
+            } else {
+                messageDiv.textContent = text;
+            }
+
+            const avatarDiv = document.createElement('div');
+            avatarDiv.classList.add('avatar');
+            const avatarImg = document.createElement('img');
+            avatarImg.alt = sender === 'agent' ? 'Avatar del Bot' : 'Tu Avatar';
+
+            if (sender === 'agent') {
+                avatarImg.src = botAvatarUrl;
+                messageWrapper.appendChild(avatarDiv);
+                messageWrapper.appendChild(messageDiv);
+            } else { // user
+                avatarImg.src = userAvatarUrl;
+                messageWrapper.appendChild(messageDiv);
+                messageWrapper.appendChild(avatarDiv);
+            }
+            avatarDiv.appendChild(avatarImg);
+
+            chatWindow.appendChild(messageWrapper);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        function sendMessage() {
+            const messageText = chatInput.value.trim();
+            if (messageText === '') return;
+
+            displayMessage(messageText, 'user');
+            chatInput.value = '';
+
+            setTimeout(() => {
+                let responseText = '';
+                const lowerCaseMessage = messageText.toLowerCase();
+
+                if (awaitingPhoneNumber) {
+                    const phoneMatch = messageText.match(/(\+?\d{1,3}[-.\s]?)?(\(?\d{2,4}\)?[-.\s]?)?\d{3,4}[-.\s]?\d{4}/);
+                    if (phoneMatch) {
+                        clientData.telefono = phoneMatch[0];
+                        saveUserToDB(clientData);
+                        responseText = `¡Gracias, ${clientData.nombre}! Tu número de teléfono (${clientData.telefono}) ha sido guardado. ¿En qué más puedo ayudarte hoy?`;
+                        awaitingPhoneNumber = false;
+                    } else {
+                        responseText = `Parece que no ingresaste un número de teléfono válido. Por favor, intenta de nuevo con el formato correcto (ej. +58 416-1234567).`;
+                    }
+                } else if (awaitingName) {
+                    clientData.nombre = messageText.trim();
+                    const foundUser = findUserInDB(clientData.nombre);
+                    if (foundUser) {
+                        clientData.telefono = foundUser.telefono || '';
+                        clientData.compras = foundUser.compras || [];
+                        responseText = `¡Hola de nuevo, ${clientData.nombre}! Veo que ya tenemos tus datos registrados. ¿En qué puedo ayudarte hoy?`;
+                        awaitingName = false;
+                        awaitingPhoneNumber = false;
+                    } else {
+                        responseText = `¡Gracias, ${clientData.nombre}! Ahora, por favor, indícame tu **número de teléfono** (con código de área) para un soporte más personalizado.`;
+                        awaitingName = false;
+                        awaitingPhoneNumber = true;
+                    }
+                } else if (lowerCaseMessage.includes('hola') || lowerCaseMessage.includes('buenos días') || lowerCaseMessage.includes('buenas tardes') || lowerCaseMessage.includes('buenas noches') || lowerCaseMessage === 'hi') {
+                    if (!clientData.nombre) {
+                        const nameMatch = messageText.match(/(?:hola|buenos días|buenas tardes|buenas noches|hi)[,\s]*soy\s*([a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+)/i) ||
+                                       messageText.match(/(?:hola|buenos días|buenas tardes|buenas noches|hi)[,\s]*mi nombre es\s*([a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+)/i) ||
+                                       messageText.match(/(?:hola|buenos días|buenas tardes|buenas noches|hi)[,\s]*([a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+)/i);
+
+                        if (nameMatch && nameMatch[1]) {
+                            clientData.nombre = nameMatch[1].trim();
+                            const foundUser = findUserInDB(clientData.nombre);
+                            if (foundUser) {
+                                clientData.telefono = foundUser.telefono || '';
+                                clientData.compras = foundUser.compras || [];
+                                responseText = `¡Hola de nuevo, ${clientData.nombre}! Veo que ya tenemos tus datos registrados. ¿En qué puedo ayudarte hoy?`;
+                                awaitingPhoneNumber = false;
+                                awaitingName = false;
+                            } else {
+                                responseText = `¡Hola, ${clientData.nombre}! Para poder brindarte un soporte más personalizado, por favor, indícame tu **número de teléfono** (con código de área).`;
+                                awaitingName = false;
+                                awaitingPhoneNumber = true;
+                            }
+                        } else {
+                            responseText = `¡Hola! Antes de empezar, ¿podrías decirme tu nombre? Así podré ayudarte de forma más personalizada.`;
+                            awaitingName = true;
+                        }
+                    } else {
+                        responseText = `¡Hola de nuevo, ${clientData.nombre}! ¿En qué más puedo ayudarte?`;
+                    }
+                } else if (lowerCaseMessage.includes('comprar')) {
+                    const productMatch = lowerCaseMessage.match(/comprar\s(.+)/);
+                    if (productMatch && productMatch[1]) {
+                        const productName = productMatch[1].trim();
+                        const product = simulatedProductsDB.find(p => p.nombre.toLowerCase().includes(productName));
+                        if (product) {
+                            if (clientData.nombre && clientData.telefono) {
+                                clientData.compras.push(product.nombre);
+                                saveUserToDB(clientData);
+                                responseText = `¡Perfecto, ${clientData.nombre}! Hemos registrado tu interés en **${product.nombre}**. Te recordamos que la compra se finaliza en nuestra página principal. Si tienes dudas, podemos contactarte al ${clientData.telefono}.`;
+                            } else {
+                                responseText = `Para registrar tu compra, necesito tu nombre y número de teléfono. ¿Podrías indicármelos?`;
+                                awaitingName = true;
+                            }
+                        } else {
+                            responseText = `Lo siento, no tengo ${productName} en mi lista de productos. ¿Hay algo más en lo que pueda ayudarte?`;
+                        }
+                    } else {
+                        responseText = `¿Qué producto te gustaría comprar? Por favor, especifica (ej. "comprar mouse").`;
+                    }
+                } else if (lowerCaseMessage.includes('precio de')) {
+                    const query = lowerCaseMessage.replace('precio de', '').trim();
+                    const product = simulatedProductsDB.find(p => p.nombre.toLowerCase().includes(query));
+                    if (product) {
+                        const precioVES = (product.precio * tasaBCV).toFixed(2);
+                        responseText = `El precio de ${product.nombre} es de **$${product.precio.toFixed(2)} USD** (${precioVES} VES según la tasa BCV de hoy, ${ultimaActualizacionBCV}).`;
+                    } else {
+                        responseText = `Lo siento, no encontré un producto con ese nombre. ¿Podrías ser más específico o pedir la lista de productos?`;
+                    }
+                } else if (lowerCaseMessage.includes('lista de productos') || lowerCaseMessage.includes('productos') || lowerCaseMessage.includes('qué venden')) {
+                    let productsList = 'Contamos con los siguientes productos y categorías:<br><br>';
+                    const categorias = [...new Set(simulatedProductsDB.map(p => p.categoria))];
+                    categorias.forEach(categoria => {
+                        productsList += `**${categoria.charAt(0).toUpperCase() + categoria.slice(1)}:**<br>`;
+                        const productsInCategory = simulatedProductsDB.filter(p => p.categoria === categoria);
+                        productsInCategory.forEach(product => {
+                            productsList += `- ${product.nombre} ($${product.precio.toFixed(2)} USD)<br>`;
+                        });
+                        productsList += '<br>';
+                    });
+                    productsList += 'Puedes preguntar por el "precio de [nombre del producto]" o pedir una "foto de [nombre del producto]".';
+                    displayMessage(productsList, 'agent', true); // Envía como HTML
+                    return;
+                } else if (lowerCaseMessage.includes('dirección') || lowerCaseMessage.includes('ubicación') || lowerCaseMessage.includes('dónde están')) {
+                    responseText = `Nuestra dirección es: **${direccionEmpresa}**.`;
+                } else if (lowerCaseMessage.includes('horario') || lowerCaseMessage.includes('abren')) {
+                    responseText = `Nuestro horario de atención es de Lunes a Viernes, de 9:00 AM a 5:00 PM (Hora de Venezuela, VET).`;
+                } else if (lowerCaseMessage.includes('foto de')) {
+                    const query = lowerCaseMessage.replace('foto de', '').trim();
+                    const product = simulatedProductsDB.find(p => p.nombre.toLowerCase().includes(query));
+                    if (product && product.imagen) {
+                        responseText = `Aquí tienes una imagen de ${product.nombre}:<br><img src="${product.imagen}" alt="${product.nombre}" style="max-width:200px; border-radius: 8px; margin-top: 10px;">`;
+                        displayMessage(responseText, 'agent', true);
+                        return;
+                    } else {
+                        responseText = `Lo siento, no encontré una foto para ese producto o no tenemos una disponible.`;
+                    }
+                } else if (lowerCaseMessage.includes('gracias') || lowerCaseMessage.includes('muchas gracias')) {
+                    responseText = `De nada, ${clientData.nombre || 'estimado cliente'}. ¡Estoy aquí para ayudarte en lo que necesites!`;
+                } else if (lowerCaseMessage.includes('historial de compras')) {
+                    if (clientData.nombre && clientData.compras.length > 0) {
+                        responseText = `Hola ${clientData.nombre}, tu historial de compras registrado incluye: ${clientData.compras.join(', ')}.`;
+                    } else if (clientData.nombre && clientData.compras.length === 0) {
+                        responseText = `Hola ${clientData.nombre}, no tengo compras registradas para ti en esta sesión o en nuestro historial.`;
+                    } else {
+                        responseText = `Necesito tu nombre para buscar tu historial de compras. ¿Podrías decírmelo?`;
+                        awaitingName = true;
+                    }
+                } else if (lowerCaseMessage.includes('tasa bcv') || lowerCaseMessage.includes('dólar')) {
+                    responseText = `La tasa del Banco Central de Venezuela (BCV) hoy, ${ultimaActualizacionBCV}, es de **${tasaBCV.toFixed(2)} VES por dólar**.`;
+                } else {
+                    responseText = `No estoy seguro de cómo ayudarte con eso. ¿Podrías reformular tu pregunta? Recuerda que puedo darte precios, lista de productos, nuestra dirección, mostrar fotos o ayudarte con tu historial de compras.`;
+                }
+                displayMessage(responseText, 'agent', responseText.includes('<br>') || responseText.includes('<img'));
+            }, 500);
+        }
+
+        function restartConversation() {
+            chatWindow.innerHTML = ''; // Limpiar la ventana de chat
+            clientData = { nombre: '', telefono: '', compras: [] }; // Resetear datos del cliente
+            awaitingPhoneNumber = false;
+            awaitingName = false;
+            displayMessage(initialBotMessageContent, 'agent'); // Mostrar mensaje de bienvenida de nuevo
+        }
+
+        // --- Lógica para los comentarios de clientes (Mock Data) ---
+        const customerComments = [
+            {
+                text: "¡El soporte técnico es increíble! Resolvieron mi problema de conectividad en minutos. Muy amables y eficientes.",
+                author: "María G.",
+                rating: 5
+            },
+            {
+                text: "Necesitaba ayuda con la configuración de un nuevo PC y me guiaron paso a paso. Excelente servicio al cliente.",
+                author: "Juan P.",
+                rating: 5
+            },
+            {
+                text: "Tuve un pequeño inconveniente con mi impresora, y el técnico me dio las indicaciones precisas para arreglarlo por teléfono. Satisfecho.",
+                author: "Ana R.",
+                rating: 4
+            },
+            {
+                text: "Compré una laptop y tenía dudas sobre la garantía. Me explicaron todo con claridad y paciencia. Recomendados.",
+                author: "Carlos S.",
+                rating: 5
+            }
+        ];
+
+        function renderComments() {
+            const commentsGrid = document.getElementById('customer-comments');
+            commentsGrid.innerHTML = ''; // Clear existing comments
+
+            customerComments.forEach(comment => {
+                const commentCard = document.createElement('div');
+                commentCard.classList.add('comment-card');
+
+                const starRating = document.createElement('div');
+                starRating.classList.add('star-rating-widget', 'rated'); // Add 'rated' class to show as already rated
+                for (let i = 5; i >= 1; i--) {
+                    const star = document.createElement('i');
+                    star.classList.add('fas', 'fa-star');
+                    if (i <= comment.rating) {
+                        star.classList.add('selected'); // Mark as selected
+                    }
+                    starRating.appendChild(star);
+                }
+
+                const commentText = document.createElement('p');
+                commentText.textContent = `"${comment.text}"`;
+
+                const commentAuthor = document.createElement('div');
+                commentAuthor.classList.add('comment-author');
+                commentAuthor.textContent = `- ${comment.author}`;
+
+                commentCard.appendChild(starRating);
+                commentCard.appendChild(commentText);
+                commentCard.appendChild(commentAuthor);
+
+                commentsGrid.appendChild(commentCard);
+            });
+        }
+
+        // Inicializar el chat y los comentarios al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            displayMessage(initialBotMessageContent, 'agent');
+            renderComments();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Pagos</title>
+    <style>
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            color: #222;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            background: #232526;
+            background: linear-gradient(90deg, #232526 0%, #414345 100%);
+            color: #fff;
+            padding: 2rem 0 3.5rem 0;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 4px 24px rgba(44, 62, 80, 0.08);
+            position: relative;
+            border-bottom-left-radius: 32px;
+            border-bottom-right-radius: 32px;
+        }
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.7em;
+            margin: 0 0 10px 0;
+            letter-spacing: 1px;
+        }
+        .boton-erick {
+            position: absolute;
+            top: 24px;
+            right: 32px;
+            padding: 0.7em 1.5em;
+            background: linear-gradient(90deg, #007bff 0%, #00c6ff 100%);
+            color: #fff;
+            border: none;
+            border-radius: 24px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0,123,255,0.12);
+            transition: background 0.3s, transform 0.2s;
+            text-decoration: none;
+        }
+        .boton-erick:hover {
+            background: linear-gradient(90deg, #0056b3 0%, #007bff 100%);
+            transform: translateY(-2px) scale(1.04);
+        }
+        main {
+            width: 90%;
+            max-width: 900px;
+            margin-top: -40px;
+            padding: 2.5rem 2rem 2rem 2rem;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(44, 62, 80, 0.10);
+        }
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 1.5rem;
+            background: #f9fafc;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(44, 62, 80, 0.06);
+        }
+        th, td {
+            padding: 1em 0.8em;
+            text-align: left;
+        }
+        th {
+            background: #f1f3f6;
+            color: #333;
+            font-weight: 700;
+            font-size: 1.08em;
+            border-bottom: 2px solid #e3e6ea;
+        }
+        td {
+            background: #fff;
+            border-bottom: 1px solid #e3e6ea;
+            font-size: 1em;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        @media (max-width: 700px) {
+            main {
+            padding: 1.2rem 0.5rem;
+            }
+            header h1 {
+            font-size: 1.5em;
+            }
+            .boton-erick {
+            top: 12px;
+            right: 12px;
+            padding: 0.5em 1em;
+            font-size: 0.95em;
+            }
+            table, th, td {
+            font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Registro de Pagos</h1>
+        <a href="erick.html" class="boton-erick">volver</a>
+    </header>
+    <main>
+        <table id="tabla-pagos">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Cédula</th>
+                    <th>Productos</th>
+                    <th>Total Pagado</th>
+                    <th>Fecha de Pago</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </main>
+    <script>
+        // Función para mostrar los pagos en la tabla
+        function mostrarPagos() {
+            const tablaPagos = document.getElementById('tabla-pagos').getElementsByTagName('tbody')[0];
+            const datosPago = JSON.parse(localStorage.getItem('datosPago'));
+
+            if (datosPago) {
+                const fila = tablaPagos.insertRow();
+                fila.insertCell().textContent = datosPago.nombre;
+                fila.insertCell().textContent = datosPago.cedula;
+                fila.insertCell().textContent = datosPago.carrito.map(item => `${item.nombre} x ${item.cantidad}`).join(', ');
+                fila.insertCell().textContent = `$${datosPago.total.toFixed(2)}`;
+                fila.insertCell().textContent = new Date().toLocaleDateString();
+
+                // Limpiar localStorage después de mostrar los datos
+                localStorage.removeItem('datosPago');
+            }
+        }
+
+        // Llamar a la función para mostrar los pagos al cargar la página
+        mostrarPagos();
+    </script>
+</body>
+</html>
